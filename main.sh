@@ -1,37 +1,44 @@
-for file in *.vcf; do
-
-  mkdir ./annotated_VCF_files
-  snpEff -v DQ657948_1 "$file" > ./annotated_VCF_files/"${file%.vcf}_annotated.vcf"
-
-  mkdir ./filtered_VCF_files
-  bcftools filter -i 'INFO/AF >= 0.9' ./annotated_VCF_files/"${file%.vcf}_annotated.vcf" -o ./filtered_VCF_files/"${file%.vcf}_filtered.vcf"
-
-  mkdir ./mutations_per_gene
-  bcftools query -f '%CHROM\t%POS\t%INFO/ANN\n' ./filtered_VCF_files/"${file%.vcf}_filtered.vcf" | cut -d'|' -f4 | sort | uniq -c | sort -nr > ./mutations_per_gene/"${file%.vcf}_mutations_per_gene.txt"
-done
-
-# Create directories for combined VCFs and compressed files
+# Create required directories
+mkdir -p ./annotated_VCF_files
+mkdir -p ./filtered_VCF_files
+mkdir -p ./mutations_per_gene
+mkdir -p ./compressed_files
 mkdir -p ./combined_vcf_per_sample/heat_shock
 mkdir -p ./combined_vcf_per_sample/cold_shock
-mkdir -p ./compressed_files
 
-# Compress and index all VCF files
+# Step 1: Annotate and Filter Each VCF (Before Merging)
 for file in *.vcf; do
-    bgzip "$file"                          # Compress the file in place
-    tabix -p vcf "$file.gz"                # Index the compressed VCF
-    mv "$file.gz" ./compressed_files/      # Move the compressed file to compressed_files
-    mv "$file.gz.tbi" ./compressed_files/  # Move the index file to compressed_files
+    # Annotate using SnpEff
+    snpEff -v DQ657948_1 "$file" > ./annotated_VCF_files/"${file%.vcf}_annotated.vcf"
+
+    # Filter annotated VCF by allele frequency (AF >= 0.9)
+    bcftools filter -i 'INFO/AF >= 0.9' ./annotated_VCF_files/"${file%.vcf}_annotated.vcf" \
+        -o ./filtered_VCF_files/"${file%.vcf}_filtered.vcf"
+
+    # Compress and index filtered VCF
+    bgzip ./filtered_VCF_files/"${file%.vcf}_filtered.vcf"
+    tabix -p vcf ./filtered_VCF_files/"${file%.vcf}_filtered.vcf.gz"
+
+    # Move compressed files
+    mv ./filtered_VCF_files/"${file%.vcf}_filtered.vcf.gz" ./compressed_files/
+    mv ./filtered_VCF_files/"${file%.vcf}_filtered.vcf.gz.tbi" ./compressed_files/
 done
 
-# Merge SNP and SV VCFs for each sample (heat & cold shock)
-for file_number_heat in {1..5}; do
-    bcftools merge ./compressed_files/P15-"$file_number_heat".trimed1000.snp.vcf.gz \
-                   ./compressed_files/P15-"$file_number_heat".trimed1000.sv_sniffles.vcf.gz \
-                   -o ./combined_vcf_per_sample/heat_shock/P15-"$file_number_heat".combined.vcf
+# Step 2: Merge SNP and SV VCFs Per Sample (Using Filtered, Annotated Files)
+for sample in {1..5}; do
+    bcftools merge ./compressed_files/P15-"$sample".trimed1000.snp_filtered.vcf.gz \
+                   ./compressed_files/P15-"$sample".trimed1000.sv_sniffles_filtered.vcf.gz \
+                   -o ./combined_vcf_per_sample/heat_shock/P15-"$sample".combined.vcf
 done
 
-for file_number_cold in {6..10}; do
-    bcftools merge ./compressed_files/P15-"$file_number_cold".trimed1000.snp.vcf.gz \
-                   ./compressed_files/P15-"$file_number_cold".trimed1000.sv_sniffles.vcf.gz \
-                   -o ./combined_vcf_per_sample/cold_shock/P15-"$file_number_cold".combined.vcf
+for sample in {6..10}; do
+    bcftools merge ./compressed_files/P15-"$sample".trimed1000.snp_filtered.vcf.gz \
+                   ./compressed_files/P15-"$sample".trimed1000.sv_sniffles_filtered.vcf.gz \
+                   -o ./combined_vcf_per_sample/cold_shock/P15-"$sample".combined.vcf
+done
+
+# Step 3: Extract Mutations Per Gene from Merged VCFs
+for file in ./combined_vcf_per_sample/heat_shock/*.vcf ./combined_vcf_per_sample/cold_shock/*.vcf; do
+    bcftools query -f '%CHROM\t%POS\t%INFO/ANN\n' "$file" \
+        | cut -d'|' -f4 | sort | uniq -c | sort -nr > ./mutations_per_gene/"$(basename "${file%.vcf}")_mutations_per_gene.txt"
 done
