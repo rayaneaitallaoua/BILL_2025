@@ -62,7 +62,7 @@ for file in ./combined_vcf_per_sample/heat_shock/*.vcf ./combined_vcf_per_sample
     echo -ne "\rExtracting: ${SPINNER[$count]}"
 
     bcftools query -f '%CHROM\t%POS\t%INFO/ANN\n' "$file" \
-        | cut -d'|' -f4 | sort | uniq -c | sort -nr > ./mutations_per_gene/"$(basename "${file%.vcf}")_mutations_per_gene.txt"
+        | cut -d'|' -f4 | awk -F'|' '!seen[$4]++ {print $4}' > ./mutations_per_gene/"$(basename "${file%.vcf}")_mutations_per_gene.txt"
 done
 echo -ne "\rStep 3: Done! \n"
 
