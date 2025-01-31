@@ -43,7 +43,7 @@ for sample in {1..5}; do
     
     bcftools merge ./compressed_files/P15-"$sample".trimed1000.snp_filtered.vcf.gz \
                    ./compressed_files/P15-"$sample".trimed1000.sv_sniffles_filtered.vcf.gz \
-                   -o ./combined_vcf_per_sample/heat_shock/P15-"$sample".combined.vcf
+                   -o ./combined_vcf_per_sample/cold_shock/P15-"$sample".combined.vcf
 done
 
 for sample in {6..10}; do
@@ -52,7 +52,7 @@ for sample in {6..10}; do
 
     bcftools merge ./compressed_files/P15-"$sample".trimed1000.snp_filtered.vcf.gz \
                    ./compressed_files/P15-"$sample".trimed1000.sv_sniffles_filtered.vcf.gz \
-                   -o ./combined_vcf_per_sample/cold_shock/P15-"$sample".combined.vcf
+                   -o ./combined_vcf_per_sample/heat_shock/P15-"$sample".combined.vcf
 done
 echo -ne "\rStep 2: Done! \n"
 
