@@ -1,0 +1,27 @@
+# Step 1: Load necessary libraries
+library(tidyverse)
+
+# Step 2: Import the data from the file
+af_data <- read.table("AF_per_sv.txt", header = FALSE, col.names = c("Frequency", "AF"))
+
+# Step 3: Check the structure of the data
+glimpse(af_data)
+
+# Step 4: Plot the data using ggplot2 from the tidyverse
+ggplot(af_data, aes(x = AF, y = Frequency)) +
+  geom_point(color = "blue") +
+  labs(title = "Allele Frequency Distribution",
+       x = "Allele Frequency",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Optional: Adding a smoothed curve
+ggplot(af_data, aes(x = AF, y = Frequency)) +
+  geom_point(color = "blue") +
+  geom_smooth(method = "loess", color = "red", se = FALSE) +
+  labs(title = "Allele Frequency Distribution with Smooth Curve",
+       x = "Allele Frequency",
+       y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
