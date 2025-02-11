@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## adapter les directories pour avoir un structure finale dossier input > dossier output
+
 # Create required directories
 mkdir -p ./compressed_files/compressed_sv
 mkdir -p ./compressed_files/compressed_snp
@@ -45,6 +47,8 @@ if [[ -s sv_list.txt ]]; then
 fi
 
 echo "Step 3: Done!"
+
+## le nombre de reads à sortir pour R
 
 echo "Step 4: Extracting AF Per SV..."
 # Extract allele frequency (AF) for SVs
