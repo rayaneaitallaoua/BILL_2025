@@ -1,16 +1,26 @@
-# Step 1: Load necessary libraries
+# Step 1: Load necessary libraries ----
 library(tidyverse)
 library(gridExtra)
 
-# Step 2: Import the data
-af_data <- read.table("AF_per_SV.txt", header = FALSE, col.names = c("Frequency", "AF"))
-gq_data <- read.table("GQ_per_SNP.txt", header = FALSE, col.names = c("Quality", "GQ"))
+# Step 2: Import the data ----
+# chemin d'import à synchroniser avec Théo
+# pense à récupérer le nombre de reads par valeur de AF et GQ, à représenter sur
+# chaque colonne
 
-# Step 3: Check the structure of the data
+#penser à la normalisation des valuer AF et GQ?
+
+af_data <- read.table("AF_per_SV.txt", header = FALSE,
+                      col.names = c("Frequency", "AF"))
+gq_data <- read.table("GQ_per_SNP.txt", header = FALSE,
+                      col.names = c("Frequency", "GQ"))
+
+# Step 3: Check the structure of the data ----
 glimpse(af_data)
 glimpse(gq_data)
 
-# Step 4: Create the histograms
+# Step 4: Create the histograms ----
+## à créer 2 hist SNP et VS par génération, comparer les générations entre eux
+
 af_plot <- ggplot(af_data, aes(x = AF)) +
   geom_histogram(binwidth = 0.05, fill = "blue", color = "black", alpha = 0.7) +  # Increased binwidth
   labs(title = "Allele Frequency Distribution per SV", x = "Allele Frequency (AF)", y = "Frequency") +
@@ -23,5 +33,8 @@ gq_plot <- ggplot(gq_data, aes(x = GQ)) +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))
 
-# Step 5: Arrange the plots side by side
+# Step 5: Arrange the plots side by side ----
 grid.arrange(af_plot, gq_plot, ncol = 2)
+
+## à rajouter un moyen de sortir tout les histograme de façon organisé
+# dans un dossier

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+## adapter la création des directories comme dossier input > dossier output
+
 # Create required directories
 mkdir -p ./annotated_VCF_files
 mkdir -p ./filtered_VCF_files
@@ -21,6 +23,9 @@ for file in *.vcf; do
 
     # Annotate using SnpEff
     snpEff DQ657948_1 "$file" > ./annotated_VCF_files/"${file%.vcf}_annotated.vcf"
+
+
+##changer la valeur filtre en fonction de l'analyse qualité
 
     # Filter annotated VCF by allele frequency (AF >= 0.9)
     bcftools filter -i 'INFO/AF >= 0.9' ./annotated_VCF_files/"${file%.vcf}_annotated.vcf" \
@@ -60,6 +65,8 @@ echo "Step 3: Extracting Mutations Per Gene..."
 for file in ./combined_vcf_per_sample/heat_shock/*.vcf ./combined_vcf_per_sample/cold_shock/*.vcf; do
     count=$(( (count + 1) % 4 ))
     echo -ne "\rExtracting: ${SPINNER[$count]}"
+
+## enelever chrom pos etc... si pas nécéssaire
 
     bcftools query -f '%CHROM\t%POS\t%INFO/ANN\n' "$file" \
         | cut -d'|' -f4 | uniq -c > ./mutations_per_gene/"$(basename "${file%.vcf}")_mutations_per_gene.txt"
