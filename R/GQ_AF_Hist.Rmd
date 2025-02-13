@@ -1,0 +1,150 @@
+---
+title: "GQ_AF_markdown.R"
+author: "heloise_calzan"
+date: "2025-02-13"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r cars}
+setwd("E:\\github\\BILL_2025\\R")
+
+
+# Step 1: Load necessary libraries
+library(tidyverse)
+library(gridExtra)
+
+# Step 2: Import the data
+af_data <- read.table("AF_per_SV.txt", header = FALSE, col.names = c("Frequency", "AF"))
+gq_data <- read.table("GQ_per_SNP.txt", header = FALSE, col.names = c("Quality", "GQ"))
+
+# Step 3: Check the structure of the data
+glimpse(af_data)
+glimpse(gq_data)
+summary(af_data)
+summary(gq_data)
+```
+
+
+
+```{r}
+# Step 4: Create the histograms
+af_plot <- ggplot(af_data, aes(x = AF)) +
+  geom_histogram(binwidth = 0.05, fill = "blue", color = "black", alpha = 0.7) +  # Increased binwidth
+  labs(title = "Allele Frequency Distribution per SV", x = "Allele Frequency (AF)", y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+gq_plot <- ggplot(gq_data, aes(x = GQ)) +
+  geom_histogram(binwidth = 1, fill = "green", color = "black", alpha = 0.7) +
+  labs(title = "Genotype Quality Distribution per SNP", x = "Genotype Quality (GQ)", y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Step 5: Arrange the plots side by side
+grid.arrange(af_plot, gq_plot, ncol = 2)
+```
+
+```{r}
+
+sapply(af_data, FUN = class)
+summary(af_data$AF)
+length(af_data$AF)#130
+length(unique(af_data$AF))#130
+
+af_data$AF_factor <- as.factor(af_data$AF)
+ggplot(data = af_data, aes(x = AF_factor, y = Frequency)) +
+  geom_bar(stat = "identity", width = 0.5, color="#339966", fill="#66CC99") +
+  geom_text(aes(label=Frequency), vjust=-0.5, hjust = 0.5, size=2.2) +
+  theme(legend.position = "none")  +
+  ggtitle("Allele Frequency Distribution per SV") +
+  xlab("Fréquence Allélique") + 
+  ylab("Fréquence")+
+  xlim("0", "1.1") +
+  scale_x_discrete(breaks = levels(af_data$AF_factor)[seq(1, length(levels(af_data$AF_factor)), by = 5)])+
+  theme_classic() +
+  theme(axis.text.x = element_text(size = 6, angle = 45, hjust = 1)) 
+ 
+
+
+sapply(gq_data, FUN = class)#integer et numeric
+sapply(gq_data, FUN = summary)
+sapply(gq_data, FUN = length)
+sapply(gq_data, FUN = function(x) length(unique(x)))
+length(unique(af_data$AF))
+unique(gq_data$Quality)
+#Quality : proba que le site n'a pas de variant : qualité de 20 : 1% de chance qu'il n'y pas de variant
+#on veut que ce soit le plus haut possible
+
+
+#gq_data$ <- as.factor(af_data$AF)
+gq_data$GQ
+gq_data$Quality_factor <- as.factor(gq_data$Quality)
+ggplot(data = gq_data, aes(x = Quality_factor, y = GQ)) +
+  geom_boxplot() +
+  theme_classic()
+
+names(gq_data)[names(gq_data) == "Quality"] <- "Frequency"
+
+ggplot(data = gq_data, aes(x = GQ, y = Quality)) +
+  geom_bar(stat = "identity", width = 0.5, color="#339966", fill="#66CC99") +
+  geom_text(aes(label=Quality), vjust=-0.5, hjust = 0.5, size=2.2) +
+  theme(legend.position = "none")  +
+  ggtitle("Genotype Quality Distribution per SNP") +
+  xlab("Genotype Quality (GQ)") + 
+  ylab("Frequency")+
+  #xlim("0", "1.1") +
+  #scale_x_discrete(breaks = levels(af_data$AF_factor)[seq(1, length(levels(af_data$AF_factor)), by = 5)])+
+  theme_classic() 
+  #theme(axis.text.x = element_text(size = 6, angle = 45, hjust = 1)) 
+ 
+
+gq_data_2
+
+
+ggplot(gq_data, aes(x = GQ)) +
+  geom_histogram(binwidth = 1, fill = "green", color = "black", alpha = 0.7) +
+  labs(title = "Genotype Quality Distribution per SNP", x = "Genotype Quality (GQ)", y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+```
+
+```{r}
+#Créer des groupes (breaks) pour la qualité du génotype (par exemple, de 1 à 5, 6 à 10, etc.)
+
+gq_data$GenotypeQuality_group <- cut(gq_data$GQ,
+                                  breaks = seq(1, 47, by = 1),   # Définir les breaks comme souhaité
+                                  labels = c( "1-2",  "2-3",  "3-4",  "4-5",  "5-6",  "6-7",  "7-8",  "8-9",  "9-10", "10-11", "11-12", "12-13", "13-14", "14-15", "15-16", "16-17", "17-18", "18-19", "19-20", "20-21", "21-22", "22-23", "23-24", "24-25", "25-26", "26-27", "27-28", "28-29", "29-30", "30-31", "31-32", "32-33", "33-34", "34-35", "35-36", "36-37", "37-38", "38-39", "39-40", "40-41", "41-42", "42-43", "43-44", "44-45", "45-46", "46-47"), right = FALSE)
+
+
+#max(gq_data$GQ) # 46.194
+#min(gq_data$GQ) # 1.444
+
+
+ggplot(gq_data, aes(x = GQ)) +
+  geom_histogram(binwidth = 1, fill = "green", color = "black", alpha = 0.7) +
+  labs(title = "Genotype Quality Distribution per SNP", x = "Genotype Quality (GQ)", y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+ggplot(gq_data, aes(x = GenotypeQuality_group, y = Frequency, fill = GenotypeQuality_group)) +
+  geom_col() +  # Utiliser geom_col() car Frequency est déjà une valeur
+  labs(title = "Fréquence en fonction de la Qualité du Génotype",
+       x = "Qualité du Génotype (GQ, groupée)", y = "Fréquence") +
+  theme_minimal() +
+  theme(legend.position = "none", axis.text.x = element_text(angle = 45, hjust = 1))
+
+ggplot(gq_data, aes(x = GQ)) +
+  geom_histogram(binwidth = 2, fill = "#66CC99", color = "black") +  
+  labs(title = "Fréquence en fonction de la Qualité du Génotype",
+       x = "Qualité du Génotype (GQ)", y = "Fréquence") +
+  theme_minimal()
+```
+
