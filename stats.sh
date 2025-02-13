@@ -21,6 +21,7 @@ nouveau_dossier="${dossier}_output"
 mkdir -p "$nouveau_dossier"
 echo "Création du dossier: $nouveau_dossier"
 mkdir -p ./$nouveau_dossier/filtered_vcfs
+mkdir -p ./$nouveau_dossier/filtered_snp
 
 # Parcourir tous les fichiers .sv_sniffles.vcf du dossier
 for file in "$dossier"/*.sv_sniffles.vcf; do
@@ -37,11 +38,35 @@ for file in "$dossier"/*.sv_sniffles.vcf; do
     current_count=$(grep -vc "^#" "./$nouveau_dossier/filtered_vcfs/$(basename "$new_file")")
     ((variant_number+=current_count))
     new_file=$(basename "$new_file")
-    new_file=$(echo "$new_file" | cut -d '.' -f1)
+    generation=$(echo "$new_file" | cut -d '.' -f1 | cut -d '-' -f1 )
+    echantillon=$(echo "$new_file" | cut -d '.' -f1 | cut -d '-' -f2 )
 
-    echo "$new_file,$current_count" >> count.csv
+    echo "$generation,$echantillon,$current_count,sv" >> count.csv
 
 done
+
+
+for file in "$dossier"/*.snp.vcf; do
+    filename=$(basename "$file")
+    new_file=./$nouveau_dossier/${filename%.snp.vcf}_filtered.vcf
+    
+    # Filtrer le VCF
+    bcftools filter -i "INFO/AF >= 0.05" "$file" -o "$new_file"
+    
+    # Déplacer le fichier
+    mv "$new_file" ./$nouveau_dossier/filtered_snp
+    
+    #Compter les variants et ajouter au total
+    current_count=$(grep -vc "^#" "./$nouveau_dossier/filtered_snp/$(basename "$new_file")")
+    ((variant_number+=current_count))
+    new_file=$(basename "$new_file")
+    generation=$(echo "$new_file" | cut -d '.' -f1 | cut -d '-' -f1 )
+    echantillon=$(echo "$new_file" | cut -d '.' -f1 | cut -d '-' -f2 )
+
+    echo "$generation,$echantillon,$current_count,snp" >> count.csv
+
+done
+
 
 #for file in "$nouveau_dossier"/filtered_vcfs/*.vcf;do
  #   filename=$(basename "$file")
