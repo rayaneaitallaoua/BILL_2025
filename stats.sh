@@ -1,3 +1,4 @@
+#!/bin/bash
 if [ $# -lt 1 ]; then
     echo "Entrer un nom de dossier à analyser en argument.\n"
     exit 1
