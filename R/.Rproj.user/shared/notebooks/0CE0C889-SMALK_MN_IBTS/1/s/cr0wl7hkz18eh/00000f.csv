@@ -1,0 +1,5 @@
+"0","#install.packages('palettetown')"
+"0",""
+"0","#library(palettetown) # palettetown : nom de ville de départ dans pokemon rouge feu, vert feuille"
+"0","#voir les palettes de couleur"
+"0","pokedex(cb = 1)"

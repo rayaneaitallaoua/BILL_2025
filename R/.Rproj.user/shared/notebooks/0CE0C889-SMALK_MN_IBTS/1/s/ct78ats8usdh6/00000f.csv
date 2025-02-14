@@ -1,0 +1,6 @@
+"0","SR_moyen_sp <- aggregate(SR ~ Species, data = tableau_sp_cohorte_2, FUN = mean)"
+"0","names(SR_moyen_sp)[names(SR_moyen_sp) == ""SR""] <- ""SR_moyen"""
+"0","tableau_sp <- left_join(tableau_sp, SR_moyen_sp, by = ""Species"")"
+"0","remove(SR_moyen_sp)"
+"0",""
+"0","tableau_sp <- tableau_sp %>% relocate (SR_moyen, .after = SR) #changer des colonnes de place"

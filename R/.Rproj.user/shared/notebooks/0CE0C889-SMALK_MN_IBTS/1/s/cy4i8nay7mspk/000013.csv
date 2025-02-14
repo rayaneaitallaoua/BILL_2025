@@ -1,0 +1,4 @@
+"0",""
+"0","#g6 <- g4 + g5 + plot_annotation(title = ""Distribution des effectifs (en valeur absolue à gauche, en pourcentage à droite) dans chaque aire de pêche, \npar espèces et par cohorte"") "
+"0","#ggsave(""eff_cohorte.pdf"", plot = g6, width = 10, height = 25)"
+"0",""

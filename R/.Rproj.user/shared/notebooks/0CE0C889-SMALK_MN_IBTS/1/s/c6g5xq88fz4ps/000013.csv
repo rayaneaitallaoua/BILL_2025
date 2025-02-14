@@ -1,0 +1,4 @@
+"0",""
+"0",""
+"0","#g3 <- g1 + g2 + plot_annotation(title = ""Distribution des effectifs (en valeur absolue à gauche, en pourcentage à droite) dans chaque aire de pêche, \npar espèces et par année d'observation"") "
+"0","#ggsave(""eff_year.pdf"", plot = g3, width = 10, height = 25)"

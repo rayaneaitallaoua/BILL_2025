@@ -1,0 +1,5 @@
+"0","setwd(""E:\\github\\travail_github\\Stage_M2_Calzan"")"
+"0",""
+"0","library(readr)"
+"0","tableau_cohortes <- read.csv(""table_cohorte_procedure_selection_2.csv"", header = TRUE, sep = "";"",  na =""NA"", stringsAsFactors = FALSE)"
+"0",""

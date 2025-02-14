@@ -1,0 +1,2 @@
+"0","tableau_cohorte_sp_SR_eff <- left_join(tableau_espece_cohorte_SR, tableau_espece_cohorte, by = c(""Species"", ""Cohorte""))"
+"0","remove(tableau_espece_cohorte_SR, tableau_espece_cohorte)"

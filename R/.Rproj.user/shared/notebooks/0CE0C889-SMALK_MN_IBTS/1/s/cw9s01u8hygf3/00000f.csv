@@ -1,0 +1,7 @@
+"0","tableau_espece<- aggregate( CANoAtLngt ~ Species, data = tableau_donnees_especes, FUN = sum)"
+"0",""
+"0","ggplot(tableau_espece, aes(x = Species, y = CANoAtLngt)) +"
+"0","  geom_bar(stat=""identity"", width=0.5) +"
+"0","  geom_text(aes(label=CANoAtLngt), vjust=0, hjust = -0.5, size=3) +"
+"0","  theme(legend.position = ""none"")  +"
+"0","  coord_flip()"

@@ -1,0 +1,1 @@
+"0","tableau <- read.csv(""SMALK_2022-01-06 11_47_25.csv"", header = TRUE, sep = "";"",  na =""NA"", stringsAsFactors = FALSE)"

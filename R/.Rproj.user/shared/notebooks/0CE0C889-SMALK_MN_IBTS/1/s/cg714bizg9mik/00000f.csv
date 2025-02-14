@@ -1,0 +1,86 @@
+"0","library(zoo)"
+"0","library(tidyquant)"
+"2","Registered S3 method overwritten by 'quantmod':
+  method            from
+  as.zoo.data.frame zoo 
+"
+"2","Avis : le package ‘xts’ a été compilé avec la version R 4.3.3"
+"2","Avis : le package ‘quantmod’ a été compilé avec la version R 4.3.3"
+"2","Avis : le package ‘TTR’ a été compilé avec la version R 4.3.3"
+"2","Avis : le package ‘PerformanceAnalytics’ a été compilé avec la version R 4.3.3"
+"2","── [1mAttaching core tidyquant packages[22m ─────────────────────────────────────────── tidyquant 1.0.11 ──
+[32m✔[39m [34mPerformanceAnalytics[39m 2.0.8      [32m✔[39m [34mTTR                 [39m 0.24.4
+[32m✔[39m [34mquantmod            [39m 0.4.26     [32m✔[39m [34mxts                 [39m 0.14.1"
+"2","── [1mConflicts[22m ────────────────────────────────────────────────────────────── tidyquant_conflicts() ──
+[31m✖[39m [34mzoo[39m::[32mas.Date()[39m                   masks [34mbase[39m::as.Date()
+[31m✖[39m [34mzoo[39m::[32mas.Date.numeric()[39m           masks [34mbase[39m::as.Date.numeric()
+[31m✖[39m [34mscales[39m::[32mcol_factor()[39m             masks [34mreadr[39m::col_factor()
+[31m✖[39m [34mnlme[39m::[32mcollapse()[39m                 masks [34mdplyr[39m::collapse()
+[31m✖[39m [34mgridExtra[39m::[32mcombine()[39m             masks [34mdplyr[39m::combine()
+[31m✖[39m [34mscales[39m::[32mdiscard()[39m                masks [34mpurrr[39m::discard()
+[31m✖[39m [34mMatrix[39m::[32mexpand()[39m                 masks [34mtidyr[39m::expand()
+[31m✖[39m [34mdplyr[39m::[32mfilter()[39m                  masks [34mstats[39m::filter()
+[31m✖[39m [34mxts[39m::[32mfirst()[39m                     masks [34mdplyr[39m::first()
+[31m✖[39m [34mPerformanceAnalytics[39m::[32mkurtosis()[39m masks [34mEnvStats[39m::kurtosis()
+[31m✖[39m [34mdplyr[39m::[32mlag()[39m                     masks [34mstats[39m::lag()
+[31m✖[39m [34mquantmod[39m::[32mLag()[39m                  masks [34mHmisc[39m::Lag()
+[31m✖[39m [34mxts[39m::[32mlast()[39m                      masks [34mdplyr[39m::last()
+[31m✖[39m [34mPerformanceAnalytics[39m::[32mlegend()[39m   masks [34mgraphics[39m::legend()
+[31m✖[39m [34mMatrix[39m::[32mpack()[39m                   masks [34mtidyr[39m::pack()
+[31m✖[39m [34mcar[39m::[32mrecode()[39m                    masks [34mdplyr[39m::recode()
+[31m✖[39m [34mPerformanceAnalytics[39m::[32mskewness()[39m masks [34mEnvStats[39m::skewness()
+[31m✖[39m [34mcar[39m::[32msome()[39m                      masks [34mpurrr[39m::some()
+[31m✖[39m [34mHmisc[39m::[32msrc()[39m                     masks [34mdplyr[39m::src()
+[31m✖[39m [34mHmisc[39m::[32msummarize()[39m               masks [34mdplyr[39m::summarize()
+[31m✖[39m [34mquantmod[39m::[32msummary()[39m              masks [34mMatrix[39m::summary(), [34mbase[39m::summary()
+[31m✖[39m [34mMatrix[39m::[32munpack()[39m                 masks [34mtidyr[39m::unpack()
+[36mℹ[39m Use the ]8;;http://conflicted.r-lib.org/conflicted package]8;; to force all conflicts to become errors"
+"0","library(lubridate)"
+"0",""
+"0","tableau_rollvar <- data.frame()"
+"0","for (espece in unique(tableau_sp_cohorte_2$Species)){"
+"0","  df <- filter(tableau_sp_cohorte_2, tableau_sp_cohorte_2$Species == espece)"
+"0","  df <- df[order(df$Effectifs),]#on trie par les effectifs"
+"0","  df$eff_date <- as.Date(df$Effectifs)#on change les effectifs en date"
+"0","  df_rollvar <- df %>% tq_mutate( #cette partie du code je l'ai trouvé sur le site internet"
+"0","        # tq_mutate args"
+"0","        select     = SR,"
+"0","        mutate_fun = rollapply,"
+"0","        # rollapply args"
+"0","        width      = 10,"
+"0","        align      = ""right"","
+"0","        FUN        = var,"
+"0","        # mean args"
+"0","        na.rm      = TRUE,"
+"0","        # tq_mutate args"
+"0","        col_rename = ""roll_var"""
+"0","    )"
+"0","  tableau_rollvar <- rbind(tableau_rollvar, df_rollvar)"
+"0","}"
+"2","Registered S3 method overwritten by 'lava':
+  method         from    
+  print.estimate EnvStats
+"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"2","Avis : some methods for “zoo” objects do not work if the index entries in ‘order.by’ are not unique"
+"0","remove(df, df_rollvar, tableau_sp_cohorte_2) #le tableau rollvar est le même que le tableau_sp_cohorte_2 avec deux colonnes en plus et trié en fonction des effectifs au lieu des cohortes "
+"0","tableau_rollvar <- tableau_rollvar[order(tableau_rollvar$Cohorte),]"
+"0","tableau_sp_cohorte_2 <- tableau_rollvar %>% subset(select = -c(eff_date))"
+"0","remove(tableau_rollvar)"
+"0",""
+"0","############# "
+"0","ggplot(tableau_sp_cohorte_2, aes(x = Effectifs, y = roll_var)) +"
+"0","  geom_line() +"
+"0","  geom_point() +"
+"0","  facet_wrap(~ Species, scales = ""free"", ncol = 4) +"
+"0","  ggtitle(""variance mobile du sex-ratio de chaque espèce en fonction de la taille des cohortes"")"

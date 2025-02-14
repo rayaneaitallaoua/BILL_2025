@@ -1,0 +1,1113 @@
+"0",""
+"0","tapply(tableau_sp_cohorte_2$SR, tableau_sp_cohorte_2$Species ,shapiro.test)"
+"1","$`Adinaefiola ligulata`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Agonus cataphractus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Alloteuthis
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Alloteuthis subulata`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Alosa fallax`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Amblyraja radiata`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Ammodytes marinus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Ammodytes tobianus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Ammodytidae
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Anarhichas lupus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Argentina
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Argentina silus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Argentina sphyraena`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Argentinidae
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Arnoglossus laterna`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Artediellus atlanticus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Belone belone`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Brachioteuthis
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Brama brama`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Brosme brosme`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Buglossidium luteum`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Callionymus lyra`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Callionymus maculatus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Callionymus reticulatus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Cancer bellianus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Cancer pagurus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Capros aper`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Chelidonichthys cuculus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Chelidonichthys lucerna`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Chimaera monstrosa`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Clupea harengus`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.65098, p-value = 8.964e-11"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$Coleoidea
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Cyclopterus lumpus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Dicentrarchus labrax`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Dipturus batis`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Dipturus intermedius`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Dipturus oxyrinchus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Echiichthys vipera`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Echiodon drummondii`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Eledone cirrhosa`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Enchelyopus cimbrius`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Engraulis encrasicolus`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.92603, p-value = 0.2107"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Entelurus aequoreus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Etmopterus spinax`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Eutrigla gurnardus`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.93185, p-value = 0.2093"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Gadiculus argenteus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Gadus morhua`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.52597, p-value = 1.613e-12"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Gaidropsarus argentatus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Gaidropsarus macrophthalmus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Gaidropsarus vulgaris`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Galeorhinus galeus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Galeus melastomus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Glyptocephalus cynoglossus`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.9047, p-value = 0.03164"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$Gobiidae
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Helicolenus dactylopterus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Hippoglossoides platessoides`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Hippoglossus hippoglossus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Hyperoplus lanceolatus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Illex
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Illex coindetii`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Lepidorhombus boscii`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Lepidorhombus whiffiagonis`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Leucoraja circularis`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Leucoraja fullonica`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Leucoraja naevus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Limanda limanda`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.93485, p-value = 0.262"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Liparis liparis liparis`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Lithodes maja`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Loliginidae
+"
+"1","NULL
+"
+"1","
+"
+"1","$Loligo
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Loligo forbesii`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Loligo vulgaris`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Lophius budegassa`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Lophius piscatorius`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Lumpenus lampretaeformis`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Lycodes
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Lycodes gracilis`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Macroramphosus scolopax`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Maurolicus muelleri`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Melanogrammus aeglefinus`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.61866, p-value = 5.127e-11"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Merlangius merlangus`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.50021, p-value = 1.577e-12"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Merluccius merluccius`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Micromesistius poutassou`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Microstomus kitt`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.78047, p-value = 4.924e-05"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Molva dypterygia`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Molva molva`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Mullus surmuletus`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.90583, p-value = 0.06209"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$Mustelus
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Mustelus asterias`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Mustelus mustelus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Myoxocephalus scorpius`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Myxine glutinosa`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Nephrops norvegicus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Nerophis ophidion`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Octopoda
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Octopus vulgaris`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Ommastrephidae
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Petromyzon marinus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Phycis blennoides`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Platichthys flesus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Pleuronectes platessa`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.63675, p-value = 3.413e-09"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Pollachius pollachius`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Pollachius virens`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.64256, p-value = 5.36e-10"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Pomatoschistus norvegicus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Raja brachyura`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Raja clavata`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Raja montagui`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Rondeletiola minor`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Rossia macrosoma`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Rossia palpebrosa`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Sardina pilchardus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Scomber scombrus`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.79761, p-value = 9.408e-07"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Scophthalmus maximus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Scophthalmus rhombus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Scyliorhinus canicula`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Sebastes norvegicus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Sebastes viviparus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Sepia
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Sepia elegans`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Sepia officinalis`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Sepietta
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Sepietta neglecta`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Sepietta oweniana`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Sepiola
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Sepiola tridens`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Sepiolidae
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Solea solea`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.8587, p-value = 0.003928"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Sprattus sprattus`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.61559, p-value = 2.19e-09"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Squalus acanthias`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Stichaeidae
+"
+"1","NULL
+"
+"1","
+"
+"1","$Todarodes
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Todarodes sagittatus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Todaropsis eblanae`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Trachinus draco`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Trachurus trachurus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Triglops
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Trisopterus esmarkii`
+"
+"1","
+"
+"1","	Shapiro-Wilk normality test"
+"1","
+"
+"1","
+"
+"1","data:  "
+"1",""
+"1","X[[i]]"
+"1",""
+"1","
+"
+"1","W = 0.91334, p-value = 0.001209"
+"1","
+"
+"1","
+"
+"1","
+"
+"1","$`Trisopterus luscus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Trisopterus minutus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$Zeidae
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Zeugopterus norvegicus`
+"
+"1","NULL
+"
+"1","
+"
+"1","$`Zeus faber`
+"
+"1","NULL
+"
+"1","
+"
+"0","ggplot(tableau_sp_cohorte_2, aes(x = SR)) +"
+"0","  geom_histogram() +"
+"0","  facet_wrap(~Species, scales = ""free_y"", ncol = 4)"

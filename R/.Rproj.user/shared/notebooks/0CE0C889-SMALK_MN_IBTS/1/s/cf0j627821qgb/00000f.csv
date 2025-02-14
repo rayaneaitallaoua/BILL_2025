@@ -1,0 +1,5 @@
+"0","NA_tableau_fonction <- function(tableau_sans_NA){"
+"0","   tableau_sans_NA[tableau_sans_NA == -9] <- NA"
+"0","  return(tableau_sans_NA)"
+"0","}"
+"0","NA_tableau <- NA_tableau_fonction(tableau)"

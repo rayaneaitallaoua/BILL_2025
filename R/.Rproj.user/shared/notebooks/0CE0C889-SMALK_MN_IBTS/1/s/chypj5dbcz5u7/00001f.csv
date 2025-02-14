@@ -1,0 +1,2 @@
+"0",""
+"0","hist(tableau_donnees_especes$Cohorte, main = ""distribution des observations selon la cohorte"", xlab = ""année de cohorte"", ylab = ""fréquence"", breaks = 15)"

@@ -1,0 +1,6 @@
+"0","#effectifs mâles et femelles par années de cohortes et par espèces"
+"0","ggplot(tableau_sp_cohorte_2, aes(x = Cohorte)) +"
+"0","  geom_point(aes(y = Femelles, color =""blue"")) +"
+"0","  geom_point(aes(y = Males, color =""yellow"")) +"
+"0","  facet_wrap(~Species, scales = ""free_y"", ncol = 2) +"
+"0","  ggtitle(""distribution des effectifs mâles et femelles en fonction des cohorte"")"

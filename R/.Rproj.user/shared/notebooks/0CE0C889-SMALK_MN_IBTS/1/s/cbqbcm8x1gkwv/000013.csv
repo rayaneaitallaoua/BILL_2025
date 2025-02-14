@@ -1,0 +1,1 @@
+"0","#ggsave(""SR_cohorte.pdf"", width = 10, height = 20) #avec ggsave on peut enregistrer une figure dans le format souhaité (png, pdf, etc. avec les dimensions que l'on veut)"

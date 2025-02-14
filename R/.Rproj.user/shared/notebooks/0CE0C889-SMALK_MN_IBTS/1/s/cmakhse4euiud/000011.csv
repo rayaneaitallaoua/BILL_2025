@@ -1,0 +1,4 @@
+"0",""
+"0","#on sauvegarde le plot dans un fichier"
+"0","#ggsave(""Distribution_SR_Eff_Cohortes.pdf"", plot = SR_Eff_plot, width = 13, height = 25)"
+"0",""

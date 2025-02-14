@@ -1,0 +1,7 @@
+"0","  "
+"0",""
+"0","ggplot(tableau_sp_cohorte_2, aes(x = Effectifs, y = SR)) +"
+"0","  geom_line() +"
+"0","  geom_point() +"
+"0","  facet_wrap(~ Species, scales = ""free"", ncol = 4) +"
+"0","  ggtitle(""Distribution du sex ratio des espèces en fonction de la taille des cohortes"")"

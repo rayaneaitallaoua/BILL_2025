@@ -17,6 +17,7 @@ setwd("E:\\github\\BILL_2025\\R")
 # Step 1: Load necessary libraries
 library(tidyverse)
 library(gridExtra)
+library(dplyr)
 ```
 
 # Analyse préliminaires Genotype quality & Allelic frequency
@@ -187,8 +188,6 @@ sapply(variants_P, FUN = levels)
 ```
 
 ```{r}
-
-
 ggplot(data = variants_P, aes(x = sv_snp, y = nb_variant, color=sv_snp)) +
   geom_boxplot(outlier.colour="black", outlier.shape=16,
              outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
@@ -209,4 +208,373 @@ ggplot(data = variants_P, aes(x = Generation, y = nb_variant, color=sv_snp)) +
   labs(x = "Génération", y = "nombre de variants") +
   theme_classic()
 ```
+```{r}
+remove(variants_P, variants_P15, variants_P30, variants_P50, variants_P65, variants_P90, test, af_data, af_plot, gq_plot)
+remove(F_colnames)
+```
+
+
+
+```{r}
+table_snp <- read.csv("snp.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+table_sv <- read.csv("sv.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+
+names(table_snp)
+names(table_snp)[names(table_snp) == "ECHANTILLONQUALITE"] <- "ECHANTILLON"
+names(table_snp)[names(table_snp) == "X"] <- "QUALITE"
+
+#table SV
+str(table_sv)
+sapply(table_sv, FUN = class)
+table_sv$ORF <- as.factor(table_sv$ORF)
+table_sv$GENERATION <- as.factor(table_sv$GENERATION)
+table_sv$TYPE.DE.FICHIER <- as.factor(table_sv$TYPE.DE.FICHIER)
+table_sv$TYPE.DE.MUTATION <- as.factor(table_sv$TYPE.DE.MUTATION)
+
+summary(table_sv)
+sapply(table_sv, FUN = levels)
+
+table_sv[which(table_sv$ORF == "."),]
+
+
+table_sv[which(table_sv$GENERATION == "P15"),]$ECHANTILLON %>% unique #10  3  4  5  6  7  8  9
+table_sv[which(table_sv$GENERATION == "P30"),]$ECHANTILLON %>% unique #10  1  2  3  4  5  6  7  8  9
+table_sv[which(table_sv$GENERATION == "P50"),]$ECHANTILLON %>% unique #10  1  2  3  4  5  6  7  8  9
+table_sv[which(table_sv$GENERATION == "P65"),]$ECHANTILLON %>% unique # 1 2 3 7
+table_sv[which(table_sv$GENERATION == "P90"),]$ECHANTILLON %>% unique #10  1  2  3  4  5  6  7  8  9
+
+summary(table_sv$FREQUENCE.ALL)
+```
+compter le nb d'insertion et le nombre de deletion par échantillon et génération
+on peut faire le % d'insertion aussi
+faire leur longueur moyenne, medianne avec les max, les min les sq
+rajouter traitement chaud, traitement froid et pas de traitement
+
+```{r}
+#rajouter traitement chaud, traitement froid et pas de traitement
+table_sv <- table_sv %>% 
+  mutate(traitement_type = case_when(GENERATION == "P15"~"non_traite", 
+                                     (GENERATION != "P15" & ECHANTILLON <=5) ~ "traitement_froid",
+                                     (GENERATION != "P15" & ECHANTILLON > 5) ~ "traitement_chaud"))
+table_sv %>% names()
+
+test <- table_sv %>% 
+  group_by(GENERATION, ECHANTILLON, TYPE.DE.MUTATION) %>%
+  count()
+  #pivot_wider(names_from = TYPE.DE.MUTATION)
+
+
+names(test)[names(test) == "n"] <- "effectif_type_mutation"
+
+test <- left_join(test, unique(table_sv[,c("GENERATION", "ECHANTILLON", "traitement_type")]), by = c("ECHANTILLON", "GENERATION")) 
+
+
+
+test2 <- test %>% aggregate(effectif_type_mutation ~ GENERATION + ECHANTILLON, FUN = sum)
+names(test2)[names(test2) == "effectif_type_mutation"] <- "effectif_mutation"
+test <- left_join(test, test2, by = c("GENERATION", "ECHANTILLON"))
+remove(test2)
+test <- test %>% mutate(freq_mutation_type = effectif_type_mutation/effectif_mutation)
+test$freq_mutation_type <- round(test$freq_mutation_type, 3)
+
+#frequence allélique par type de mutation
+table_sv %>% names()
+df <- table_sv %>% aggregate(FREQUENCE.ALL ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION, FUN = mean)
+df1 <- table_sv %>% aggregate(FREQUENCE.ALL ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION, FUN = median)
+df2 <- table_sv %>% aggregate(FREQUENCE.ALL ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION, FUN = sd)
+df3 <- table_sv %>% aggregate(FREQUENCE.ALL ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION, FUN = max)
+df4 <- table_sv %>% aggregate(FREQUENCE.ALL ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION, FUN = min)
+
+names(df)[names(df) == "FREQUENCE.ALL"] <- "FREQUENCE.ALL_mean"
+names(df1)[names(df1) == "FREQUENCE.ALL"] <- "FREQUENCE.ALL_median"
+names(df2)[names(df2) == "FREQUENCE.ALL"] <- "FREQUENCE.ALL_sd"
+names(df3)[names(df3) == "FREQUENCE.ALL"] <- "FREQUENCE.ALL_max"
+names(df4)[names(df4) == "FREQUENCE.ALL"] <- "FREQUENCE.ALL_min"
+
+df <- left_join(df, df1, by = c("GENERATION", "ECHANTILLON", "TYPE.DE.MUTATION"))
+df <- left_join(df, df2, by = c("GENERATION", "ECHANTILLON", "TYPE.DE.MUTATION"))
+df <- left_join(df, df3, by = c("GENERATION", "ECHANTILLON", "TYPE.DE.MUTATION"))
+df <- left_join(df, df4, by = c("GENERATION", "ECHANTILLON", "TYPE.DE.MUTATION"))
+test <- left_join(test, df, by = c("GENERATION", "ECHANTILLON", "TYPE.DE.MUTATION"))
+
+remove(df, df1, df2, df3, df4)
+#longueur du type de mutation par generation et échantillon
+table_sv %>% names()
+df <- table_sv %>% aggregate(LONGUEUR ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION, FUN = mean)
+df1 <- table_sv %>% aggregate(LONGUEUR ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION, FUN = median)
+df2 <- table_sv %>% aggregate(LONGUEUR ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION, FUN = sd)
+df3 <- table_sv %>% aggregate(LONGUEUR ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION, FUN = max)
+df4 <- table_sv %>% aggregate(LONGUEUR ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION, FUN = min)
+
+names(df)[names(df) == "LONGUEUR"] <- "LONGUEUR_mean"
+names(df1)[names(df1) == "LONGUEUR"] <- "LONGUEUR_median"
+names(df2)[names(df2) == "LONGUEUR"] <- "LONGUEUR_sd"
+names(df3)[names(df3) == "LONGUEUR"] <- "LONGUEUR_max"
+names(df4)[names(df4) == "LONGUEUR"] <- "LONGUEUR_min"
+
+df <- left_join(df, df1, by = c("GENERATION", "ECHANTILLON", "TYPE.DE.MUTATION"))
+df <- left_join(df, df2, by = c("GENERATION", "ECHANTILLON", "TYPE.DE.MUTATION"))
+df <- left_join(df, df3, by = c("GENERATION", "ECHANTILLON", "TYPE.DE.MUTATION"))
+df <- left_join(df, df4, by = c("GENERATION", "ECHANTILLON", "TYPE.DE.MUTATION"))
+test <- left_join(test, df, by = c("GENERATION", "ECHANTILLON", "TYPE.DE.MUTATION"))
+remove(df, df1, df2, df3, df4)
+
+#nb de positions différentes concernées par generation par echantillon
+table_sv$POSITION_factor <- as.factor(table_sv$POSITION)
+nb_positions_gen_ech <- table_sv %>% aggregate(POSITION_factor ~ GENERATION + ECHANTILLON, FUN = function(x) length(unique(x)))
+names(nb_positions_gen_ech)[names(nb_positions_gen_ech) == "POSITION_factor"] <- "nb_pos_gen_ech"
+test <- left_join(test, nb_positions_gen_ech, by = c("GENERATION", "ECHANTILLON")) 
+remove(nb_positions_gen_ech)
+
+#nb de positions différentes concernées par generation par echantillon par type de mutation
+nb_positions_gen_ech_type_mut <- table_sv %>% aggregate(POSITION_factor ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION, FUN = function(x) length(unique(x)))
+names(nb_positions_gen_ech_type_mut)[names(nb_positions_gen_ech_type_mut) == "POSITION_factor"] <- "nb_pos_gen_ech_type_mut"
+test <- left_join(test, nb_positions_gen_ech_type_mut, by = c("GENERATION", "ECHANTILLON", "TYPE.DE.MUTATION")) 
+remove(nb_positions_gen_ech_type_mut)
+
+test %>% names()
+test <- test %>% relocate(traitement_type, .after = ECHANTILLON)
+```
+
+```{r}
+test %>% names()
+ggplot(data = test, aes(x = TYPE.DE.MUTATION, y = effectif_type_mutation, color=TYPE.DE.MUTATION)) +
+  geom_boxplot(outlier.colour="black", outlier.shape=16,
+             outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
+  #geom_dotplot(binaxis='y', stackdir='center', dotsize=1) +
+  geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) +
+  scale_color_brewer(palette="Dark2") +
+  facet_wrap(~GENERATION, scales = "free_y") + #, ncol = 5
+  theme_classic()
+
+test[which(test$GENERATION == "P15" & test$TYPE.DE.MUTATION == "DEL"),"effectif_type_mutation"]$effectif_type_mutation %>% median()
+test[which(test$GENERATION == "P15" & test$TYPE.DE.MUTATION == "INS"),"effectif_type_mutation"]$effectif_type_mutation %>% median()
+
+
+ggplot(data = test, aes(x = GENERATION, y = effectif_type_mutation, color=TYPE.DE.MUTATION)) +
+  geom_boxplot(position=position_dodge(1), outlier.colour="black", outlier.shape=16,
+             outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
+  #geom_dotplot(aes(fill = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.3) +
+  geom_jitter(shape=16, position=position_jitter(), alpha = 0.5) +
+  scale_color_brewer(palette="Dark2") +
+  scale_fill_brewer(palette="Dark2") + 
+  labs(x = "Génération", y = "mutations") +
+  theme_bw()
+
+
+ggplot(data = test, aes(x = GENERATION, 
+                        y = effectif_type_mutation, 
+                        color=traitement_type, 
+                        by = traitement_type)) +
+  
+  geom_boxplot(position=position_dodge(1), 
+               outlier.colour="black", 
+               outlier.shape=16,
+               outlier.size=2, 
+               outlier.alpha = 0.5 ,
+               notch=FALSE,
+               width = 0.5) +
+  #geom_dotplot(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.3) +
+  geom_jitter(aes(fill = traitement_type, shape = TYPE.DE.MUTATION) , position=position_jitterdodge(), alpha = 0.9) +
+  #geom_point(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), position=position_jitterdodge(dodge.width=0.5), alpha = 0.5) +
+  scale_color_brewer(palette="Dark2") +
+  #scale_fill_manual(values = c("#990099", "#CC9900")) + 
+  labs(x = "Génération", y = "mutations") +
+  theme_bw()
+
+ggplot(data = test, aes(x = traitement_type, 
+                        y = effectif_type_mutation, 
+                        color=traitement_type, 
+                        by = traitement_type)) +
+  
+  geom_boxplot(position=position_dodge(1), 
+               outlier.colour="black", 
+               outlier.shape=16,
+               outlier.size=2, 
+               outlier.alpha = 0.5 ,
+               notch=FALSE,
+               width = 0.5) +
+  #geom_dotplot(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.3) +
+  geom_jitter(aes(fill = traitement_type, shape = TYPE.DE.MUTATION) , position=position_jitterdodge(), alpha = 0.9) +
+  #geom_point(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), position=position_jitterdodge(dodge.width=0.5), alpha = 0.5) +
+  scale_color_brewer(palette="Dark2") +
+  facet_wrap(~GENERATION, scales = "free_y") +
+  #scale_fill_manual(values = c("#990099", "#CC9900")) + 
+  labs(x = "Génération", y = "mutations") +
+  theme_bw()
+
+
+test[,c("GENERATION", "traitement_type", "ECHANTILLON", "effectif_mutation")] %>% unique() %>%
+  ggplot( aes(x = GENERATION, 
+                        y = effectif_mutation, 
+                        color=traitement_type, 
+                        by = traitement_type)) +
+  geom_boxplot(position=position_dodge(1), 
+               outlier.colour="black", 
+               outlier.shape=16,
+               outlier.size=2, 
+               outlier.alpha = 0.5 ,
+               notch=FALSE,
+               width = 0.5) +
+  geom_jitter(aes(fill = traitement_type) , position=position_jitterdodge(), alpha = 0.9) +
+  scale_color_brewer(palette="Dark2") +
+  labs(x = "Génération", y = "mutations") +
+  theme_bw()
+
+test[,c("GENERATION", "traitement_type", "ECHANTILLON", "effectif_mutation")] %>% unique() %>%
+  ggplot(aes(x = GENERATION,
+           y = effectif_mutation,
+           by = traitement_type,
+           fill = traitement_type)) +
+  geom_bar(position=position_dodge(), width=0.5, stat = "identity")+
+  scale_fill_brewer(palette="Dark2") +
+  theme_bw()
+
+table_sv$TYPE.DE.MUTATION
+table_sv[,c("GENERATION", "traitement_type", "TYPE.DE.MUTATION")] %>%
+  ggplot(aes(x = traitement_type,
+           by = TYPE.DE.MUTATION,
+           fill = TYPE.DE.MUTATION)) +
+  geom_bar(position=position_stack(), width=0.5, stat = "count")+
+  scale_fill_brewer(palette="Dark2") +
+  facet_wrap(~GENERATION, scale = "free") +
+  theme_bw()
+
+
+ggplot(test, aes(x = traitement_type, y = freq_mutation_type, by = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) +
+  geom_bar(stat = "identity", position = "fill", width= 0.8, color = "black") +
+  facet_wrap(~GENERATION, scale = "free") +
+  #geom_text(aes(label = pourcent_eff), stat = "identity",  position = position_fill(.5), size = 2.5, color = "black") +  #facultatif sinon on ne voit rien
+  scale_fill_brewer(palette="Dark2") +
+  geom_text(aes(label = freq_mutation_type), stat = "identity",  position = position_fill(.5), size = 2, color = "black") +  
+    theme_bw()
+
+#test[,c("GENERATION", "traitement_type", "ECHANTILLON", "effectif_mutation")] %>% unique() %>%
+  ggplot(test, aes(x = traitement_type, 
+                        y = freq_mutation_type, 
+                        color=TYPE.DE.MUTATION, 
+                        by = TYPE.DE.MUTATION)) +
+  geom_boxplot(position=position_dodge(1), 
+               outlier.colour="black", 
+               outlier.shape=16,
+               outlier.size=2, 
+               outlier.alpha = 0.5 ,
+               notch=FALSE,
+               width = 0.5) +
+  geom_jitter(aes(fill = traitement_type) , position=position_jitterdodge(), alpha = 0.9) +
+  facet_wrap(~GENERATION, scale = "free") +  
+  scale_color_brewer(palette="Dark2") +
+  labs(x = "Génération", y = "mutations") +
+  theme_bw()
+```
+
+
+```{r}
+
+test[which(test$GENERATION == "P90"), ] %>%
+  ggplot( aes(x = traitement_type, 
+                        y = effectif_type_mutation, 
+                        color=TYPE.DE.MUTATION, 
+                        by = TYPE.DE.MUTATION)) +
+  
+  geom_boxplot(position=position_dodge(1), 
+               outlier.colour="black", 
+               outlier.shape=16,
+               outlier.size=2, 
+               outlier.alpha = 0.5 ,
+               notch=FALSE,
+               width = 0.5) +
+  #geom_dotplot(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.3) +
+  geom_jitter(aes(fill = TYPE.DE.MUTATION) , position=position_jitterdodge(), alpha = 0.7) +
+  #geom_point(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), position=position_jitterdodge(dodge.width=0.5), alpha = 0.5) +
+  scale_color_brewer(palette="Dark2") +
+  labs(x = "type de traitement", y = "effectif des type de mutations") +
+  ggtitle("P90") +
+  theme_bw()
+
+test[which(test$GENERATION == "P65"), ] %>%
+  ggplot( aes(x = traitement_type, 
+                        y = effectif_type_mutation, 
+                        color=TYPE.DE.MUTATION, 
+                        by = TYPE.DE.MUTATION)) +
+  
+  geom_boxplot(position=position_dodge(1), 
+               outlier.colour="black", 
+               outlier.shape=16,
+               outlier.size=2, 
+               outlier.alpha = 0.5 ,
+               notch=FALSE,
+               width = 0.5) +
+  #geom_dotplot(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.3) +
+  geom_jitter(aes(fill = TYPE.DE.MUTATION) , position=position_jitterdodge(), alpha = 0.7) +
+  #geom_point(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), position=position_jitterdodge(dodge.width=0.5), alpha = 0.5) +
+  scale_color_brewer(palette="Dark2") +
+  labs(x = "type de traitement", y = "effectif des type de mutations") +
+  ggtitle("P65") +
+  theme_bw()
+
+test[which(test$GENERATION == "P50"), ] %>%
+  ggplot( aes(x = traitement_type, 
+                        y = effectif_type_mutation, 
+                        color=TYPE.DE.MUTATION, 
+                        by = TYPE.DE.MUTATION)) +
+  
+  geom_boxplot(position=position_dodge(1), 
+               outlier.colour="black", 
+               outlier.shape=16,
+               outlier.size=2, 
+               outlier.alpha = 0.5 ,
+               notch=FALSE,
+               width = 0.5) +
+  #geom_dotplot(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.3) +
+  geom_jitter(aes(fill = TYPE.DE.MUTATION) , position=position_jitterdodge(), alpha = 0.7) +
+  #geom_point(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), position=position_jitterdodge(dodge.width=0.5), alpha = 0.5) +
+  scale_color_brewer(palette="Dark2") +
+  labs(x = "type de traitement", y = "effectif des type de mutations") +
+  ggtitle("P50") +
+  theme_bw()
+
+test[which(test$GENERATION == "P30"), ] %>%
+  ggplot( aes(x = traitement_type, 
+                        y = effectif_type_mutation, 
+                        color=TYPE.DE.MUTATION, 
+                        by = TYPE.DE.MUTATION)) +
+  
+  geom_boxplot(position=position_dodge(1), 
+               outlier.colour="black", 
+               outlier.shape=16,
+               outlier.size=2, 
+               outlier.alpha = 0.5 ,
+               notch=FALSE,
+               width = 0.5) +
+  #geom_dotplot(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.3) +
+  geom_jitter(aes(fill = TYPE.DE.MUTATION) , position=position_jitterdodge(), alpha = 0.7) +
+  #geom_point(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), position=position_jitterdodge(dodge.width=0.5), alpha = 0.5) +
+  scale_color_brewer(palette="Dark2") +
+  labs(x = "type de traitement", y = "effectif des type de mutations") +
+  ggtitle("P30") +
+  theme_bw()
+
+test[which(test$GENERATION == "P15"), ] %>%
+  ggplot( aes(x = traitement_type, 
+                        y = effectif_type_mutation, 
+                        color=TYPE.DE.MUTATION, 
+                        by = TYPE.DE.MUTATION)) +
+  
+  geom_boxplot(position=position_dodge(1), 
+               outlier.colour="black", 
+               outlier.shape=16,
+               outlier.size=2, 
+               outlier.alpha = 0.5 ,
+               notch=FALSE,
+               width = 0.5) +
+  #geom_dotplot(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.3) +
+  geom_jitter(aes(fill = TYPE.DE.MUTATION) , position=position_jitterdodge(), alpha = 0.7) +
+  #geom_point(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), position=position_jitterdodge(dodge.width=0.5), alpha = 0.5) +
+  scale_color_brewer(palette="Dark2") +
+  labs(x = "type de traitement", y = "effectif des type de mutations") +
+  ggtitle("P15") +
+  theme_bw()
+```
+Regarder la longueur des mutations en fonction de si c'est del ou ins et en fonction du traitement et des génération
 

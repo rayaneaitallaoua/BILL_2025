@@ -1,0 +1,69 @@
+"0","#espace de travail"
+"0","setwd(""E:\\github\\travail_github\\Stage_M2_Calzan"")"
+"0",""
+"0","#librairies nécessaires"
+"0","library(readr)"
+"0","library(dplyr)"
+"0","library(tidyverse)"
+"0","library(ggplot2)"
+"0","library(patchwork) "
+"0","library(hrbrthemes)"
+"2","Avis : le package ‘hrbrthemes’ a été compilé avec la version R 4.3.3"
+"0","library(""Hmisc"")"
+"2","Avis : le package ‘Hmisc’ a été compilé avec la version R 4.3.3"
+"2","Registered S3 method overwritten by 'htmlwidgets':
+  method           from         
+  print.htmlwidget tools:rstudio
+"
+"2","Registered S3 method overwritten by 'data.table':
+  method           from
+  print.data.table     
+"
+"2","
+Attachement du package : ‘Hmisc’
+
+"
+"2","L'objet suivant est masqué depuis ‘package:EnvStats’:
+
+    stripChart
+
+"
+"2","Les objets suivants sont masqués depuis ‘package:dplyr’:
+
+    src, summarize
+
+"
+"2","Les objets suivants sont masqués depuis ‘package:base’:
+
+    format.pval, units
+
+"
+"0","library(scales)"
+"2","
+Attachement du package : ‘scales’
+
+"
+"2","L'objet suivant est masqué depuis ‘package:purrr’:
+
+    discard
+
+"
+"2","L'objet suivant est masqué depuis ‘package:readr’:
+
+    col_factor
+
+"
+"0","library(palettetown)"
+"2","Avis : le package ‘palettetown’ a été compilé avec la version R 4.3.3"
+"0","library(viridis)"
+"2","Le chargement a nécessité le package : viridisLite
+"
+"2","
+Attachement du package : ‘viridis’
+
+"
+"2","L'objet suivant est masqué depuis ‘package:scales’:
+
+    viridis_pal
+
+"

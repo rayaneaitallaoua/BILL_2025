@@ -1,0 +1,7 @@
+"0",""
+"0","#distribution du SR en fonction des cohortes "
+"0","ggplot(tableau_sp_cohorte_2, aes(x = Cohorte, y = SR)) +"
+"0","  geom_line() +"
+"0","  geom_point() +"
+"0","  facet_wrap(~Species, ncol = 2) +"
+"0","  ggtitle(""distribution du sex-ratio en fonction des cohorte"")"

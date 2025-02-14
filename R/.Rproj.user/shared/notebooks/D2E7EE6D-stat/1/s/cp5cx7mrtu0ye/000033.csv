@@ -1,0 +1,8 @@
+"0","ggplot(data = variants_P, aes(x = sv_snp, y = nb_variant, color=sv_snp)) +"
+"0","  geom_boxplot(outlier.colour=""black"", outlier.shape=16,"
+"0","             outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +"
+"0","  #geom_dotplot(binaxis='y', stackdir='center', dotsize=1) +"
+"0","  geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) +"
+"0","  scale_color_brewer(palette=""Dark2"") +"
+"0","  facet_wrap(~Generation, scales = ""free_y"") + #, ncol = 5"
+"0","  theme_classic()"
