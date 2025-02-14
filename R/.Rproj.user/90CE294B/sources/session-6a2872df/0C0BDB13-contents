@@ -1,0 +1,4 @@
+setwd("E:\\ETUDES\\Bioinfo\\M1-S2\\M1-S2\\TOUS-B.I.L.L. BioInformatics Learning Lab-HAU802I\\snp_sv_annotated_csv")
+tableau <- read.csv("P15-1.trimed1000.snp_annotated.csv", header = TRUE, sep = "\t",  na ="NA", stringsAsFactors = FALSE)
+
+tableau[1, "INFO"]
