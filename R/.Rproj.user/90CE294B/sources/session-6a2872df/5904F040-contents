@@ -143,7 +143,7 @@ ggplot(gq_data, aes(x = GQ)) +
   theme_minimal()
 ```
 
-# Analyse des variants
+# Analyse des variants (premier tableau envoyé par Teo)
 
 ```{r}
 variants_P15 <- read.csv("count_P15.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
@@ -169,8 +169,8 @@ F_colnames <- function(tableau_variant){
 }
 
 
-variants_P15 <- variants_P15[-which(variants_P15$Generation == "*_filtered"), ]
 variants_P15 <- F_colnames(tableau_variant = variants_P15)
+variants_P15 <- variants_P15[-which(variants_P15$Generation == "*_filtered"), ]
 variants_P30 <- F_colnames(tableau_variant = variants_P30)
 variants_P50 <- F_colnames(tableau_variant = variants_P50)
 variants_P65 <- F_colnames(tableau_variant = variants_P65)
@@ -188,6 +188,7 @@ sapply(variants_P, FUN = levels)
 ```
 
 ```{r}
+#Variant P c'est un Rbind de tous les tableaux 
 ggplot(data = variants_P, aes(x = sv_snp, y = nb_variant, color=sv_snp)) +
   geom_boxplot(outlier.colour="black", outlier.shape=16,
              outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
@@ -195,25 +196,30 @@ ggplot(data = variants_P, aes(x = sv_snp, y = nb_variant, color=sv_snp)) +
   geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) +
   scale_color_brewer(palette="Dark2") +
   facet_wrap(~Generation, scales = "free_y") + #, ncol = 5
-  theme_classic()
+  labs(x = "mutation SNP et SV", y = "nombre de variants") +
+  ggtitle("distribution des boîtes à moustaches des mutation\n de type SNP et SV par Génération") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))
 
 ggplot(data = variants_P, aes(x = Generation, y = nb_variant, color=sv_snp)) +
   geom_boxplot(position=position_dodge(1), outlier.colour="black", outlier.shape=16,
              outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
   #geom_dotplot(binaxis='y', stackdir='center', dotsize=1) +
-  geom_dotplot(aes(fill = sv_snp), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.3) +
+  geom_dotplot(aes(fill = sv_snp), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.4, show.legend = FALSE) +
   #geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) +
   scale_color_brewer(palette="Dark2") +
   scale_fill_brewer(palette="Dark2") + 
-  labs(x = "Génération", y = "nombre de variants") +
-  theme_classic()
+  labs(x = "Génération", y = "Effectif des mutations (SV et SNP)", color = "SV / SNP") +
+  ggtitle("Distribution des boîtes à moustaches des mutations\n de type SV et SNP par Génération") +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
 ```{r}
-remove(variants_P, variants_P15, variants_P30, variants_P50, variants_P65, variants_P90, test, af_data, af_plot, gq_plot)
+remove(variants_P15, variants_P30, variants_P50, variants_P65, variants_P90, af_data, af_plot, gq_plot)
 remove(F_colnames)
 ```
 
-
+#Données brutes mutations SV et SNP
 
 ```{r}
 table_snp <- read.csv("snp.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
@@ -245,6 +251,8 @@ table_sv[which(table_sv$GENERATION == "P90"),]$ECHANTILLON %>% unique #10  1  2 
 
 summary(table_sv$FREQUENCE.ALL)
 ```
+
+## Les SV
 compter le nb d'insertion et le nombre de deletion par échantillon et génération
 on peut faire le % d'insertion aussi
 faire leur longueur moyenne, medianne avec les max, les min les sq
@@ -342,15 +350,30 @@ ggplot(data = test, aes(x = TYPE.DE.MUTATION, y = effectif_type_mutation, color=
   geom_boxplot(outlier.colour="black", outlier.shape=16,
              outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
   #geom_dotplot(binaxis='y', stackdir='center', dotsize=1) +
-  geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) +
+  geom_jitter(shape=16, position=position_jitterdodge(0.2), alpha = 0.5) +
   scale_color_brewer(palette="Dark2") +
+  labs(x = "Type de mutation des VS\n (délétion ou insertion)", y = "Effectif des mutations", color = "DEL = délétion /\n INS = insértion") +
   facet_wrap(~GENERATION, scales = "free_y") + #, ncol = 5
-  theme_classic()
+  ggtitle("Distribution des boîtes à moustaches des délétions et\n des insértions de variants structuraux (VS) par génération") +
+  theme_classic()+
+  theme(plot.title = element_text(hjust = 0.5))
 
-test[which(test$GENERATION == "P15" & test$TYPE.DE.MUTATION == "DEL"),"effectif_type_mutation"]$effectif_type_mutation %>% median()
-test[which(test$GENERATION == "P15" & test$TYPE.DE.MUTATION == "INS"),"effectif_type_mutation"]$effectif_type_mutation %>% median()
+#Même graphe qu'au dessus mais avec geom_dotplot au lien de geom_jitter
+ggplot(data = test, aes(x = TYPE.DE.MUTATION, y = effectif_type_mutation, color=TYPE.DE.MUTATION)) +
+  geom_boxplot(outlier.colour="black", outlier.shape=16,
+             outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
+  geom_dotplot(aes(fill = TYPE.DE.MUTATION), binaxis='y', stackdir='center',position=position_dodge(), dotsize=1, alpha = 0.5, show.legend = FALSE) +
+  scale_color_brewer(palette="Dark2") +
+  scale_fill_brewer(palette="Dark2") +
+  labs(x = "Type de mutation des VS\n (délétion ou insertion)", y = "Effectif des mutations", color = "DEL = délétion /\n INS = insértion") +
+  facet_wrap(~GENERATION, scales = "free_y") + #, ncol = 5
+  ggtitle("Distribution des boîtes à moustaches des délétions et\n des insértions de variants structuraux (VS) par génération") +
+  theme_classic()+
+  theme(plot.title = element_text(hjust = 0.5))
+```
 
 
+```{r}
 ggplot(data = test, aes(x = GENERATION, y = effectif_type_mutation, color=TYPE.DE.MUTATION)) +
   geom_boxplot(position=position_dodge(1), outlier.colour="black", outlier.shape=16,
              outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
@@ -358,22 +381,37 @@ ggplot(data = test, aes(x = GENERATION, y = effectif_type_mutation, color=TYPE.D
   geom_jitter(shape=16, position=position_jitter(), alpha = 0.5) +
   scale_color_brewer(palette="Dark2") +
   scale_fill_brewer(palette="Dark2") + 
-  labs(x = "Génération", y = "mutations") +
+  labs(x = "Génération", y = "Effectif des types de mutations (délétions ou insertions)", color = "DEL = délétion /\n INS = insértion") +
+  ggtitle("Distribution des boîtes à moustaches des délétions et\n des insértions de variants structuraux  par génération") +
   theme_bw()
 
+ggplot(data = test, aes(x = GENERATION, y = effectif_type_mutation, color=TYPE.DE.MUTATION)) +
+  geom_boxplot(position=position_dodge(1), outlier.colour="black", outlier.shape=16,
+             outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
+  #geom_dotplot(aes(fill = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.5, show.legend = FALSE) +
+  geom_jitter(shape=16, position=position_jitter(), alpha = 0.5) +
+  scale_color_brewer(palette="Dark2") +
+  scale_fill_brewer(palette="Dark2") + 
+  labs(x = "Génération", y = "Effectif des types de mutations (délétions ou insertions)", color = "DEL = délétion /\n INS = insértion") +
+  ggtitle("Distribution des boîtes à moustaches des délétions et\n des insértions de variants structuraux  par génération") +
+  theme_bw()
 
-ggplot(data = test, aes(x = GENERATION, 
-                        y = effectif_type_mutation, 
-                        color=traitement_type, 
-                        by = traitement_type)) +
-  
-  geom_boxplot(position=position_dodge(1), 
-               outlier.colour="black", 
-               outlier.shape=16,
-               outlier.size=2, 
-               outlier.alpha = 0.5 ,
-               notch=FALSE,
-               width = 0.5) +
+ggplot(data = test, aes(x = GENERATION, y = effectif_type_mutation, color=TYPE.DE.MUTATION)) +
+  geom_boxplot(position=position_dodge(1), outlier.colour="black", outlier.shape=16,
+             outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
+  geom_dotplot(aes(fill = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.5, show.legend = FALSE) +
+  #geom_jitter(shape=16, position=position_jitter(), alpha = 0.5) +
+  scale_color_brewer(palette="Dark2") +
+  scale_fill_brewer(palette="Dark2") + 
+  labs(x = "Génération", y = "Effectif des types de mutations (délétions ou insertions)", color = "DEL = délétion /\n INS = insértion") +
+  ggtitle("Distribution des boîtes à moustaches des délétions et\n des insértions de variants structuraux  par génération") +
+  theme_bw()
+```
+
+
+```{r}
+ggplot(data = test, aes(x = GENERATION, y = effectif_type_mutation, color=traitement_type, by = traitement_type)) +
+  geom_boxplot(position=position_dodge(1),  outlier.colour="black", outlier.shape=16, outlier.size=2, outlier.alpha = 0.5 , notch=FALSE,width = 0.5) +
   #geom_dotplot(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.3) +
   geom_jitter(aes(fill = traitement_type, shape = TYPE.DE.MUTATION) , position=position_jitterdodge(), alpha = 0.9) +
   #geom_point(aes(fill = TYPE.DE.MUTATION, shape = TYPE.DE.MUTATION), position=position_jitterdodge(dodge.width=0.5), alpha = 0.5) +
@@ -576,5 +614,33 @@ test[which(test$GENERATION == "P15"), ] %>%
   ggtitle("P15") +
   theme_bw()
 ```
+
 Regarder la longueur des mutations en fonction de si c'est del ou ins et en fonction du traitement et des génération
+
+```{r}
+table_genome_ann_CyHV3 <- read.csv("annotation_genes_CyHV3_genbank.csv", header = TRUE, sep = "\t")
+table_genome_ann_CyHV3 %>% names()
+table_genome_ann_CyHV3 <- mutate(table_genome_ann_CyHV3, gen_length = End-Begin)
+table_genome_ann_CyHV3 <- table_genome_ann_CyHV3 %>% relocate (gen_length, .after = End)
+table_genome_ann_CyHV3$gen_length %>% summary()
+table_genome_ann_CyHV3$Gene.Type %>% unique() #protein-coding
+
+#   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#    267    1018    1969    2694    3205   30495 
+```
+
+
+regarder les positions du génome les plus touchées par les mutations 
+```{r}
+table_sv <- table_sv[order(table_sv$POSITION),] 
+#regarder le nombre de mutations par positions 
+
+# Génome : 295100 pb
+genome_ref <- seq(1, 295100, 100)
+
+gq_data$GenotypeQuality_group <- cut(gq_data$GQ,
+                                  breaks = seq(1, 47, by = 1),   # Définir les breaks comme souhaité
+                                  labels = c( "1-2",  "2-3",  "3-4",  "4-5",  "5-6",  "6-7",  "7-8",  "8-9",  "9-10", "10-11", "11-12", "12-13", "13-14", "14-15", "15-16", "16-17", "17-18", "18-19", "19-20", "20-21", "21-22", "22-23", "23-24", "24-25", "25-26", "26-27", "27-28", "28-29", "29-30", "30-31", "31-32", "32-33", "33-34", "34-35", "35-36", "36-37", "37-38", "38-39", "39-40", "40-41", "41-42", "42-43", "43-44", "44-45", "45-46", "46-47"), right = FALSE)
+```
+
 

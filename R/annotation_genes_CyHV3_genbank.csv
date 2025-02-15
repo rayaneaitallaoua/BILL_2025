@@ -1,0 +1,164 @@
+Accession	Begin	End	Chromosome	Orientation	Name	Symbol	Gene ID	Gene Type	Transcripts accession	Transcript name	Protein accession	Protein name	Protein length	Locus tag
+NC_009127.1	426	1245		plus	protein ORF1		11266495	protein-coding			YP_001096040.1	protein ORF1	257	CyHV3_ORF1_1
+NC_009127.1	1573	3503		minus	protein ORF2		11266336	protein-coding			YP_001096041.1	protein ORF2	622	CyHV3_ORF2_1
+NC_009127.1	4299	7008		plus	protein ORF3		11266337	protein-coding			YP_001096042.1	protein ORF3	871	CyHV3_ORF3_1
+NC_009127.1	7386	8419		plus	protein ORF4		11266338	protein-coding			YP_001096043.1	protein ORF4	313	CyHV3_ORF4_1
+NC_009127.1	8606	11029		plus	protein ORF5		11266339	protein-coding			YP_001096044.1	protein ORF5	447	CyHV3_ORF5_1
+NC_009127.1	11322	13754		minus	protein ORF6		11266340	protein-coding			YP_001096045.2	protein ORF6	725	CyHV3_ORF6_1
+NC_009127.1	14687	18718		minus	protein ORF8		11266342	protein-coding			YP_001096047.1	protein ORF8	289	CyHV3_ORF8_1
+NC_009127.1	14687	17497		minus	protein ORF7		11266341	protein-coding			YP_001096046.1	protein ORF7	808	CyHV3_ORF7_1
+NC_009127.1	22802	24724		minus	protein ORF9		11266343	protein-coding			YP_001096048.1	protein ORF9	598	CyHV3_ORF9
+NC_009127.1	24962	29232		plus	protein ORF10		11266344	protein-coding			YP_001096049.1	protein ORF10	1360	CyHV3_ORF10
+NC_009127.1	29216	30181		minus	protein ORF12		11266346	protein-coding			YP_001096051.1	protein ORF12	128	CyHV3_ORF12
+NC_009127.1	29216	29666		minus	protein ORF11		11266345	protein-coding			YP_001096050.1	protein ORF11	120	CyHV3_ORF11
+NC_009127.1	30236	31065		minus	protein ORF15		11266349	protein-coding			YP_001096054.1	protein ORF15	62	CyHV3_ORF15
+NC_009127.1	30236	30790		minus	protein ORF14		11266348	protein-coding			YP_001096053.1	protein ORF14	94	CyHV3_ORF14
+NC_009127.1	30236	30503		minus	protein ORF13		11266347	protein-coding			YP_001096052.1	protein ORF13	77	CyHV3_ORF13
+NC_009127.1	31289	32417		minus	membrane protein ORF16		11266350	protein-coding			YP_001096055.1	membrane protein ORF16	358	CyHV3_ORF16
+NC_009127.1	32442	34596		minus	protein ORF17		11266351	protein-coding			YP_001096056.1	protein ORF17	674	CyHV3_ORF17
+NC_009127.1	34756	37049		minus	protein ORF18		11266352	protein-coding			YP_001096057.1	protein ORF18	745	CyHV3_ORF18
+NC_009127.1	37148	37976		plus	deoxyguanosine kinase		11266353	protein-coding			YP_001096058.1	deoxyguanosine kinase	241	CyHV3_ORF19
+NC_009127.1	38010	39091		minus	protein ORF20		11266354	protein-coding			YP_001096059.1	protein ORF20	349	CyHV3_ORF20
+NC_009127.1	39209	42143		plus	protein ORF21		11266355	protein-coding			YP_001096060.1	protein ORF21	336	CyHV3_ORF21
+NC_009127.1	40216	42143		plus	protein ORF22		11266356	protein-coding			YP_001096061.1	protein ORF22	588	CyHV3_ORF22
+NC_009127.1	42201	43221		plus	ribonucleotide reductase subunit 2		11266357	protein-coding			YP_001096062.1	ribonucleotide reductase subunit 2	335	CyHV3_ORF23
+NC_009127.1	43672	45468		plus	protein ORF24		11266358	protein-coding			YP_001096063.1	protein ORF24	579	CyHV3_ORF24
+NC_009127.1	45570	48457		plus	membrane protein ORF25		11266359	protein-coding			YP_001096064.1	membrane protein ORF25	601	CyHV3_ORF25
+NC_009127.1	47474	48457		plus	truncated membrane protein ORF26		11945558	protein-coding			YP_005352783.1	truncated membrane protein ORF26	56	CyHV3_ORF26
+NC_009127.1	48534	49938		plus	truncated membrane protein ORF27		11945559	protein-coding			YP_005352784.1	truncated membrane protein ORF27	68	CyHV3_ORF27
+NC_009127.1	49968	51109		minus	protein ORF28		11266360	protein-coding			YP_001096065.1	protein ORF28	372	CyHV3_ORF28
+NC_009127.1	51637	52802		plus	membrane protein ORF29		11266361	protein-coding			YP_001096066.1	membrane protein ORF29	367	CyHV3_ORF29
+NC_009127.1	52909	55353		plus	truncated membrane protein ORF30		11945560	protein-coding			YP_005352785.1	truncated membrane protein ORF30	266	CyHV3_ORF30
+NC_009127.1	53750	84245		minus	DNA packaging terminase subunit 1		11266364	protein-coding			YP_001096069.2	DNA packaging terminase subunit 1	788	CyHV3_ORF33
+NC_009127.1	53750	54336		minus	protein ORF31		11266362	protein-coding			YP_001096067.1	protein ORF31	122	CyHV3_ORF31
+NC_009127.1	54492	55353		plus	protein ORF32		11266363	protein-coding			YP_001096068.1	protein ORF32	193	CyHV3_ORF32
+NC_009127.1	56545	58752		plus	protein ORF34		11266365	protein-coding			YP_001096070.1	protein ORF34	151	CyHV3_ORF34
+NC_009127.1	57082	58752		plus	protein ORF35		11266366	protein-coding			YP_001096071.1	protein ORF35	322	CyHV3_ORF35
+NC_009127.1	58097	58752		plus	protein ORF36		11266367	protein-coding			YP_001096072.1	protein ORF36	159	CyHV3_ORF36
+NC_009127.1	58637	58977		minus	protein ORF37		11266368	protein-coding			YP_001096073.1	protein ORF37	110	CyHV3_ORF37
+NC_009127.1	59035	59793		minus	membrane protein ORF39		11266370	protein-coding			YP_001096075.1	membrane protein ORF39	101	CyHV3_ORF39
+NC_009127.1	59035	59486		minus	protein ORF38		11266369	protein-coding			YP_001096074.1	protein ORF38	143	CyHV3_ORF38
+NC_009127.1	59887	62153		minus	protein ORF41		11266371	protein-coding			YP_001096076.1	protein ORF41	508	CyHV3_ORF41
+NC_009127.1	59887	60598		minus	truncated membrane protein ORF40		11945561	protein-coding			YP_005352786.1	truncated membrane protein ORF40	184	CyHV3_ORF40
+NC_009127.1	62971	69325		minus	protein ORF42		11266372	protein-coding			YP_001096077.1	protein ORF42	2117	CyHV3_ORF42
+NC_009127.1	69324	73756		plus	protein ORF43		11266373	protein-coding			YP_001096078.1	protein ORF43	1453	CyHV3_ORF43
+NC_009127.1	74077	83399		plus	protein ORF44		11266374	protein-coding			YP_001096079.1	protein ORF44	274	CyHV3_ORF44
+NC_009127.1	74760	83399		plus	protein ORF45		11266375	protein-coding			YP_001096080.1	protein ORF45	632	CyHV3_ORF45
+NC_009127.1	76615	83399		plus	helicase-primase primase subunit		11266376	protein-coding			YP_001096081.1	helicase-primase primase subunit	814	CyHV3_ORF46
+NC_009127.1	78960	83399		plus	protein Allo64		11266377	protein-coding			YP_001096082.1	protein Allo64	668	CyHV3_ORF47
+NC_009127.1	80575	83399		plus	protein ORF48		11266378	protein-coding			YP_001096083.1	protein ORF48	877	CyHV3_ORF48
+NC_009127.1	84262	91649		plus	protein ORF49		11266379	protein-coding			YP_001096084.1	protein ORF49	234	CyHV3_ORF49
+NC_009127.1	84665	90448		minus	protein ORF51		11266381	protein-coding			YP_001096086.1	protein ORF51	1525	CyHV3_ORF51
+NC_009127.1	84665	85680		minus	protein ORF50		11266380	protein-coding			YP_001096085.1	protein ORF50	218	CyHV3_ORF50
+NC_009127.1	90633	91649		plus	protein ORF52		11266382	protein-coding			YP_001096087.1	protein ORF52	324	CyHV3_ORF52
+NC_009127.1	91802	93542		minus	protein ORF53		11266383	protein-coding			YP_001096088.1	protein ORF53	572	CyHV3_ORF53
+NC_009127.1	93596	95711		minus	protein ORF54		11266384	protein-coding			YP_001096089.1	protein ORF54	676	CyHV3_ORF54
+NC_009127.1	95866	96538		plus	thymidine kinase		11266385	protein-coding			YP_001096090.1	thymidine kinase	216	CyHV3_ORF55
+NC_009127.1	96675	99398		minus	protein ORF56		11266386	protein-coding			YP_001096091.2	protein ORF56	856	CyHV3_ORF56
+NC_009127.1	99382	100830		plus	protein ORF57		11266387	protein-coding			YP_001096092.1	protein ORF57	473	CyHV3_ORF57
+NC_009127.1	100864	106538		minus	protein Allo54		11266391	protein-coding			YP_001096096.1	protein Allo54	854	CyHV3_ORF61
+NC_009127.1	100864	104130		minus	protein ORF60		11266390	protein-coding			YP_001096095.1	protein ORF60	539	CyHV3_ORF60
+NC_009127.1	100864	102446		minus	protein ORF59		11266389	protein-coding			YP_001096094.1	protein ORF59	136	CyHV3_ORF59
+NC_009127.1	106572	118648		plus	protein ORF62		11266392	protein-coding			YP_001096097.1	protein ORF62	3986	CyHV3_ORF62
+NC_009127.1	118663	119799		plus	protein ORF63		11266393	protein-coding			YP_001096098.1	protein ORF63	362	CyHV3_ORF63
+NC_009127.1	119864	122067		plus	membrane protein ORF64		11266394	protein-coding			YP_001096099.1	membrane protein ORF64	722	CyHV3_ORF64
+NC_009127.1	122092	123910		minus	membrane protein ORF65		11266395	protein-coding			YP_001096100.1	membrane protein ORF65	596	CyHV3_ORF65
+NC_009127.1	124029	134445		minus	protein ORF69		11266399	protein-coding			YP_001096104.1	protein ORF69	526	CyHV3_ORF69
+NC_009127.1	124029	132925		minus	protein ORF68		11266398	protein-coding			YP_001096103.1	protein ORF68	2267	CyHV3_ORF68
+NC_009127.1	124029	126144		minus	protein ORF67		11266397	protein-coding			YP_001096102.1	protein ORF67	297	CyHV3_ORF67
+NC_009127.1	124029	125309		minus	capsid triplex subunit 1		11266396	protein-coding			YP_001096101.1	capsid triplex subunit 1	396	CyHV3_ORF66
+NC_009127.1	134494	139090		plus	protein ORF70		11266400	protein-coding			YP_001096105.1	protein ORF70	448	CyHV3_ORF70
+NC_009127.1	135907	139090		plus	helicase-primase helicase subunit		11266401	protein-coding			YP_001096106.1	helicase-primase helicase subunit	640	CyHV3_ORF71
+NC_009127.1	137928	139090		plus	capsid triplex subunit 2		11266402	protein-coding			YP_001096107.1	capsid triplex subunit 2	370	CyHV3_ORF72
+NC_009127.1	139115	141562		minus	protein ORF76		11266406	protein-coding			YP_001096111.1	protein ORF76	289	CyHV3_ORF76
+NC_009127.1	139115	140063		minus	protein ORF74		11266404	protein-coding			YP_001096109.1	protein ORF74	188	CyHV3_ORF74
+NC_009127.1	139115	139551		minus	protein ORF73		11266403	protein-coding			YP_001096108.1	protein ORF73	136	CyHV3_ORF73
+NC_009127.1	140044	144667		plus	protein ORF75		11266405	protein-coding			YP_001096110.1	protein ORF75	245	CyHV3_ORF75
+NC_009127.1	141635	144667		plus	protein ORF77		11266407	protein-coding			YP_001096112.1	protein ORF77	255	CyHV3_ORF77
+NC_009127.1	142353	144667		plus	capsid maturation protease		11266408	protein-coding			YP_001096113.1	capsid maturation protease	746	CyHV3_ORF78
+NC_009127.1	144730	151755		plus	DNA polymerase catalytic subunit		11266409	protein-coding			YP_001096114.1	DNA polymerase catalytic subunit	1709	CyHV3_ORF79
+NC_009127.1	149379	153480		minus	membrane protein ORF83		11266413	protein-coding			YP_001096118.1	membrane protein ORF83	228	CyHV3_ORF83
+NC_009127.1	149379	152807		minus	membrane protein ORF82		11266412	protein-coding			YP_001096117.1	membrane protein ORF82	323	CyHV3_ORF82
+NC_009127.1	149379	150760		minus	protein Allo60		11266410	protein-coding			YP_001096115.1	protein Allo60	350	CyHV3_ORF80
+NC_009127.1	150797	151755		plus	membrane protein ORF81		11266411	protein-coding			YP_001096116.1	membrane protein ORF81	256	CyHV3_ORF81
+NC_009127.1	153522	157196		minus	protein ORF85		11266415	protein-coding			YP_001096120.1	protein ORF85	427	CyHV3_ORF85
+NC_009127.1	153522	155916		minus	protein ORF84		11266414	protein-coding			YP_001096119.1	protein ORF84	777	CyHV3_ORF84
+NC_009127.1	157087	161135		minus	protein ORF87		11266417	protein-coding			YP_001096122.1	protein ORF87	1161	CyHV3_ORF87
+NC_009127.1	157087	157840		minus	protein ORF86		11266416	protein-coding			YP_001096121.1	protein ORF86	230	CyHV3_ORF86
+NC_009127.1	161194	163966		plus	protein ORF88		11266418	protein-coding			YP_001096123.1	protein ORF88	906	CyHV3_ORF88
+NC_009127.1	164040	165532		plus	protein ORF89		11266419	protein-coding			YP_001096124.1	protein ORF89	485	CyHV3_ORF89
+NC_009127.1	165507	167955		minus	protein Allo37		11266420	protein-coding			YP_001096125.1	protein Allo37	768	CyHV3_ORF90
+NC_009127.1	167979	173455		plus	protein ORF91		11266421	protein-coding			YP_001096126.1	protein ORF91	228	CyHV3_ORF91
+NC_009127.1	168831	173455		plus	major capsid protein		11266422	protein-coding			YP_001096127.1	major capsid protein	1268	CyHV3_ORF92
+NC_009127.1	172697	173455		plus	protein ORF93		11266423	protein-coding			YP_001096128.1	protein ORF93	220	CyHV3_ORF93
+NC_009127.1	173385	174483		minus	truncated protein ORF94		11266424	protein-coding			YP_001096129.2	truncated protein ORF94	365	CyHV3_ORF94
+NC_009127.1	174296	180861		minus	protein ORF97		11266427	protein-coding			YP_001096132.1	protein ORF97	1040	CyHV3_ORF97
+NC_009127.1	174296	177545		minus	protein ORF96		11266426	protein-coding			YP_001096131.1	protein ORF96	818	CyHV3_ORF96
+NC_009127.1	174296	175096		minus	protein ORF95		11266425	protein-coding			YP_001096130.1	protein ORF95	216	CyHV3_ORF95
+NC_009127.1	180807	181840		plus	uracil-DNA glycosylase		11266428	protein-coding			YP_001096133.1	uracil-DNA glycosylase	321	CyHV3_ORF98
+NC_009127.1	181926	186592		plus	membrane protein Allo46		11266429	protein-coding			YP_001096134.1	membrane protein Allo46	1541	CyHV3_ORF99
+NC_009127.1	186574	187743		minus	protein ORF100		11266430	protein-coding			YP_001096135.1	protein ORF100	381	CyHV3_ORF100
+NC_009127.1	188007	194915		plus	protein ORF101		11266431	protein-coding			YP_001096136.1	protein ORF101	889	CyHV3_ORF101
+NC_009127.1	189496	191588		minus	protein ORF102		11266432	protein-coding			YP_001096137.1	protein ORF102	554	CyHV3_ORF102
+NC_009127.1	191317	194915		plus	protein ORF103		11266433	protein-coding			YP_001096138.1	protein ORF103	724	CyHV3_ORF103
+NC_009127.1	192830	194915		plus	protein ORF104		11266434	protein-coding			YP_001096139.1	protein ORF104	658	CyHV3_ORF104
+NC_009127.1	194842	201102		plus	protein ORF105		11266435	protein-coding			YP_001096140.2	protein ORF105	210	CyHV3_ORF105
+NC_009127.1	195777	201102		plus	protein ORF106		11266436	protein-coding			YP_001096141.1	protein ORF106	78	CyHV3_ORF106
+NC_009127.1	196156	201102		plus	protein Allo56		11266437	protein-coding			YP_001096142.1	protein Allo56	1622	CyHV3_ORF107
+NC_009127.1	201231	201865		plus	protein ORF108		11266438	protein-coding			YP_001096143.1	protein ORF108	195	CyHV3_ORF108
+NC_009127.1	201825	202816		minus	protein ORF109		11266439	protein-coding			YP_001096144.1	protein ORF109	314	CyHV3_ORF109
+NC_009127.1	202777	207235		plus	protein ORF110		11266440	protein-coding			YP_001096145.1	protein ORF110	238	CyHV3_ORF110
+NC_009127.1	203581	207235		plus	protein ORF111		11266441	protein-coding			YP_001096146.1	protein ORF111	477	CyHV3_ORF111
+NC_009127.1	205019	207235		plus	protein ORF112		11266442	protein-coding			YP_001096147.1	protein ORF112	280	CyHV3_ORF112
+NC_009127.1	205931	207235		plus	protein ORF113		11266443	protein-coding			YP_001096148.1	protein ORF113	398	CyHV3_ORF113
+NC_009127.1	207270	208199		minus	membrane protein ORF114		11266444	protein-coding			YP_001096149.1	membrane protein ORF114	297	CyHV3_ORF114
+NC_009127.1	208227	210567		plus	membrane protein ORF115		11266445	protein-coding			YP_001096150.1	membrane protein ORF115	779	CyHV3_ORF115
+NC_009127.1	210605	211960		minus	protein ORF117		11266447	protein-coding			YP_001096152.1	protein ORF117	135	CyHV3_ORF117
+NC_009127.1	210605	211504		minus	membrane protein ORF116		11266446	protein-coding			YP_001096151.1	membrane protein ORF116	284	CyHV3_ORF116
+NC_009127.1	211985	215534		plus	protein ORF118		11266448	protein-coding			YP_001096153.1	protein ORF118	337	CyHV3_ORF118
+NC_009127.1	213012	215534		plus	protein ORF119		11266449	protein-coding			YP_001096154.2	protein ORF119	117	CyHV3_ORF119
+NC_009127.1	213535	215534		plus	protein ORF120		11266450	protein-coding			YP_001096155.1	protein ORF120	262	CyHV3_ORF120
+NC_009127.1	214501	215534		plus	protein ORF121		11266451	protein-coding			YP_001096156.1	protein ORF121	299	CyHV3_ORF121
+NC_009127.1	215654	217484		plus	protein ORF122		11266452	protein-coding			YP_001096157.1	protein ORF122	297	CyHV3_ORF122
+NC_009127.1	216590	217484		plus	deoxyuridine triphosphatase		11266453	protein-coding			YP_001096158.1	deoxyuridine triphosphatase	273	CyHV3_ORF123
+NC_009127.1	217559	218506		plus	membrane protein ORF124		11266454	protein-coding			YP_001096159.1	membrane protein ORF124	281	CyHV3_ORF124
+NC_009127.1	218607	220816		plus	protein ORF125		11266455	protein-coding			YP_001096160.1	protein ORF125	188	CyHV3_ORF125
+NC_009127.1	219317	220816		plus	membrane protein ORF126		11266456	protein-coding			YP_001096161.1	membrane protein ORF126	273	CyHV3_ORF126
+NC_009127.1	220216	220816		plus	protein ORF127		11266457	protein-coding			YP_001096162.1	protein ORF127	186	CyHV3_ORF127
+NC_009127.1	220848	223687		minus	protein ORF129		11266459	protein-coding			YP_001096164.1	protein ORF129	422	CyHV3_ORF129
+NC_009127.1	220848	222291		minus	protein ORF128		11266458	protein-coding			YP_001096163.1	protein ORF128	452	CyHV3_ORF128
+NC_009127.1	223766	226993		minus	membrane protein ORF131		11266461	protein-coding			YP_001096166.2	membrane protein ORF131	429	CyHV3_ORF131
+NC_009127.1	223766	225366		minus	protein ORF130		11266460	protein-coding			YP_001096165.1	protein ORF130	498	CyHV3_ORF130
+NC_009127.1	227387	227956		minus	membrane protein ORF132		11266462	protein-coding			YP_001096167.1	membrane protein ORF132	170	CyHV3_ORF132
+NC_009127.1	228226	229255		plus	protein ORF133		11266463	protein-coding			YP_001096168.1	protein ORF133	328	CyHV3_ORF133
+NC_009127.1	229228	229885		minus	interleukin-10		11266464	protein-coding			YP_001096169.1	interleukin-10	179	CyHV3_ORF134
+NC_009127.1	230127	231265		plus	protein ORF135		11266465	protein-coding			YP_001096170.1	protein ORF135	364	CyHV3_ORF135
+NC_009127.1	231339	231825		plus	membrane protein ORF136		11266466	protein-coding			YP_001096171.1	membrane protein ORF136	153	CyHV3_ORF136
+NC_009127.1	231948	235115		minus	membrane protein ORF138		11266468	protein-coding			YP_001096173.1	membrane protein ORF138	392	CyHV3_ORF138
+NC_009127.1	231948	233823		minus	protein ORF137		11266467	protein-coding			YP_001096172.1	protein ORF137	606	CyHV3_ORF137
+NC_009127.1	235263	242510		minus	membrane protein ORF139		11266469	protein-coding			YP_001096174.1	membrane protein ORF139	2359	CyHV3_ORF139
+NC_009127.1	242781	243521		plus	thymidylate kinase		11266470	protein-coding			YP_001096175.1	thymidylate kinase	233	CyHV3_ORF140
+NC_009127.1	243551	246033		minus	ribonucleotide reductase subunit 1		11266471	protein-coding			YP_001096176.1	ribonucleotide reductase subunit 1	806	CyHV3_ORF141
+NC_009127.1	246191	246778		minus	protein ORF142		11266472	protein-coding			YP_001096177.1	protein ORF142	170	CyHV3_ORF142
+NC_009127.1	246965	248934		minus	protein ORF144		11266474	protein-coding			YP_001096179.1	protein ORF144	291	CyHV3_ORF144
+NC_009127.1	246965	247975		minus	protein ORF143		11266473	protein-coding			YP_001096178.1	protein ORF143	311	CyHV3_ORF143
+NC_009127.1	249023	251624		minus	protein ORF145		11266475	protein-coding			YP_001096180.1	protein ORF145	836	CyHV3_ORF145
+NC_009127.1	251863	255779		minus	membrane protein ORF148		11266478	protein-coding			YP_001096183.1	membrane protein ORF148	607	CyHV3_ORF148
+NC_009127.1	251863	253810		minus	protein ORF147		11266477	protein-coding			YP_001096182.1	protein ORF147	259	CyHV3_ORF147
+NC_009127.1	251863	252909		minus	membrane protein ORF146		11266476	protein-coding			YP_001096181.1	membrane protein ORF146	332	CyHV3_ORF146
+NC_009127.1	255870	257996		minus	membrane protein ORF149		11266479	protein-coding			YP_001096184.1	membrane protein ORF149	686	CyHV3_ORF149
+NC_009127.1	258345	260343		plus	protein ORF150		11266480	protein-coding			YP_001096185.1	protein ORF150	628	CyHV3_ORF150
+NC_009127.1	260552	261569		plus	protein ORF151		11266481	protein-coding			YP_001096186.1	protein ORF151	318	CyHV3_ORF151
+NC_009127.1	261832	263518		plus	protein ORF152		11266482	protein-coding			YP_001096187.1	protein ORF152	539	CyHV3_ORF152
+NC_009127.1	263756	264457		plus	membrane protein ORF153		11266483	protein-coding			YP_001096188.1	membrane protein ORF153	223	CyHV3_ORF153
+NC_009127.1	264628	265162		minus	protein ORF154		11266484	protein-coding			YP_001096189.1	protein ORF154	113	CyHV3_ORF154
+NC_009127.1	265333	270469		minus	protein ORF155		11266485	protein-coding			YP_001096190.1	protein ORF155	1623	CyHV3_ORF155
+NC_009127.1	270773	272424		minus	protein ORF156		11266486	protein-coding			YP_001096191.1	protein ORF156	501	CyHV3_ORF156
+NC_009127.1	273103	273922		plus	protein ORF1		11266487	protein-coding			YP_001096192.1	protein ORF1	257	CyHV3_ORF1_2
+NC_009127.1	274250	276180		minus	protein ORF2		11266488	protein-coding			YP_001096193.1	protein ORF2	622	CyHV3_ORF2_2
+NC_009127.1	276976	279685		plus	protein ORF3		11266489	protein-coding			YP_001096194.1	protein ORF3	871	CyHV3_ORF3_2
+NC_009127.1	280063	281096		plus	protein ORF4		11266490	protein-coding			YP_001096195.1	protein ORF4	313	CyHV3_ORF4_2
+NC_009127.1	281283	283706		plus	protein ORF5		11266491	protein-coding			YP_001096196.1	protein ORF5	447	CyHV3_ORF5_2
+NC_009127.1	283999	286431		minus	protein ORF6		11266492	protein-coding			YP_001096197.2	protein ORF6	725	CyHV3_ORF6_2
+NC_009127.1	287364	291395		minus	protein ORF8		11266494	protein-coding			YP_001096199.1	protein ORF8	289	CyHV3_ORF8_2
+NC_009127.1	287364	290174		minus	protein ORF7		11266493	protein-coding			YP_001096198.1	protein ORF7	808	CyHV3_ORF7_2
