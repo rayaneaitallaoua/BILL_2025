@@ -1,7 +1,0 @@
-"0","setwd(""E:\\github\\BILL_2025\\R"")"
-"0",""
-"0",""
-"0","# Step 1: Load necessary libraries"
-"0","library(tidyverse)"
-"0","library(gridExtra)"
-"0","library(dplyr)"

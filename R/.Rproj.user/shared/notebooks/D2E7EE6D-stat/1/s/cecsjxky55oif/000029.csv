@@ -1,7 +1,0 @@
-"0",""
-"0","ggplot(gq_data, aes(x = GenotypeQuality_group, y = Frequency, fill = GenotypeQuality_group)) +"
-"0","  geom_col() +  # Utiliser geom_col() car Frequency est déjà une valeur"
-"0","  labs(title = ""Fréquence en fonction de la Qualité du Génotype"","
-"0","       x = ""Qualité du Génotype (GQ, groupée)"", y = ""Fréquence"") +"
-"0","  theme_minimal() +"
-"0","  theme(legend.position = ""none"", axis.text.x = element_text(angle = 45, hjust = 1))"

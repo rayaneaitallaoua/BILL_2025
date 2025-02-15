@@ -1,6 +1,0 @@
-"0",""
-"0","ggplot(gq_data, aes(x = GQ)) +"
-"0","  geom_histogram(binwidth = 2, fill = ""#66CC99"", color = ""black"") +  "
-"0","  labs(title = ""Fréquence en fonction de la Qualité du Génotype"","
-"0","       x = ""Qualité du Génotype (GQ)"", y = ""Fréquence"") +"
-"0","  theme_minimal()"
