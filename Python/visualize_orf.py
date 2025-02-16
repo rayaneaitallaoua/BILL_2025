@@ -21,7 +21,7 @@ orf_counts = count_individual_orfs(df['ORF'])
 # Créer un DataFrame pour la visualisation
 results_df = pd.DataFrame.from_dict(orf_counts, orient='index', columns=['count'])
 results_df = results_df.sort_values('count', ascending=False)
-results_df['percentage'] = (results_df['count'] / results_df['count'].sum()) * 100
+
 
 # Créer la visualisation
 plt.figure(figsize=(15, 8))
@@ -42,3 +42,46 @@ plt.gcf().savefig('distribution_variants_orf.png', dpi=300, bbox_inches='tight')
 
 # Afficher le graphique
 plt.show()
+
+
+
+
+
+
+# Obtenir la liste unique des générations
+generations = sorted(df['GENERATION'].unique())
+
+# Créer un subplot pour chaque génération
+fig, axes = plt.subplots(len(generations), 1, figsize=(15, 8*len(generations)))
+fig.suptitle('Distribution des variants par ORF pour chaque génération', fontsize=16)
+
+# Pour chaque génération
+for idx, generation in enumerate(generations):
+    # Filtrer les données pour cette génération
+    gen_data = df[df['GENERATION'] == generation]
+    
+    # Compter les ORFs pour cette génération
+    orf_counts = count_individual_orfs(gen_data['ORF'])
+    
+    # Créer un DataFrame pour cette génération
+    gen_df = pd.DataFrame.from_dict(orf_counts, orient='index', columns=['count'])
+    gen_df = gen_df.sort_values('count', ascending=False)
+    gen_df['percentage'] = (gen_df['count'] / gen_df['count'].sum()) * 100
+    
+    # Créer le graphique pour cette génération
+    ax = axes[idx] if len(generations) > 1 else axes
+    sns.barplot(data=gen_df.reset_index(), x='index', y='count', ax=ax)
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=45, ha='right')
+    ax.set_xlabel('ORF')
+    ax.set_ylabel('Nombre de variants')
+    ax.set_title(f'Génération {generation}')
+
+plt.tight_layout()
+
+fig.savefig('distribution_variants_orf_par_generation.png', 
+            dpi=300, 
+            bbox_inches='tight')
+
+plt.show()
+
+
