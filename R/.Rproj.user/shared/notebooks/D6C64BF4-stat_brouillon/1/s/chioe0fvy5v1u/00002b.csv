@@ -1,0 +1,5 @@
+"0",""
+"0","df_freq_moy_gen_traitement <- count_snp_sv_type %>% aggregate(freq_type ~ GENERATION + TRAITEMENT + TYPE, FUN = mean)"
+"0","ggplot(df_freq_moy_gen_traitement, aes(x = GENERATION, y = freq_type, color = TYPE)) +"
+"0","  geom_point() +"
+"0","  facet_wrap(~TRAITEMENT)"

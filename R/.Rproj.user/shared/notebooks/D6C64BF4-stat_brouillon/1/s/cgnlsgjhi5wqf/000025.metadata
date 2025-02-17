@@ -1,1 +1,0 @@
-{"height":286.1557478368356,"width":463.0,"size_behavior":0,"conditions":[[0,"\u001B[38;5;254mBin width defaults to 1/30 of the range of the\ndata. Pick better value with `binwidth`.\u001B[39m"]]}

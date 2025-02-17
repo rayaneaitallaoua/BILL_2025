@@ -1,0 +1,7 @@
+"0",""
+"0","df_freq_moy_gen %>%"
+"0","  ggplot(aes(x = as.factor(GENERATION), y = freq_type, fill = TYPE)) +"
+"0","  geom_bar( stat = ""identity"", position = position_fill(0.5)) +"
+"0","  geom_text(aes(label = freq_type), stat = ""identity"", vjust = 0, position = position_fill(0.5) , size = 2, color = ""black"")+"
+"0","  scale_fill_brewer(palette=""Dark2"") +"
+"0","  theme_bw()"

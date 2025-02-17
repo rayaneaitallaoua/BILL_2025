@@ -1,0 +1,28 @@
+"0","library(Polychrome)
+"
+"2","Avis : le package ‘Polychrome’ a été compilé avec la version R 4.3.3"
+"0","library(pals)"
+"0","# install.packages(""rcartocolor"")"
+"0","# install.packages(""remotes"")"
+"0","library(rcartocolor)"
+"0","pal.bands(alphabet, alphabet2, cols25, glasbey, kelly, polychrome, "
+"0","  stepped, tol, watlington,"
+"0","  show.names=FALSE)"
+"2","Only 26 colors are available with 'alphabet'
+"
+"2","Only 26 colors are available with 'alphabet2'
+"
+"2","Only 25 colors are available with 'cols25'.
+"
+"2","Only 32 colors are available with 'glasbey'.
+"
+"2","Only 22 colors are available with 'kelly'.
+"
+"2","Only 36 colors are available with 'polychrome'.
+"
+"2","Only 24 colors are available with 'stepped'
+"
+"2","Only 12 colors are available with 'tol'
+"
+"2","Only 16 colors are available with 'watlington'.
+"

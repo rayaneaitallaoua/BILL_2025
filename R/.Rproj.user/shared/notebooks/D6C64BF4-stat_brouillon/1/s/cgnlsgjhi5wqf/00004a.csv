@@ -1,0 +1,4 @@
+"0","count_snp_sv_type %>%"
+"0","  ggplot(aes(x = GENERATION, y = COUNT_TYPE, color= TYPE)) +"
+"0","  geom_point() +"
+"0","  theme_bw()"

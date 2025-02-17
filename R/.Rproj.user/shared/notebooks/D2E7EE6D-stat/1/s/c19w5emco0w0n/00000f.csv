@@ -1,0 +1,16 @@
+"0","table_sv[,c(""GENERATION"", ""traitement_type"", ""TYPE.DE.MUTATION"")] %>%
+  ggplot(aes(x = traitement_type,
+           by = TYPE.DE.MUTATION,
+           fill = TYPE.DE.MUTATION)) +
+  geom_bar(position=position_dodge(), width=0.5, stat = ""count"")+
+  scale_fill_brewer(palette=""Dark2"") +
+  facet_wrap(~GENERATION, scale = ""free"") +
+  labs(x = ""Effectif des mutations"", y = ""traitement"", fill = ""Type de mutation\n(DEL = délétion\nINS = insertion)"") +
+  ggtitle(""Distribution des types mutations (délétion et insertion)\nde variants structuraux par traitement et par génération"") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(axis.text.x = element_text(size = 6, angle = 45, hjust = 1)) 
+"
+"2","Erreur dans `[.data.frame`(table_sv, , c(""GENERATION"", ""traitement_type"",  : 
+  colonnes non définies sélectionnées
+"

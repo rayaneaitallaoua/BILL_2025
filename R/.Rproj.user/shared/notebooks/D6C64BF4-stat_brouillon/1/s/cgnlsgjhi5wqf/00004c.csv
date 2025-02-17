@@ -1,0 +1,5 @@
+"0",""
+"0","count_snp_sv_type[which(count_snp_sv_type$SV_SNP == ""SV""), ] %>%"
+"0","  ggplot(aes(x = GENERATION, y = COUNT_TYPE, color= TYPE)) +"
+"0","  geom_point() +"
+"0","  theme_bw()"

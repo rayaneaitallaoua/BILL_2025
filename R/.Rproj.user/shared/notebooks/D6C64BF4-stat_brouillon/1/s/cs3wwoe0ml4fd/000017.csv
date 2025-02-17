@@ -1,0 +1,8 @@
+"0",""
+"0","freq_moy_indel_gen_2 %>%"
+"0","  ggplot(aes(x = as.factor(GENERATION), y = freq_indel, color = TYPE)) +"
+"0","  geom_point() +"
+"0","  geom_line(aes(group = TYPE)) +"
+"0","  scale_fill_brewer(palette=""Dark2"") +"
+"0","  theme_bw()"
+"0",""

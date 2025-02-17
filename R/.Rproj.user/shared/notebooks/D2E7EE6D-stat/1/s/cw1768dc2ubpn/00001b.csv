@@ -1,0 +1,7 @@
+"0","count_snp_sv_type %>%"
+"0","  ggplot(aes(x = GENERATION, y = COUNT_TYPE, color= TYPE)) +"
+"0","  geom_point() +"
+"0","  #ggtitle(""Distribution du nombre de mutation par Génération\n(un point = un échantillon"") +"
+"0","  theme_bw() +"
+"0","  labs(title = ""Distribution du nombre de mutation par Génération"","
+"0","              subtitle = ""un point = un échantillon"")"

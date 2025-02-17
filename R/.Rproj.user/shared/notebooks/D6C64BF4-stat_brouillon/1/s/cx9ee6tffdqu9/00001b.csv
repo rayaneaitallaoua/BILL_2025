@@ -1,0 +1,4 @@
+"0","library(wesanderson)"
+"0","#carto_pal"
+"0",""
+"0","scales::show_col(carto_pal(12, ""Safe""))"

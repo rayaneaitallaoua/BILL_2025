@@ -1,0 +1,4 @@
+"0","group_by(GENERATION, ECHANTILLON, TYPE.DE.MUTATION) %>%"
+"0","  count()"
+"2","Erreur : objet 'GENERATION' introuvable
+"

@@ -1,0 +1,8 @@
+"0",""
+"0","gq_plot_2.0 <- ggplot(gq_data, aes(x = GQ)) +"
+"0","  geom_histogram(binwidth = 2, fill = ""aquamarine3"", color = ""aquamarine4"", alpha = 0.8) +  "
+"0","  labs(title = ""Fréquence en fonction de la Qualité du Génotype"","
+"0","       x = ""Qualité du Génotype (GQ)"", y = ""Fréquence"") +"
+"0","  scale_x_continuous(breaks = seq(1, 47, by = 2)) +"
+"0","  theme_minimal()"
+"0","gq_plot_2.0"

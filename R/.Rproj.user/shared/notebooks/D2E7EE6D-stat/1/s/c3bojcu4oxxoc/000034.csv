@@ -1,0 +1,7 @@
+"0","df_length_mut_sv %>% "
+"0","  ggplot(aes(x = GENERATION, y = LONGUEUR_abs_mean, color = TRAITEMENT))+"
+"0","  geom_boxplot()+"
+"0","  scale_color_brewer(palette = ""Dark2"")+"
+"0","  facet_wrap(~TYPE.DE.MUTATION) +"
+"0","  scale_y_log10()+"
+"0","  theme_bw()"

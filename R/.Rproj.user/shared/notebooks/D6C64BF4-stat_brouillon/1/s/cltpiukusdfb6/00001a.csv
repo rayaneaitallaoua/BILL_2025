@@ -1,0 +1,2 @@
+"0","library(patchwork)"
+"0","plot_P <- plot_P15 + plot_P30 + plot_P50 + plot_P65 + plot_P90 + plot_annotation(title = ""Distribution des statistiques des insertions et des délétions\ndes variants structuraux en fonction des traitements et par Génération"") + plot_layout(widths = c(2, 3)) "

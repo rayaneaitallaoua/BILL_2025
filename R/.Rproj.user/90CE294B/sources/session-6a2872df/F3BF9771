@@ -3,7 +3,7 @@
     "path": "E:/github/BILL_2025/R/stat.Rmd",
     "project_path": "stat.Rmd",
     "type": "r_markdown",
-    "hash": "3355638513",
+    "hash": "964872816",
     "contents": "",
     "dirty": false,
     "created": 1739783031737.0,
@@ -12,16 +12,16 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "149,40",
-        "scrollLine": "147",
+        "cursorPosition": "1296,0",
+        "scrollLine": "1282",
         "last_setup_crc32": "6a2872dfbb338d19"
     },
     "folds": "",
-    "lastKnownWriteTime": 1739783711,
+    "lastKnownWriteTime": 1739806050,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1739783711529,
+    "last_content_update": 1739806050415,
     "read_only": false,
     "read_only_alternatives": []
 }

@@ -576,8 +576,8 @@ ggplot(df_freq_moy_gen_traitement, aes(x = GENERATION, y = freq_type, color = TR
 ##########
 #Dans les SV
 nb_mut_sv_ech_gen_t <- count_snp_sv_type[which(count_snp_sv_type$SV_SNP == "SV"),]
-nb_mut_sv_ech_gen_t <- nb_mut_sv_ech_gen %>% mutate(freq_indel = COUNT_TYPE/COUNT)
-nb_mut_sv_ech_gen_t <- nb_mut_sv_ech_gen %>% aggregate(freq_indel ~ GENERATION + TRAITEMENT + TYPE, FUN = mean)
+nb_mut_sv_ech_gen_t <- nb_mut_sv_ech_gen_t %>% mutate(freq_indel = COUNT_TYPE/COUNT)
+nb_mut_sv_ech_gen_t <- nb_mut_sv_ech_gen_t %>% aggregate(freq_indel ~ GENERATION + TRAITEMENT + TYPE, FUN = mean)
 df2 <- nb_mut_sv_ech_gen_t %>% aggregate(freq_indel ~ GENERATION + TRAITEMENT + TYPE, FUN = sd)
 names(df2)[names(df2) == "freq_indel"] <- "freq_indel_sd"
 nb_mut_sv_ech_gen_t <- left_join(nb_mut_sv_ech_gen_t, df2)
@@ -614,8 +614,8 @@ nb_mut_sv_ech_gen_t %>%
 
 
 ```{r}
-freq_moy_indel_gen_2 <- nb_mut_sv_ech_gen %>% aggregate(freq_indel ~ GENERATION + TYPE, FUN = mean)
-df2 <- nb_mut_sv_ech_gen %>% aggregate(freq_indel ~ GENERATION + TYPE, FUN = sd)
+freq_moy_indel_gen_2 <- nb_mut_sv_ech_gen_t %>% aggregate(freq_indel ~ GENERATION + TYPE, FUN = mean)
+df2 <- nb_mut_sv_ech_gen_t %>% aggregate(freq_indel ~ GENERATION + TYPE, FUN = sd)
 names(df2)[names(df2) == "freq_indel"] <- "freq_indel_sd"
 freq_moy_indel_gen_2 <- left_join(freq_moy_indel_gen_2, df2)
 remove(df2)
@@ -875,7 +875,6 @@ ggplot(data = df_mut_sv, aes(x = GENERATION, y = effectif_type_mutation, color=T
 (j'essaye de trouver la meilleure manière de représenter visuellement la distribution statistique des insertions et des délétions)
 
 ```{r}
-
 ggplot(data = df_mut_sv, aes(x = GENERATION, y = effectif_type_mutation, color=traitement_type, by = traitement_type)) +
   geom_boxplot(position=position_dodge(1),  outlier.colour="black", outlier.shape=16, outlier.size=2, outlier.alpha = 0.9 , notch=FALSE,width = 0.5) +
   geom_dotplot(aes(fill = TYPE.DE.MUTATION), binaxis='y', stackdir='center', position=position_dodge(1), alpha = 0.9, dotsize = 0.6, show.legend = TRUE) +
@@ -887,7 +886,10 @@ ggplot(data = df_mut_sv, aes(x = GENERATION, y = effectif_type_mutation, color=t
   ggtitle("Distribution des boîtes à moustaches des délétions et\n des insértions de variants structuraux  par type de traitement et par génération") +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
+```
 
+
+```{r}
 ggplot(data = df_mut_sv, aes(x = GENERATION, y = effectif_type_mutation, color=traitement_type)) +
   geom_boxplot(position=position_dodge(1), outlier.colour="black", outlier.shape=16,
              outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
@@ -995,7 +997,7 @@ library(patchwork)
 plot_P <- plot_P15 + plot_P30 + plot_P50 + plot_P65 + plot_P90 + plot_annotation(title = "Distribution des statistiques des insertions et des délétions\ndes variants structuraux en fonction des traitements et par Génération") + plot_layout(widths = c(2, 3)) 
 plot_P
 
-ggsave(plot_P, "boxplot_ins_del_vs_traitement_generation.pdf", width = 12, height = 10)
+#ggsave(plot_P, "boxplot_ins_del_vs_traitement_generation.pdf", width = 12, height = 10)
 ```
 
 
@@ -1163,6 +1165,7 @@ https://derekogle.com/NCGraphing/resources/colors
 ```{r color palette}
 c25 <- c( "dodgerblue2", "#E31A1C", "green4", "#6A3D9A", "#FF7F00", "black", "gold1", "skyblue2", "#FB9A99",  "palegreen2", "#CAB2D6", "#FDBF6F", "gray70", "khaki2", "maroon", "orchid1", "deeppink1", "blue1", "steelblue4","darkturquoise", "green1", "yellow4", "yellow3","darkorange4", "brown", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", 'black','forestgreen', 'red2', 'orange', 'cornflowerblue',  'magenta', 'darkolivegreen4', 'indianred1', 'tan4', 'darkblue', 'mediumorchid1','firebrick4',  'yellowgreen', 'lightsalmon', 'tan3', "tan1",'darkgray', 'wheat4', '#DDAD4B', 'chartreuse','seagreen1', 'moccasin', 'mediumvioletred', 'seagreen','cadetblue1',"darkolivegreen1" ,"tan2" ,   "tomato3" , "#7CE3D8","gainsboro")
 
+#install.packages("Polychrome")
 library(Polychrome)
 library(pals)
 # install.packages("rcartocolor")
