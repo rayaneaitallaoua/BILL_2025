@@ -1,0 +1,28 @@
+"0","c25 <- c( ""dodgerblue2"", ""#E31A1C"", ""green4"", ""#6A3D9A"", ""#FF7F00"", ""black"", ""gold1"", ""skyblue2"", ""#FB9A99"",  ""palegreen2"", ""#CAB2D6"", ""#FDBF6F"", ""gray70"", ""khaki2"", ""maroon"", ""orchid1"", ""deeppink1"", ""blue1"", ""steelblue4"",""darkturquoise"", ""green1"", ""yellow4"", ""yellow3"",""darkorange4"", ""brown"", ""#E69F00"", ""#56B4E9"", ""#009E73"", ""#F0E442"", ""#0072B2"", ""#D55E00"", ""#CC79A7"", ""#000000"", ""#E69F00"", ""#56B4E9"", ""#009E73"", ""#F0E442"", 'black','forestgreen', 'red2', 'orange', 'cornflowerblue',  'magenta', 'darkolivegreen4', 'indianred1', 'tan4', 'darkblue', 'mediumorchid1','firebrick4',  'yellowgreen', 'lightsalmon', 'tan3', ""tan1"",'darkgray', 'wheat4', '#DDAD4B', 'chartreuse','seagreen1', 'moccasin', 'mediumvioletred', 'seagreen','cadetblue1',""darkolivegreen1"" ,""tan2"" ,   ""tomato3"" , ""#7CE3D8"",""gainsboro"")"
+"0",""
+"0","library(Polychrome)"
+"0","library(pals)"
+"0","# install.packages(""rcartocolor"")"
+"0","# install.packages(""remotes"")"
+"0","library(rcartocolor)"
+"0","pal.bands(alphabet, alphabet2, cols25, glasbey, kelly, polychrome, "
+"0","  stepped, tol, watlington,"
+"0","  show.names=FALSE)"
+"2","Only 26 colors are available with 'alphabet'
+"
+"2","Only 26 colors are available with 'alphabet2'
+"
+"2","Only 25 colors are available with 'cols25'.
+"
+"2","Only 32 colors are available with 'glasbey'.
+"
+"2","Only 22 colors are available with 'kelly'.
+"
+"2","Only 36 colors are available with 'polychrome'.
+"
+"2","Only 24 colors are available with 'stepped'
+"
+"2","Only 12 colors are available with 'tol'
+"
+"2","Only 16 colors are available with 'watlington'.
+"
