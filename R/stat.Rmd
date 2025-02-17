@@ -748,6 +748,8 @@ count_snp_sv_type  %>%
 
 
 ```
+
+
 ```{r}
 #là j'ai voulu faire une moyenne de fréquence des mutations dans les générations sans prendre en compte le traitement
 df_freq_moy_gen %>%
@@ -852,16 +854,18 @@ count_ins_del_sv %>%
   
 
 ```
-```{r, fig.height = 10, fig.width = 5 }
+```{r, fig.height = 7, fig.width = 13 }
 count_ins_del_sv %>%
   ggplot(aes(x = as.factor(ECHANTILLON), y = freq_indel, fill = TYPE, color = TRAITEMENT)) +
   geom_bar(aes(color = TRAITEMENT), stat = "identity", position = "fill", width= 0.8, size = 1) +
   geom_text(aes(label = freq_indel), stat = "identity",  position = position_fill(.5), size = 2, color = "black") + 
   scale_fill_brewer(palette = "Set2") +
-  facet_wrap(~GENERATION, ncol = 1) +
+  facet_wrap(~GENERATION, ncol = 3) +
   scale_color_manual(values = c("#339966", "#990000", "#0066CC"))+
-  labs(title = "Fréquence relative des délétions et des subsitution dans chaque échantillon par génération") +
+  labs(title = "Fréquence relative des délétions et des insertions dans chaque échantillon par génération") +
   theme_bw()
+
+ggsave("freq_del_ins_ech.png", height = 6, width = 10)
 ```
 
 
@@ -891,9 +895,12 @@ freq_moy_indel_gen %>%
   geom_bar( stat = "identity", position = position_dodge(1)) +
   geom_text(aes(label = freq_indel), stat = "identity", vjust = - 1,position = position_dodge(1) ,size = 2, color = "black")+
   geom_errorbar(aes(ymin= freq_indel - freq_indel_sd, ymax=freq_indel + freq_indel_sd), width=.2, position = position_dodge(1), na.rm = TRUE) +
-  scale_fill_brewer(palette="Dark2") +
-  theme_bw()
-
+ # scale_fill_discrete(name = "Dose", labels = c("A", "B", "C"))
+  scale_fill_brewer(palette="Dark2", name = "Type de\nmutation", labels = c("Délétion", "Insertion")) +
+  labs(x = "Génération", y = "Fréquence\nmoyenne", title = "Fréquences moyennes des insertions et\ndes délétions par génération") +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+#ggsave("freq_ins_del_gen.png", height = 4, width = 6)
 
 freq_moy_indel_gen %>%
   ggplot(aes(x = as.factor(GENERATION), y = freq_indel, color = TYPE)) +
@@ -1221,11 +1228,19 @@ table_sv[which(table_sv$LONGUEUR_abs <= 250 & table_sv$GENERATION == "P90") , ] 
 df_length_mut_sv %>% 
   ggplot(aes(x = GENERATION, y = LONGUEUR_abs_mean, color = TRAITEMENT))+
   geom_boxplot()+
-  scale_color_brewer(palette = "Dark2")+
+  scale_color_brewer(palette = "Dark2", name = "Traitement", labels = c("Aucun", "Chaud", "Froid"))+
   facet_wrap(~TYPE.DE.MUTATION) +
   scale_y_log10()+
-  theme_bw()
+  labs(y = "longueur\nabsolue\nmoyenne", x = "Génération", title = "Statistiques des longueurs absolues moyennes des\ninsertions et des délétions par génération") +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
 
+#ggsave("boxplot_longueur_mean_ins_del.png", height = 4, width = 7)
+  
+```
+
+
+```{r}
 ## moyenne de moyenne des longueurs par , generation
 df_length_moy_g <- df_length_mut_sv %>% aggregate(LONGUEUR_abs_mean ~ GENERATION , FUN = mean)
 df_length_moy_g <- df_length_moy_g %>% mutate(GEN_num = case_when(df_length_moy_g$GENERATION == "P15"~15,
@@ -1299,20 +1314,27 @@ df_length_moy_mutg <- df_length_moy_mutg %>% mutate(GEN_num = case_when(df_lengt
                                                                         df_length_moy_mutg$GENERATION == "P90"~90,
                                                                         ))
 df_length_moy_mutg$LONGUEUR_abs_mean <- round(df_length_moy_mutg$LONGUEUR_abs_mean,3)
+```
 
 
+```{r}
 df_length_moy_mutg %>%
   ggplot(aes(x = GEN_num, y = LONGUEUR_abs_mean, color = TRAITEMENT)) +
   geom_line()+
   geom_point()+
   facet_wrap(~TYPE.DE.MUTATION)+
   geom_text(aes(label = LONGUEUR_abs_mean), stat = "identity", vjust = -1 , size = 2, color = "black")+
-  scale_color_brewer(palette = "Dark2")+
+  scale_color_brewer(palette = "Dark2", name = "Traitement", labels = c("Aucun", "Chaud", "Froid"))+
+  labs(y = "longueur\nabsolue\nmoyenne", x = "Génération", title = "Statistiques de moyennes de longueurs absolues des\ninsertions et des délétions par génération et par traitement", subtitle = "(moyenne de moyenne sur les échantillons)") +
   scale_y_log10()+
-  theme_bw()
+  theme_bw() + 
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+
+#ggsave("boxplot_longueur_mean_mean_ins_del.png", height = 4, width = 7)
+```
 
 
-
+```{r}
 remove(df_length_moy_g, df_length_moy_mug, df_length_moy_mutg, df_length_moy_tg)
 ```
 
