@@ -296,7 +296,7 @@ P_nb_mu_1 <- nb_mu_moy %>%
   ggplot(aes(x = GEN_num, y = COUNT_ech_gen)) +
   geom_point() +
   geom_line() +
-  labs(x = "Génération", y = "Effectif\total\nmoyen") +
+  labs(x = "Génération", y = "Effectif\ntotal\nmoyen") +
   ggtitle("Nombre moyen de mutations par génération") +
   theme_classic() +
   theme(axis.title.y = element_text(angle=0, vjust = 0.5))
