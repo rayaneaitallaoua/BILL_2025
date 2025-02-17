@@ -1,0 +1,8 @@
+"0",""
+"0","setwd(""E:\\ETUDES\\Bioinfo\\M1-S2\\M1-S2\\TOUS-B.I.L.L. BioInformatics Learning Lab-HAU802I\\R"")"
+"0",""
+"0",""
+"0","# Step 1: Load necessary libraries"
+"0","library(tidyverse)"
+"0","library(gridExtra)"
+"0","library(dplyr)"

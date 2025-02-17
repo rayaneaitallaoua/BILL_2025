@@ -1,0 +1,51 @@
+---
+title: "Untitled"
+author: "heloise_calzan"
+date: "2025-02-17"
+output: html_document
+---
+
+
+```{r cars}
+setwd("E:\\ETUDES\\Bioinfo\\M1-S2\\M1-S2\\TOUS-B.I.L.L. BioInformatics Learning Lab-HAU802I\\R")
+
+
+# Step 1: Load necessary libraries
+library(tidyverse)
+library(gridExtra)
+library(dplyr)
+```
+
+# Analyse préliminaires Genotype quality & Allelic frequency
+
+```{r cars}
+# Step 2: Import the data
+af_data <- read.table("AF_per_SV.txt", header = FALSE, col.names = c("Frequency", "AF"))
+gq_data <- read.table("GQ_per_SNP.txt", header = FALSE, col.names = c("Quality", "GQ"))
+
+# Step 3: Check the structure of the data
+glimpse(af_data)
+glimpse(gq_data)
+summary(af_data)
+summary(gq_data)
+```
+
+
+
+```{r}
+# Step 4: Create the histograms
+af_plot <- ggplot(af_data, aes(x = AF)) +
+  geom_histogram(binwidth = 0.05, fill = "blue", color = "black", alpha = 0.7) +  # Increased binwidth
+  labs(title = "Allele Frequency Distribution per SV", x = "Allele Frequency (AF)", y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+
+gq_plot <- ggplot(gq_data, aes(x = GQ)) +
+  geom_histogram(binwidth = 1, fill = "green", color = "black", alpha = 0.7) +
+  labs(title = "Genotype Quality Distribution per SNP", x = "Genotype Quality (GQ)", y = "Frequency") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Step 5: Arrange the plots side by side
+grid.arrange(af_plot, gq_plot, ncol = 2)

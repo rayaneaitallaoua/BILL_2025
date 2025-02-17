@@ -11,7 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r cars}
-setwd("E:\\github\\BILL_2025\\R")
+
+setwd("E:\\ETUDES\\Bioinfo\\M1-S2\\M1-S2\\TOUS-B.I.L.L. BioInformatics Learning Lab-HAU802I\\R")
 
 
 # Step 1: Load necessary libraries
@@ -146,89 +147,575 @@ ggplot(gq_data, aes(x = GQ)) +
 # Analyse des variants (premier tableau envoyé par Teo)
 
 ```{r}
-variants_P15 <- read.csv("count_P15.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
-variants_P30 <- read.csv("count_P30.csv" , header = FALSE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
-variants_P50 <- read.csv("count_P50.csv" , header = FALSE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
-variants_P65 <- read.csv("count_P65.csv" , header = FALSE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
-variants_P90 <- read.csv("count_90.csv" , header = FALSE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+#variants_P15 <- read.csv("count_P15.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+#variants_P30 <- read.csv("count_P30.csv" , header = FALSE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+#variants_P50 <- read.csv("count_P50.csv" , header = FALSE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+#variants_P65 <- read.csv("count_P65.csv" , header = FALSE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+#variants_P90 <- read.csv("count_90.csv" , header = FALSE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
 
 
-str(variants_P15)
-summary(variants_P15)
-sapply(variants_P15, FUN = class)
+#str(variants_P15)
+#summary(variants_P15)
+#sapply(variants_P15, FUN = class)
 
-F_colnames <- function(tableau_variant){
-  names(tableau_variant)[1] <- "Generation"
-  names(tableau_variant)[2] <- "echantillon"
-  names(tableau_variant)[3] <- "nb_variant"
-  names(tableau_variant)[4] <- "sv_snp"
-  tableau_variant$Generation <- as.factor(tableau_variant$Generation)
-  tableau_variant$echantillon <- as.factor(tableau_variant$echantillon)
-  tableau_variant$sv_snp <- as.factor(tableau_variant$sv_snp)
-  return(tableau_variant)
-}
+#F_colnames <- function(tableau_variant){
+#  names(tableau_variant)[1] <- "Generation"
+#  names(tableau_variant)[2] <- "echantillon"
+#  names(tableau_variant)[3] <- "nb_variant"
+#  names(tableau_variant)[4] <- "sv_snp"
+#  tableau_variant$Generation <- as.factor(tableau_variant$Generation)
+#  tableau_variant$echantillon <- as.factor(tableau_variant$echantillon)
+#  tableau_variant$sv_snp <- as.factor(tableau_variant$sv_snp)
+#  return(tableau_variant)
+#}
 
 
-variants_P15 <- F_colnames(tableau_variant = variants_P15)
-variants_P15 <- variants_P15[-which(variants_P15$Generation == "*_filtered"), ]
-variants_P30 <- F_colnames(tableau_variant = variants_P30)
-variants_P50 <- F_colnames(tableau_variant = variants_P50)
-variants_P65 <- F_colnames(tableau_variant = variants_P65)
-variants_P90 <- F_colnames(tableau_variant = variants_P90)
+#variants_P15 <- F_colnames(tableau_variant = variants_P15)
+#variants_P15 <- variants_P15[-which(variants_P15$Generation == "*_filtered"), ]
+#variants_P30 <- F_colnames(tableau_variant = variants_P30)
+#variants_P50 <- F_colnames(tableau_variant = variants_P50)
+#variants_P65 <- F_colnames(tableau_variant = variants_P65)
+#variants_P90 <- F_colnames(tableau_variant = variants_P90)
 
-variants_P <- rbind(variants_P15, variants_P30)
-variants_P <- rbind(variants_P, variants_P50)
-variants_P <- rbind(variants_P, variants_P65)
-variants_P <- rbind(variants_P, variants_P90)
+#variants_P <- rbind(variants_P15, variants_P30)
+#variants_P <- rbind(variants_P, variants_P50)
+#variants_P <- rbind(variants_P, variants_P65)
+#variants_P <- rbind(variants_P, variants_P90)
 
-str(variants_P)
-summary(variants_P)
-sapply(variants_P, FUN = class)
-sapply(variants_P, FUN = levels)
+#str(variants_P)
+#summary(variants_P)
+#sapply(variants_P, FUN = class)
+#sapply(variants_P, FUN = levels)
 ```
 
 ```{r}
 #Variant P c'est un Rbind de tous les tableaux 
-ggplot(data = variants_P, aes(x = sv_snp, y = nb_variant, color=sv_snp)) +
-  geom_boxplot(outlier.colour="black", outlier.shape=16,
-             outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
-  #geom_dotplot(binaxis='y', stackdir='center', dotsize=1) +
-  geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) +
-  scale_color_brewer(palette="Dark2") +
-  facet_wrap(~Generation, scales = "free_y") + #, ncol = 5
-  labs(x = "mutation SNP et SV", y = "nombre de variants") +
-  ggtitle("distribution des boîtes à moustaches des mutation\n de type SNP et SV par Génération") +
-  theme_classic() +
-  theme(plot.title = element_text(hjust = 0.5))
+#ggplot(data = variants_P, aes(x = sv_snp, y = nb_variant, color=sv_snp)) +
+#  geom_boxplot(outlier.colour="black", outlier.shape=16,
+#             outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
+#  #geom_dotplot(binaxis='y', stackdir='center', dotsize=1) +
+#  geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) +
+#  scale_color_brewer(palette="Dark2") +
+#  facet_wrap(~Generation, scales = "free_y") + #, ncol = 5
+#  labs(x = "mutation SNP et SV", y = "nombre de variants") +
+#  ggtitle("distribution des boîtes à moustaches des mutation\n de type SNP et SV par Génération") +
+#  theme_classic() +
+#  theme(plot.title = element_text(hjust = 0.5))
 
-ggplot(data = variants_P, aes(x = Generation, y = nb_variant, color=sv_snp)) +
-  geom_boxplot(position=position_dodge(1), outlier.colour="black", outlier.shape=16,
-             outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
-  #geom_dotplot(binaxis='y', stackdir='center', dotsize=1) +
-  geom_dotplot(aes(fill = sv_snp), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.4, show.legend = FALSE) +
-  #geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) +
-  scale_color_brewer(palette="Dark2") +
-  scale_fill_brewer(palette="Dark2") + 
-  labs(x = "Génération", y = "Effectif des mutations (SV et SNP)", color = "SV / SNP") +
-  ggtitle("Distribution des boîtes à moustaches des mutations\n de type SV et SNP par Génération") +
-  theme_classic() +
-  theme(plot.title = element_text(hjust = 0.5))
+#ggplot(data = variants_P, aes(x = Generation, y = nb_variant, color=sv_snp)) +
+#  geom_boxplot(position=position_dodge(1), outlier.colour="black", outlier.shape=16,
+#             outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
+#  #geom_dotplot(binaxis='y', stackdir='center', dotsize=1) +
+#  geom_dotplot(aes(fill = sv_snp), binaxis='y', stackdir='center', position=position_dodge(), alpha = 0.5, dotsize = 0.4, show.legend = FALSE) +
+#  #geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) +
+#  scale_color_brewer(palette="Dark2") +
+#  scale_fill_brewer(palette="Dark2") + 
+#  labs(x = "Génération", y = "Effectif des mutations (SV et SNP)", color = "SV / SNP") +
+#  ggtitle("Distribution des boîtes à moustaches des mutations\n de type SV et SNP par Génération") +
+#  theme_classic() +
+#  theme(plot.title = element_text(hjust = 0.5))
 ```
+
 ```{r}
-remove(variants_P15, variants_P30, variants_P50, variants_P65, variants_P90, af_data, af_plot, gq_plot)
-remove(F_colnames)
+#remove(variants_P15, variants_P30, variants_P50, variants_P65, variants_P90, af_data, af_plot, gq_plot)
+#remove(F_colnames)
+
+remove(af_data, af_plot, gq_plot)
 ```
 
 #Données brutes mutations SV et SNP
 
 ```{r}
+table_nb_variants <- read.csv("counts.csv" , header = TRUE, sep = ";",  na ="NA", stringsAsFactors = FALSE)
+
 table_snp <- read.csv("snp.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
 table_sv <- read.csv("sv.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
 
 names(table_snp)
 names(table_snp)[names(table_snp) == "ECHANTILLONQUALITE"] <- "ECHANTILLON"
 names(table_snp)[names(table_snp) == "X"] <- "QUALITE"
+```
 
+```{r}
+#count_snp
+table_snp %>% names()
+count_snp <- table_snp %>% group_by(GEN, ECH) %>% count()
+count_snp %>% names()
+names(count_snp)[names(count_snp) == "n"] <- "COUNT"
+names(count_snp)[names(count_snp) == "GEN"] <- "GENERATION"
+names(count_snp)[names(count_snp) == "ECH"] <- "ECHANTILLON"
+table_nb_variants$SV_SNP <- as.factor("SV")
+count_snp$SV_SNP <- as.factor("SNP")
+count_snp$TYPE <- as.factor("SUB")#pour substitution
+
+#count_SV
+table_sv %>% names()
+count_ins_del_sv <- table_sv %>% group_by(GENERATION, ECHANTILLON, TYPE.DE.MUTATION) %>% count()
+names(count_ins_del_sv)[names(count_ins_del_sv) == "n"] <- "COUNT_TYPE"
+names(count_ins_del_sv)[names(count_ins_del_sv) == "TYPE.DE.MUTATION"] <- "TYPE"
+
+count_ins_del_sv$SV_SNP <- as.factor("SV")
+table_nb_variants %>% names()
+count_ins_del_sv %>% names()
+table_nb_variants %>% nrow()
+count_ins_del_sv %>% nrow()
+count_ins_del_sv <- left_join(count_ins_del_sv, table_nb_variants, by = c("GENERATION" , "ECHANTILLON" , "SV_SNP"))
+
+remove(table_nb_variants)
+
+
+count_snp <- count_snp %>% mutate(COUNT_TYPE = COUNT)
+count_snp %>% names()
+count_ins_del_sv %>% names()
+count_ins_del_sv <- count_ins_del_sv %>% relocate(COUNT, .after = ECHANTILLON)
+count_snp <- count_snp %>% relocate(SV_SNP, .after = COUNT_TYPE)
+
+count_snp_sv_type <- rbind(count_snp, count_ins_del_sv)
+
+
+#ajout d'une colonne traitement : 
+count_snp_sv_type <- count_snp_sv_type %>% 
+  mutate(TRAITEMENT = case_when(GENERATION == "P15"~"aucun", 
+                                     (GENERATION != "P15" & ECHANTILLON <=5) ~ "Froid",
+                                     (GENERATION != "P15" & ECHANTILLON > 5) ~ "Chaud"))
+count_snp_sv_type <- count_snp_sv_type %>% relocate(TRAITEMENT, .after = ECHANTILLON)
+
+```
+
+Je vais travailler sur : count_snp_sv_type
+```{r}
+count_snp_sv_type %>%
+  ggplot(aes(x = GENERATION, y = COUNT_TYPE, color= TYPE)) +
+  geom_point() +
+  theme_bw()
+
+count_snp_sv_type[which(count_snp_sv_type$SV_SNP == "SV"), ] %>%
+  ggplot(aes(x = GENERATION, y = COUNT_TYPE, color= TYPE)) +
+  geom_point() +
+  theme_bw()
+
+#count_snp_sv_type[,c("GENERATION", "ECHANTILLON", "COUNT", "SV_SNP")] %>% unique() %>%
+#  ggplot(aes(x = SV_SNP, y = COUNT, color=SV_SNP)) +
+#  geom_boxplot(outlier.colour="black", outlier.shape=16, outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
+#  geom_dotplot(aes(fill = SV_SNP) ,binaxis='y', stackdir='center', dotsize=1, alpha = 0.7) +
+#   #geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) 
+#  scale_fill_brewer(palette="Dark2") +
+#  scale_color_brewer(palette="Dark2") +
+#  facet_wrap(~ GENERATION, scales = "free_y")  +  #, ncol = 5
+#  labs(x = "mutation SNP et SV", y = "nombre de variants") +
+#  ggtitle("Statistiques des mutation de type SNP et SV par Génération") +
+#  theme_classic() 
+#  theme(plot.title = element_text(hjust = 0.5))
+
+count_snp_sv_type %>% 
+  ggplot(aes(x = GENERATION, y = COUNT_TYPE, color= TYPE)) +
+  geom_boxplot(outlier.colour="black", outlier.shape=16, outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE, position = position_dodge(1)) +
+  geom_dotplot(aes(fill = TYPE) ,binaxis='y', stackdir='center', dotsize=0.5, alpha = 0.7, position = position_dodge(1)) +
+   #geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) 
+  scale_fill_brewer(palette="Dark2") +
+  scale_color_brewer(palette="Dark2") +
+  #facet_wrap(~ GENERATION)  +  #, ncol = 5
+  labs(x = "mutation SNP et SV", y = "nombre de variants") +
+  ggtitle("Statistiques des mutation de type SNP et SV par Génération") +
+  theme_classic() 
+
+count_snp_sv_type %>% 
+  filter(TYPE %in% c("SUB", "INS")) %>%
+  ggplot(aes(x = GENERATION, y = COUNT_TYPE, color= TYPE)) +
+  geom_boxplot(outlier.colour="black", outlier.shape=16, outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE, position = position_dodge(1)) +
+  geom_dotplot(aes(fill = TYPE) ,binaxis='y', stackdir='center', dotsize=0.5, alpha = 0.7, position = position_dodge(1)) +
+   #geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) 
+  scale_fill_brewer(palette="Dark2") +
+  scale_color_brewer(palette="Dark2") +
+  #facet_wrap(~ GENERATION)  +  #, ncol = 5
+  labs(x = "mutation SNP et SV", y = "nombre de variants") +
+  ggtitle("Statistiques des mutation de type SNP et SV par Génération") +
+  theme_classic()
+
+count_snp_sv_type %>% 
+  #filter(TYPE %in% c("SUB", "INS")) %>%
+  ggplot(aes(x = GENERATION, y = COUNT_TYPE, color= TYPE)) +
+  geom_boxplot(outlier.colour="black", outlier.shape=16, outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE, position = position_dodge(1)) +
+  geom_dotplot(aes(fill = TYPE) ,binaxis='y', stackdir='center', dotsize=0.5, alpha = 0.7, position = position_dodge(1)) +
+   #geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) 
+  scale_fill_brewer(palette="Dark2") +
+  scale_color_brewer(palette="Dark2") +
+  facet_wrap(~ TYPE, scales = "free")  +  #, ncol = 5
+  labs(x = "mutation SNP et SV", y = "nombre de variants") +
+  ggtitle("distribution des statistiques des mutation de type SNP et SV par Génération") +
+  theme_classic()
+
+ggsave("P_nb_variant_generation.png", width = 14, height = 6)
+```
+
+
+```{r, width = 8, height = 14}
+plot_boxplot_snpsvEff <-count_snp_sv_type %>% 
+  ggplot(aes(x = GENERATION, y = COUNT_TYPE, color= TRAITEMENT)) +
+  geom_boxplot(outlier.colour="black", position = position_dodge(1) ,outlier.shape=16, outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
+  geom_dotplot(aes(fill = TRAITEMENT) , position = position_dodge(1), binaxis='y', stackdir='center', dotsize=0.5, alpha = 0.7) +
+   #geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) 
+  scale_fill_brewer(palette="Dark2") +
+  scale_color_brewer(palette="Dark2") +
+  facet_wrap(~ TYPE, scales = "free", ncol = 1)  +  #, ncol = 5
+  labs(x = "Génération", y = "Effectif") +
+  ggtitle("Statistiques des types de mutations en fonction du traitement et de la génération") +
+  theme_classic() +
+  theme(axis.title.y = element_text(angle=0, vjust = 0.5))
+
+plot_boxplot_snpsvEff2 <-count_snp_sv_type %>% 
+  ggplot(aes(x = GENERATION, y = COUNT_TYPE, color= TRAITEMENT)) +
+  geom_boxplot(outlier.colour="black", position = position_dodge(1) ,outlier.shape=16, outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE) +
+  geom_dotplot(aes(fill = TRAITEMENT) , position = position_dodge(1), binaxis='y', stackdir='center', dotsize=0.3, alpha = 0.7) +
+   #geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) 
+  scale_fill_brewer(palette="Dark2") +
+  scale_color_brewer(palette="Dark2") +
+  facet_wrap(~ TYPE, scales = "free")  +  #, ncol = 5
+  labs(x = "Génération", y = "Effectif") +
+  ggtitle("Distribution des statistiques des types de mutations en fonction du traitement et de la génération") +
+  theme_classic() +
+  theme(axis.title.y = element_text(angle=0, vjust = 0.5))
+
+#ggsave(plot = plot_boxplot_snpsvEff, "plot_boxplot_snpsvEff.png", width = 8, height = 12)
+ggsave(plot = plot_boxplot_snpsvEff2, "plot_boxplot_snpsvEff2.png", width = 14, height = 6)
+```
+
+
+```{r}
+library(rstatix)
+#Comparer plusieurs générations entre elles : 
+#kruskal_test(count_snp_sv_type[which(count_snp_sv_type$TYPE == "SUB"),], COUNT_TYPE ~ GENERATION)
+count_snp_sv_type %>%
+  filter(TYPE == "SUB") %>%
+  kruskal.test(COUNT_TYPE ~ GENERATION) # Kruskal-Wallis chi-squared = 415.16, df = 8, p-value < 2.2e-16
+
+count_snp_sv_type %>%
+  filter(TYPE == "INS") %>%
+  kruskal.test(COUNT_TYPE ~ GENERATION)
+#Kruskal-Wallis chi-squared = 313.07, df = 8, p-value < 2.2e-16
+
+count_snp_sv_type %>%
+  filter(TYPE == "DEL") %>%
+  kruskal.test(COUNT_TYPE ~ GENERATION)
+#Kruskal-Wallis chi-squared = 220.91, df = 8, p-value < 2.2e-16
+
+
+#Si la p-value est < 0.05, il y a une différence significative entre les générations.
+#Tu peux ensuite faire un test post-hoc pour voir quelles générations diffèrent :
+count_snp_sv_type$GENERATION <- as.factor(count_snp_sv_type$GENERATION)
+
+count_snp_sv_type %>%
+  filter(TYPE == "SUB", 
+         GENERATION == "P90") %>% nrow() #10, #10, #10, #10, 10
+count_snp_sv_type$COUNT_TYPE <- as.numeric(count_snp_sv_type$COUNT_TYPE)
+
+# Filtrer uniquement les générations P15 et P30 -> SUBSTITUTIONS
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION %in% c("P15", "P30")) #%>%
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.12
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION %in% c("P15", "P50")) 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.14
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION %in% c("P15", "P65"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.82
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION %in% c("P15", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.54
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION %in% c("P30", "P50"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.82
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION %in% c("P30", "P65"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.00088
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION %in% c("P30", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.00018
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION %in% c("P50", "P65"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.00033
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION %in% c("P50", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.00018
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION %in% c("P65", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.57
+
+# INSERTIONS
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION %in% c("P15", "P30")) 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.15
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION %in% c("P15", "P50")) 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.32
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION %in% c("P15", "P65"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.2
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION %in% c("P15", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 5e-04
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION %in% c("P30", "P50"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.057
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION %in% c("P30", "P65"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.074
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION %in% c("P30", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.00028
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION %in% c("P50", "P65"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.18
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION %in% c("P50", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #2e-04
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION %in% c("P65", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.78
+
+# DELETION
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION %in% c("P15", "P30")) 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.29
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION %in% c("P15", "P50")) 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.59
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION %in% c("P15", "P65"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.03
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION %in% c("P15", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.029
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION %in% c("P30", "P50"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") # 0.057
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION %in% c("P30", "P65"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.048
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION %in% c("P30", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.93
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION %in% c("P50", "P65"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.02
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION %in% c("P50", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.018
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION %in% c("P65", "P90"))
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$GENERATION, p.adjust.method = "bonferroni") #0.71
+
+
+
+#Cela compare chaque paire de générations en ajustant les p-values.
+
+#Comparaison des traitements au sein d’une génération
+
+#Si tu veux comparer les traitements au sein d’une même génération, utilise Wilcoxon (si 2 traitements) ou Kruskal-Wallis (si >2 traitements).
+#Wilcoxon pour 2 traitements
+
+#Si tu compares deux traitements (ex: "aucun" vs "traité") dans P15 :
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION == "P30") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") #0.095
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION == "P50") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") #0.21
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION == "P65") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") #0.22
+df_test <- count_snp_sv_type %>% filter(TYPE == "SUB", GENERATION == "P90") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") #1 : impossible de calculer la p-value exacte avec des ex-aequos
+
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION == "P30") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") #0.89
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION == "P50") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") #1
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION == "P65") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") #0.5
+df_test <- count_snp_sv_type %>% filter(TYPE == "INS", GENERATION == "P90") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") #0.035
+
+
+
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION == "P30") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") #0.48
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION == "P50") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") #0.71
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION == "P65") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") 
+df_test <- count_snp_sv_type %>% filter(TYPE == "DEL", GENERATION == "P90") 
+pairwise.wilcox.test(df_test$COUNT_TYPE, df_test$TRAITEMENT, p.adjust.method = "bonferroni") #0.047
+
+
+#Si la p-value est < 0.05, il y a une différence significative entre les traitements.
+
+```
+Est-ce que la frequence des types de mutation change au cours des génération et selon les traitements
+```{r}
+nb_mutation_ech_gen <- count_snp_sv_type %>% unique() %>% aggregate (COUNT ~ GENERATION + ECHANTILLON, FUN = function(x) sum(unique(x)))
+
+names(nb_mutation_ech_gen)[names(nb_mutation_ech_gen) == "COUNT"] <- "COUNT_ech_gen"
+
+count_snp_sv_type <- left_join(count_snp_sv_type, nb_mutation_ech_gen)
+count_snp_sv_type <- count_snp_sv_type %>% mutate(freq_type = COUNT_TYPE/COUNT_ech_gen)
+remove(nb_mutation_ech_gen, df_test)
+count_snp_sv_type$freq_type <-  round(count_snp_sv_type$freq_type, 3)
+
+#frequence moyenne par génération
+df_freq_moy_gen <- count_snp_sv_type %>% aggregate(freq_type ~ GENERATION + TYPE, FUN = mean)
+ggplot(df_freq_moy_gen, aes(x = GENERATION, y = freq_type, color = TYPE)) +
+  geom_point()
+
+df_freq_moy_gen_traitement <- count_snp_sv_type %>% aggregate(freq_type ~ GENERATION + TRAITEMENT + TYPE, FUN = mean)
+ggplot(df_freq_moy_gen_traitement, aes(x = GENERATION, y = freq_type, color = TYPE)) +
+  geom_point() +
+  facet_wrap(~TRAITEMENT)
+  geom_point()
+  
+ggplot(df_freq_moy_gen_traitement, aes(x = GENERATION, y = freq_type, color = TRAITEMENT)) +
+  geom_point() +
+  facet_wrap(~TYPE)
+  geom_point()
+  
+##########
+#Dans les SV
+nb_mut_sv_ech_gen_t <- count_snp_sv_type[which(count_snp_sv_type$SV_SNP == "SV"),]
+nb_mut_sv_ech_gen_t <- nb_mut_sv_ech_gen %>% mutate(freq_indel = COUNT_TYPE/COUNT)
+nb_mut_sv_ech_gen_t <- nb_mut_sv_ech_gen %>% aggregate(freq_indel ~ GENERATION + TRAITEMENT + TYPE, FUN = mean)
+df2 <- nb_mut_sv_ech_gen_t %>% aggregate(freq_indel ~ GENERATION + TRAITEMENT + TYPE, FUN = sd)
+names(df2)[names(df2) == "freq_indel"] <- "freq_indel_sd"
+nb_mut_sv_ech_gen_t <- left_join(nb_mut_sv_ech_gen_t, df2)
+remove(df2)
+
+nb_mut_sv_ech_gen_t %>%
+  ggplot(aes(x = as.factor(GENERATION), y = freq_indel, fill = TRAITEMENT)) +
+  geom_bar( stat = "identity", position = position_dodge(1)) +
+  geom_text(aes(label = freq_indel), stat = "identity", vjust = -1 , size = 2, color = "black")+
+  #geom_errorbar(aes(ymin= freq_indel - freq_indel_sd, ymax=freq_indel + freq_indel_sd), width=.2, position = position_dodge(1), na.rm = TRUE) +
+  #geom_text(aes(label = freq_indel), stat = "identity",  position = position_fill(.5), size = 2, color = "black") +
+  scale_fill_brewer(palette="Dark2") +
+  facet_wrap(~TYPE)
+  theme_bw()
+  
+nb_mut_sv_ech_gen_t %>%
+  ggplot(aes(x = as.factor(GENERATION), y = freq_indel, fill = TYPE)) +
+  geom_bar( stat = "identity", position = position_dodge(1)) +
+  geom_text(aes(label = freq_indel), stat = "identity", vjust = 0 , size = 2, color = "black")+
+  #geom_errorbar(aes(ymin= freq_indel - freq_indel_sd, ymax=freq_indel + freq_indel_sd), width=.2, position = position_dodge(1), na.rm = TRUE) +
+  #geom_text(aes(label = freq_indel), stat = "identity",  position = position_fill(.5), size = 2, color = "black") +
+  scale_fill_brewer(palette="Dark2") +
+  facet_wrap(~TRAITEMENT)
+  theme_bw()
+
+nb_mut_sv_ech_gen_t %>%
+  ggplot(aes(x = as.factor(GENERATION), y = freq_indel, color = TRAITEMENT)) +
+  geom_point() +
+  geom_line(aes(group = TRAITEMENT)) +
+  scale_fill_brewer(palette="Dark2") +
+  facet_wrap(~TYPE) +
+  theme_bw()
+```
+
+
+```{r}
+freq_moy_indel_gen_2 <- nb_mut_sv_ech_gen %>% aggregate(freq_indel ~ GENERATION + TYPE, FUN = mean)
+df2 <- nb_mut_sv_ech_gen %>% aggregate(freq_indel ~ GENERATION + TYPE, FUN = sd)
+names(df2)[names(df2) == "freq_indel"] <- "freq_indel_sd"
+freq_moy_indel_gen_2 <- left_join(freq_moy_indel_gen_2, df2)
+remove(df2)
+
+freq_moy_indel_gen_2 %>%
+  ggplot(aes(x = as.factor(GENERATION), y = freq_indel, fill = TYPE)) +
+  geom_bar( stat = "identity", position = position_dodge(1)) +
+  #geom_text(aes(label = freq_indel), position = position_dodge(),stat = "identity", vjust = -1 , size = 2, color = "black")+
+  #geom_errorbar(aes(ymin= freq_indel - freq_indel_sd, ymax=freq_indel + freq_indel_sd), width=.2, position = position_dodge(1), na.rm = TRUE) +
+  #geom_text(aes(label = freq_indel), stat = "identity",  position = position_fill(.5), size = 2, color = "black") +
+  scale_fill_brewer(palette="Dark2") +
+  #facet_wrap(~TYPE)
+  theme_bw()
+
+freq_moy_indel_gen_2 %>%
+  ggplot(aes(x = as.factor(GENERATION), y = freq_indel, color = TYPE)) +
+  geom_point() +
+  geom_line(aes(group = TYPE)) +
+  scale_fill_brewer(palette="Dark2") +
+  theme_bw()
+
+```
+
+
+
+ICI
+
+choisir les graphes : 
+frequence moyenne des indels par éch au cours des générations et au au cours des générations / par traitement
+Fréquence moyenne des indels par génération (les barplot en dessous) 
+distribution nb des indels en boxplot (en dessous -> choisir)
+Regarder si la longeur moyenne des indels tend à augmenter au cours du temps ET par traitement (deux graphes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```{r}
+#count_snp_sv_type <- #count_snp_sv_type %>% mutate(GEN_num = case_when(GENERATION == "P15" ~ 15, GENERATION == "P30" ~ 30, GENERATION == "P50" ~ 50, GENERATION == "P65" ~ 65, GENERATION == "P90" ~ 90,))
+
+#count_snp_sv_type <- #count_snp_sv_type %>% mutate(TRAITEMENT2 = case_when(ECHANTILLON <=5 ~ "froid", ECHANTILLON > 5 ~ "Chaud"))
+
+#count_snp_sv_type %>%
+#  arrange(ECHANTILLON, GEN_num) %>% 
+#  ggplot(aes(x = GEN_num, y = #count_TYPE, color= TRAITEMENT)) +
+#  geom_point(alpha = 0.7) +
+#  geom_line(aes(group = interaction(ECHANTILLON, TRAITEMENT))) +
+#  facet_wrap(~TYPE, scales = "free_y", ncol = 1) +
+#  theme_bw()
+
+
+#count_snp_sv_type %>%
+#  arrange(ECHANTILLON, GEN_num) %>% 
+#  mutate(groupe = paste(TRAITEMENT2, ECHANTILLON)) %>%
+#  mutate(groupe = as.factor(paste(TRAITEMENT2, ECHANTILLON))) %>%
+#  ggplot(aes(x = GEN_num, y = #count_TYPE, color= TRAITEMENT)) +
+#  geom_point(aes()) +
+#  geom_line(aes(group = groupe), alpha = 0.6) +
+#  facet_wrap(~TYPE, scales = "free_y", ncol = 1) +
+#  theme_bw()
+
+
+#count_snp_sv_type %>%
+#  ggplot(aes(x = GEN_num, y = #count_TYPE, color= TRAITEMENT)) +
+#  geom_point(aes()) +
+#  geom_line(aes(group = ECHANTILLON), alpha = 0.6) +
+#  facet_wrap(~TYPE, scales = "free_y", ncol = 1) +
+#  theme_bw()
+
+
+#test <- #count_snp_sv_type %>%
+#  arrange(ECHANTILLON, GEN_num) %>%
+#  group_by(ECHANTILLON) %>%
+#  mutate(GEN_num_prev = lag(GEN_num)) %>%
+#  ungroup()
+
+#ggplot(test, aes(x = GEN_num, y = #count_TYPE, color = TRAITEMENT)) +
+#  geom_point() +
+#  geom_line(aes(group = interaction(ECHANTILLON, GEN_num_prev)), na.rm = TRUE) + 
+#  facet_wrap(~TYPE, scales = "free_y", ncol = 1) +
+#  theme_bw()
+
+
+
+```
+
+
+
+
+
+```{r}
 #table SV
 str(table_sv)
 sapply(table_sv, FUN = class)
@@ -624,7 +1111,7 @@ ggplot(df_mut_sv, aes(x = traitement_type, y = freq_mutation_type, by = TYPE.DE.
 ```
 
 
-
+Regarder la distribution en termes de % d’effectifs de mutations
 
 Regarder la longueur des mutations en fonction de si c'est del ou ins et en fonction du traitement et des génération
 ```{r}
@@ -647,11 +1134,10 @@ table_sv[which(table_sv$GENERATION == "P15"),c("traitement_type", "TYPE.DE.MUTAT
 ```
 
 
-
+Je veux représenter la distribution des longueurs de mutations en fonction de leur type, de la génération et du traitement
 
 ```{r}
 table_sv %>% names()
-
 
 table_sv <- table_sv %>% mutate(LONGUEUR_abs = round(abs(LONGUEUR),3))
 df_length_mut_sv <- table_sv %>% aggregate(LONGUEUR_abs ~ GENERATION + TYPE.DE.MUTATION + traitement_type, FUN = mean)
@@ -666,10 +1152,379 @@ df_length_mut_sv <- left_join(df_length_mut_sv, df2)
 df_length_mut_sv <- left_join(df_length_mut_sv, df3)  
 remove(df2, df3)
 
-
 df_length_mut_sv <- df_length_mut_sv %>% mutate(LONGUEUR_abs_mean = round(LONGUEUR_abs_mean,3))
 df_length_mut_sv <- df_length_mut_sv %>% mutate(LONGUEUR_abs_sd = round(LONGUEUR_abs_sd,3))
+```
 
+
+Palettes de couleurs R : 
+https://bookdown.org/hneth/ds4psy/D.3-apx-colors-basics.html
+https://derekogle.com/NCGraphing/resources/colors
+```{r color palette}
+c25 <- c( "dodgerblue2", "#E31A1C", "green4", "#6A3D9A", "#FF7F00", "black", "gold1", "skyblue2", "#FB9A99",  "palegreen2", "#CAB2D6", "#FDBF6F", "gray70", "khaki2", "maroon", "orchid1", "deeppink1", "blue1", "steelblue4","darkturquoise", "green1", "yellow4", "yellow3","darkorange4", "brown", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7", "#000000", "#E69F00", "#56B4E9", "#009E73", "#F0E442", 'black','forestgreen', 'red2', 'orange', 'cornflowerblue',  'magenta', 'darkolivegreen4', 'indianred1', 'tan4', 'darkblue', 'mediumorchid1','firebrick4',  'yellowgreen', 'lightsalmon', 'tan3', "tan1",'darkgray', 'wheat4', '#DDAD4B', 'chartreuse','seagreen1', 'moccasin', 'mediumvioletred', 'seagreen','cadetblue1',"darkolivegreen1" ,"tan2" ,   "tomato3" , "#7CE3D8","gainsboro")
+
+library(Polychrome)
+library(pals)
+# install.packages("rcartocolor")
+# install.packages("remotes")
+library(rcartocolor)
+pal.bands(alphabet, alphabet2, cols25, glasbey, kelly, polychrome, 
+  stepped, tol, watlington,
+  show.names=FALSE)
+library(wesanderson)
+#carto_pal
+
+scales::show_col(carto_pal(12, "Safe"))
+              
+
+```
+
+
+```{r}
+
+table_sv$LONGUEUR_abs %>% summary()
+table_sv$LONGUEUR_abs %>% length() #698
+table_sv[which(table_sv$LONGUEUR_abs <= 100) , ] %>% nrow #662
+
+table_sv[which(table_sv$LONGUEUR_abs > 100) , ] %>% nrow() #36
+table_sv[which(table_sv$LONGUEUR_abs > 100) , "LONGUEUR_abs"] %>% sort()
+
+#Distribution de la longueur des mutations
+table_sv[which(table_sv$LONGUEUR_abs <= 250) , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs)) +
+  geom_histogram(binwidth=1, fill = "aquamarine3", color = "aquamarine4") +
+  geom_vline(aes(xintercept=mean(LONGUEUR_abs)), color="blue", linetype="dashed", size=1) +
+  #geom_text(aes(label = LONGUEUR_abs), stat = "count", vjust = -0.7 , size = 2, color = "black") +
+  #scale_y_log10() +
+  #scale_x_log10() +
+  theme_bw()
+
+# J'ai colorié en fonction de si c'est une délétion ou un insertion
+table_sv[which(table_sv$LONGUEUR_abs <= 250) , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=1, alpha=0.5, position="dodge") +
+  scale_color_brewer(palette="Accent") + 
+   scale_fill_brewer(palette="Accent") + 
+  #geom_vline(aes(xintercept=mean(LONGUEUR_abs)), color="blue", linetype="dashed", size=1) +
+  #scale_color_manual(values= wes_palette("Royal2", n = 2)) +
+  theme_bw()
+
+# toutes les mutations confondues mais on prend en compte la génération
+table_sv[which(table_sv$LONGUEUR_abs <= 250) , ] %>%
+  ggplot(aes(x = LONGUEUR_abs)) +
+  geom_histogram(binwidth=1, fill = "aquamarine3", color = "aquamarine4") +
+  facet_wrap(~GENERATION, scales = "free") +
+  theme_bw()
+
+#Là c'est la distribution des longueurs de mutations en fonction des générations et j'ai colorié les insertions et les délétions
+table_sv[which(table_sv$LONGUEUR_abs <= 250) , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=1, alpha=0.5, position="dodge") +
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  facet_wrap(~GENERATION, scales = "free") +
+  ggtitle("longueurs de mutations inférieures à 250 pb") +
+  theme_bw()
+
+table_sv[which(table_sv$LONGUEUR_abs >= 250) , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=1, alpha=0.5, position="dodge") +
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  facet_wrap(~GENERATION, scales = "free") +
+  ggtitle("longueurs de mutations supérieures à 250 pb") +
+  theme_bw()
+
+# les distributions de longueurs de mutations en fonction des traitements
+table_sv[which(table_sv$LONGUEUR_abs <= 250) , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=1, alpha=0.5, position="dodge") +
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+#distribution des longueurs de mutation en fonction de leur type (insertion ou délétion)et par traitement
+table_sv[which(table_sv$LONGUEUR_abs <= 250 & table_sv$GENERATION == "P15") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  geom_vline(data=df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P15"),], aes(xintercept=LONGUEUR_abs_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P15") + 
+  #facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+table_sv[which(table_sv$LONGUEUR_abs <= 250 & table_sv$GENERATION == "P30") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  geom_vline(data=df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P30"),], aes(xintercept=LONGUEUR_abs_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P30") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+
+table_sv[which(table_sv$LONGUEUR_abs <= 250 & table_sv$GENERATION == "P50") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  geom_vline(data=df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P50"),], aes(xintercept=LONGUEUR_abs_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P50") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+table_sv[which(table_sv$LONGUEUR_abs <= 250 & table_sv$GENERATION == "P65") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  geom_vline(data=df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P65"),], aes(xintercept=LONGUEUR_abs_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P65") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+table_sv[which(table_sv$LONGUEUR_abs <= 250 & table_sv$GENERATION == "P90") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  geom_vline(data=df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P90"),], aes(xintercept=LONGUEUR_abs_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P90") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+```
+
+Il y a des générations où les longueurs de mutations sont de plus de 1000 paires de bases 
+Je vais faire deux sous tableaux : un qui aura la moyenne des longueurs de sv <250 pb et un autre qui aura la moyenne des longueurs de sv > 250 (en fait je vais pas faire le deuxième parce que c'est pas utile, il y en a 12 en tout...)
+```{r}
+# Zoom sur les mutations de longueurs inférieures à 250 pb
+df_length_sv_in_250 <- table_sv[which(table_sv$LONGUEUR_abs < 250),] %>% 
+  aggregate(LONGUEUR_abs ~ GENERATION + TYPE.DE.MUTATION + traitement_type, FUN = mean)
+df2 <- table_sv[which(table_sv$LONGUEUR_abs < 250),] %>% 
+  aggregate(LONGUEUR_abs ~ GENERATION + TYPE.DE.MUTATION + traitement_type, FUN = median)
+df3 <- table_sv[which(table_sv$LONGUEUR_abs < 250),] %>% 
+  aggregate(LONGUEUR_abs ~ GENERATION + TYPE.DE.MUTATION + traitement_type, FUN = sd)
+
+names(df_length_sv_in_250)[names(df_length_sv_in_250) == "LONGUEUR_abs"] <- "LONGUEUR_abs_mean"
+names(df2)[names(df2) == "LONGUEUR_abs"] <- "LONGUEUR_abs_median"
+names(df3)[names(df3) == "LONGUEUR_abs"] <- "LONGUEUR_abs_sd"
+
+df_length_sv_in_250 <- left_join(df_length_sv_in_250, df2)
+df_length_sv_in_250 <- left_join(df_length_sv_in_250, df3)  
+remove(df2, df3)
+
+df_length_sv_in_250 <- df_length_sv_in_250 %>% mutate(LONGUEUR_abs_mean = round(LONGUEUR_abs_mean,3))
+df_length_sv_in_250 <- df_length_sv_in_250 %>% mutate(LONGUEUR_abs_sd = round(LONGUEUR_abs_sd,3))
+
+
+```
+
+```{r}
+#distribution des longueurs de mutation en fonction de leur type (insertion ou délétion)et par traitement
+table_sv[which(table_sv$LONGUEUR_abs <= 250 & table_sv$GENERATION == "P15") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  geom_vline(data=df_length_sv_in_250[which(df_length_sv_in_250$GENERATION == "P15"),], aes(xintercept=LONGUEUR_abs_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P15") + 
+  #facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+table_sv[which(table_sv$LONGUEUR_abs <= 250 & table_sv$GENERATION == "P30") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  geom_vline(data=df_length_sv_in_250[which(df_length_sv_in_250$GENERATION == "P30"),], aes(xintercept=LONGUEUR_abs_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P30") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+
+table_sv[which(table_sv$LONGUEUR_abs <= 250 & table_sv$GENERATION == "P50") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  geom_vline(data=df_length_sv_in_250[which(df_length_sv_in_250$GENERATION == "P50"),], aes(xintercept=LONGUEUR_abs_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P50") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+table_sv[which(table_sv$LONGUEUR_abs <= 250 & table_sv$GENERATION == "P65") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  geom_vline(data=df_length_sv_in_250[which(df_length_sv_in_250$GENERATION == "P65"),], aes(xintercept=LONGUEUR_abs_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P65") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+table_sv[which(table_sv$LONGUEUR_abs <= 250 & table_sv$GENERATION == "P90") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  geom_vline(data=df_length_sv_in_250[which(df_length_sv_in_250$GENERATION == "P90"),], aes(xintercept=LONGUEUR_abs_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P90") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+```
+
+Les distributions des longueurs de mutations sont super proches quand on zoom sur des longueurs inférieures à 250 pb, les moyennes sont assez proches (en sachant que là c'est la distribution des longueurs par génération tout échantillon confondus...)
+Si je regarde la distribution des moyennes des échantillons : 
+```{r}
+# Zoom sur les mutations de longueurs inférieures à 250 pb
+df_length_sv_2 <- table_sv %>% 
+  aggregate(LONGUEUR_abs ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION + traitement_type, FUN = mean)
+df2 <- table_sv %>% 
+  aggregate(LONGUEUR_abs ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION + traitement_type, FUN = median)
+df3 <- table_sv %>% 
+  aggregate(LONGUEUR_abs ~ GENERATION + ECHANTILLON + TYPE.DE.MUTATION + traitement_type, FUN = sd)
+
+names(df_length_sv_2)[names(df_length_sv_2) == "LONGUEUR_abs"] <- "LONGUEUR_abs_mean"
+names(df2)[names(df2) == "LONGUEUR_abs"] <- "LONGUEUR_abs_median"
+names(df3)[names(df3) == "LONGUEUR_abs"] <- "LONGUEUR_abs_sd"
+
+df_length_sv_2 <- left_join(df_length_sv_2, df2)
+df_length_sv_2 <- left_join(df_length_sv_2, df3)  
+remove(df2, df3)
+
+df_length_sv_2 <- df_length_sv_2 %>% mutate(LONGUEUR_abs_mean = round(LONGUEUR_abs_mean,3))
+df_length_sv_2 <- df_length_sv_2 %>% mutate(LONGUEUR_abs_sd = round(LONGUEUR_abs_sd,3))
+
+##############
+df_length_sv_2$LONGUEUR_abs_mean %>% summary()
+df_length_sv_2[which(df_length_sv_2$LONGUEUR_abs_mean >=250),] %>% nrow() #14/71
+
+#Distribution de la longueur des mutations
+df_length_sv_2 %>% 
+  ggplot(aes(x = LONGUEUR_abs_mean)) +
+  geom_histogram(binwidth=1, fill = "aquamarine3", color = "aquamarine4") +
+  geom_vline(aes(xintercept=mean(LONGUEUR_abs_mean)), color="blue", linetype="dashed", size=1) +
+  theme_bw()
+
+df_length_sv_2 %>% 
+  ggplot(aes(x = LONGUEUR_abs_median)) +
+  geom_histogram(binwidth=1, fill = "aquamarine3", color = "aquamarine4") +
+  geom_vline(aes(xintercept=mean(LONGUEUR_abs_mean)), color="blue", linetype="dashed", size=1) +
+  theme_bw()
+
+# J'ai colorié en fonction de si c'est une délétion ou un insertion
+df_length_sv_2 %>% 
+  ggplot(aes(x = LONGUEUR_abs_mean, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=1, alpha=0.5, position="dodge") +
+  scale_color_brewer(palette="Accent") + 
+   scale_fill_brewer(palette="Accent") + 
+  theme_bw()
+
+# toutes les mutations confondues mais on prend en compte la génération
+df_length_sv_2 %>%
+  ggplot(aes(x = LONGUEUR_abs_mean)) +
+  geom_histogram(binwidth=1, fill = "aquamarine3", color = "aquamarine4") +
+  facet_wrap(~GENERATION, scales = "free") +
+  theme_bw()
+
+#Là c'est la distribution des longueurs de mutations en fonction des générations et j'ai colorié les insertions et les délétions
+df_length_sv_2 %>% 
+  ggplot(aes(x = LONGUEUR_abs_mean, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=1, alpha=0.5, position="dodge") +
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  facet_wrap(~GENERATION, scales = "free") +
+  theme_bw()
+
+# les distributions de longueurs de mutations en fonction des traitements
+df_length_sv_2 %>% 
+  ggplot(aes(x = LONGUEUR_abs_mean, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=1, alpha=0.5, position="dodge") +
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+#distribution des longueurs de mutation en fonction de leur type (insertion ou délétion)et par traitement
+df_length_sv_2[which(df_length_sv_2$GENERATION == "P15") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs_mean, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  #geom_vline(data=df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P15"),], aes(xintercept=LONGUEUR_abs_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P15") + 
+  #facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+df_length_sv_2[which(df_length_sv_2$GENERATION == "P30") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs_mean, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  #geom_vline(data=df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P30"),], aes(xintercept=LONGUEUR_abs_mean_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P30") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+
+df_length_sv_2[which(df_length_sv_2$GENERATION == "P50") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs_mean, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  #geom_vline(data=df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P50"),], aes(xintercept=LONGUEUR_abs_mean_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P50") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+df_length_sv_2[which(df_length_sv_2$GENERATION == "P65") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs_mean, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  #geom_vline(data=df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P65"),], aes(xintercept=LONGUEUR_abs_mean_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P65") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+
+df_length_sv_2[which(df_length_sv_2$GENERATION == "P90") , ] %>% 
+  ggplot(aes(x = LONGUEUR_abs_mean, color = TYPE.DE.MUTATION, fill = TYPE.DE.MUTATION)) + #
+  geom_histogram(binwidth=2, alpha=0.5, position="dodge") +
+  #geom_vline(data=df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P90"),], aes(xintercept=LONGUEUR_abs_mean_mean, color= TYPE.DE.MUTATION), linetype="dashed", size = 1)+
+  scale_color_brewer(palette="Accent") + 
+  scale_fill_brewer(palette="Accent") + 
+  ggtitle("P90") + 
+  facet_wrap(~traitement_type, scales = "free") +
+  theme_bw()
+```
+
+
+```{r}
+
+
+
+
+
+```
+
+
+```{r}
+df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P15"), ] %>%
+ggplot( aes(x = TYPE.DE.MUTATION, y = LONGUEUR_abs_mean, fill = TYPE.DE.MUTATION)) +
+  geom_bar(position = position_dodge(), width=0.5, stat = "identity") +
+  geom_text(aes(label = LONGUEUR_abs_mean), stat = "identity", vjust = -1 , size = 2, color = "black")+
+  scale_fill_brewer(palette="Dark2") +
+  geom_errorbar(aes(ymin= LONGUEUR_abs_mean - LONGUEUR_abs_sd, ymax=LONGUEUR_abs_mean + LONGUEUR_abs_sd), width=.2, position = position_dodge()) +
+  scale_y_log10() +
+  ggtitle("P15") +
+  theme_bw()
+```
+
+
+```{r}
 #df_length_mut_sv <- df_length_mut_sv %>% mutate(LONGUEUR_abs = round(abs(LONGUEUR),3))
 df_length_mut_sv[which(df_length_mut_sv$GENERATION == "P15"),] %>%
 ggplot( aes(x = TYPE.DE.MUTATION, y = LONGUEUR_abs_mean, fill = TYPE.DE.MUTATION)) +
