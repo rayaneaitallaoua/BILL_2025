@@ -1,0 +1,887 @@
+notes;ORF;POSITION;GENERATION;ECHANTILLON;FREQUENCE ALL;TYPE DE FICHIER;LONGUEUR;TYPE DE MUTATION
+;CyHV3_ORF1_1;1210;P65;2;0,198;sv;12;INS
+;;1347;P30;4;0,467;sv;6383;INS
+;CyHV3_ORF5_1;9457;P90;10;0,594;sv;-17;DEL
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P15;4;1;sv;31;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P15;7;1;sv;31;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P15;8;1;sv;31;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P50;7;0,737;sv;31;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P65;2;0,896;sv;31;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P65;3;0,972;sv;31;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P65;7;0,715;sv;31;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P65;1;0,541;sv;29;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P90;1;0,269;sv;29;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P90;3;0,326;sv;29;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P90;6;0,181;sv;29;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P90;7;0,275;sv;29;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P90;8;0,228;sv;29;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11375;P90;9;0,139;sv;29;INS
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11384;P30;3;0,518;sv;-33;DEL
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11384;P65;1;0,662;sv;-33;DEL
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11384;P90;10;0,929;sv;-33;DEL
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11384;P90;6;1;sv;-33;DEL
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11384;P90;7;0,9;sv;-33;DEL
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11384;P90;8;1;sv;-33;DEL
+"MULTIFUNCTIONAL PROTEIN, involved in AA metabolism? /region_name=""kgd""
+                     /note=""multifunctional oxoglutarate
+                     decarboxylase/oxoglutarate dehydrogenase thiamine
+                     pyrophosphate-binding subunit/dihydrolipoyllysine-residue
+                     succinyltransferase subunit; cl39092""";CyHV3_ORF6_1;11384;P90;9;1;sv;-33;DEL
+;;14453;P65;1;0,781;sv;25;INS
+;;14453;P65;2;0,268;sv;25;INS
+;;14453;P90;10;0,99;sv;25;INS
+;;14453;P90;1;0,918;sv;25;INS
+;;14453;P90;2;1;sv;25;INS
+;;14453;P90;3;0,852;sv;25;INS
+;;14453;P90;4;1;sv;25;INS
+;;14453;P90;5;1;sv;25;INS
+;;14453;P90;6;0,999;sv;25;INS
+;;14453;P90;7;0,849;sv;25;INS
+;;14453;P90;8;0,976;sv;25;INS
+;;14453;P90;9;1;sv;25;INS
+;CyHV3_ORF7_1|CyHV3_ORF8_1;15501;P90;9;1;sv;12;INS
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P30;3;0,234;sv;-20;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P30;3;0,213;sv;-50;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P65;1;0,539;sv;-18;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P65;1;0,467;sv;-20;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P65;2;0,319;sv;-50;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P90;10;0,616;sv;-12;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P90;1;0,149;sv;-42;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P90;3;0,158;sv;-42;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P90;6;0,154;sv;-42;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P90;7;0,161;sv;-42;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P90;8;0,159;sv;-42;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16096;P90;9;0,18;sv;-42;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16099;P15;4;0,401;sv;-10;DEL
+;CyHV3_ORF7_1|CyHV3_ORF8_1;16099;P15;8;0,428;sv;-10;DEL
+;;21083;P90;10;0,383;sv;-10;DEL
+;;22398;P15;6;0,796;sv;12;INS
+;;22620;P15;6;0,882;sv;48;INS
+;;22620;P30;1;0,663;sv;48;INS
+;;22620;P30;3;0,697;sv;48;INS
+;;22620;P50;10;0,622;sv;48;INS
+;;22620;P50;1;0,92;sv;48;INS
+;;22620;P50;2;0,793;sv;48;INS
+;;22620;P50;3;0,805;sv;48;INS
+;;22620;P50;4;1;sv;48;INS
+;;22620;P50;6;0,308;sv;48;INS
+;;22620;P50;7;0,745;sv;48;INS
+;;22620;P50;9;0,774;sv;48;INS
+;;22620;P65;3;0,781;sv;56;INS
+;;22620;P65;1;0,927;sv;48;INS
+;;22620;P65;2;0,822;sv;48;INS
+;;22620;P90;1;0,107;sv;64;INS
+;;22620;P90;2;0,094;sv;64;INS
+;;22620;P90;4;0,115;sv;64;INS
+;;22620;P90;10;1;sv;56;INS
+;;22620;P90;1;0,965;sv;56;INS
+;;22620;P90;2;0,984;sv;56;INS
+;;22620;P90;3;0,926;sv;56;INS
+;;22620;P90;4;0,973;sv;56;INS
+;;22620;P90;5;0,974;sv;56;INS
+;;22620;P90;6;0,997;sv;56;INS
+;;22620;P90;7;0,938;sv;56;INS
+;;22620;P90;8;0,985;sv;56;INS
+;;22620;P90;9;0,974;sv;56;INS
+;CyHV3_ORF9;22914;P30;8;0,339;sv;5867;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P15;6;0,832;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P50;10;0,55;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P50;1;0,661;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P65;1;0,875;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P65;2;0,89;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P65;3;0,907;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P90;1;0,439;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P90;2;0,387;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P90;3;0,482;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P90;4;0,419;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P90;5;0,358;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P90;6;0,342;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P90;7;0,385;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P90;8;0,392;sv;24;INS
+"ORF12 = ""contains a signal peptide; possibly involved in immune regulation; TNFR family"" | ORF11 = ";CyHV3_ORF11|CyHV3_ORF12;29473;P90;9;0,27;sv;24;INS
+;;31256;P15;3;0,708;sv;-27;DEL
+;;31256;P15;5;1;sv;-27;DEL
+;;31256;P30;1;0,539;sv;-27;DEL
+;;31256;P30;3;0,451;sv;-27;DEL
+;CyHV3_ORF17;32540;P15;9;1;sv;31;INS
+;CyHV3_ORF17;32540;P15;3;0,575;sv;29;INS
+;CyHV3_ORF17;32540;P15;4;0,562;sv;27;INS
+;CyHV3_ORF17;32540;P15;5;0,83;sv;26;INS
+;CyHV3_ORF17;32540;P15;7;0,67;sv;26;INS
+;CyHV3_ORF17;32540;P30;1;0,389;sv;-19;DEL
+;CyHV3_ORF17;32540;P30;3;0,517;sv;-19;DEL
+;CyHV3_ORF17;32540;P50;6;0,745;sv;24;INS
+;CyHV3_ORF17;32540;P65;1;0,99;sv;-17;DEL
+;CyHV3_ORF17;32540;P65;3;0,951;sv;-17;DEL
+;CyHV3_ORF17;32540;P90;10;1;sv;-17;DEL
+;CyHV3_ORF17;32540;P90;6;1;sv;-17;DEL
+;CyHV3_ORF17;32540;P90;7;1;sv;-17;DEL
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P15;10;0,34;sv;80;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P15;4;0,301;sv;80;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P15;7;0,327;sv;80;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P15;8;0,571;sv;78;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P15;10;0,625;sv;74;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P15;4;0,563;sv;74;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P15;7;0,671;sv;74;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P15;9;0,611;sv;72;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P15;6;0,619;sv;22;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P30;3;0,251;sv;78;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P30;10;0,552;sv;74;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P30;8;0,624;sv;74;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P30;3;0,386;sv;22;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P50;6;0,406;sv;74;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P50;1;0,349;sv;20;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P65;2;0,43;sv;26;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P65;1;0,548;sv;24;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P65;3;0,24;sv;20;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P65;3;0,353;sv;14;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;2;0,095;sv;108;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;1;0,1;sv;106;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;4;0,094;sv;80;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;10;0,709;sv;28;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;2;0,7;sv;28;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;3;0,621;sv;28;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;4;0,681;sv;28;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;5;0,727;sv;28;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;6;0,726;sv;28;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;7;0,613;sv;28;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;8;0,701;sv;28;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;9;0,782;sv;28;INS
+"product=""deoxyguanosine kinase"" | note=""involved in nucleotide metabolism""";CyHV3_ORF19;37879;P90;1;0,671;sv;26;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47057;P65;2;0,403;sv;-1871;DEL
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47057;P90;3;0,422;sv;-1871;DEL
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47057;P90;9;0,361;sv;-1871;DEL
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P15;6;0,805;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P30;3;0,414;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P50;1;0,37;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P50;3;0,641;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P50;9;0,654;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P65;1;0,694;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P65;2;0,504;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P65;3;0,558;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P90;10;0,913;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P90;1;0,959;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P90;2;0,96;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P90;3;0,667;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P90;4;0,808;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P90;5;0,828;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P90;6;0,87;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P90;7;0,697;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P90;8;0,865;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47131;P90;9;0,815;sv;18;INS
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47139;P90;10;0,438;sv;-2057;DEL
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47139;P90;1;0,489;sv;-2057;DEL
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47139;P90;4;0,491;sv;-2057;DEL
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47139;P90;6;0,481;sv;-2057;DEL
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47325;P90;5;0,425;sv;-1871;DEL
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47325;P90;8;0,378;sv;-1871;DEL
+"INETERESTING, consequential DEL almost all P90 samples in note=""type 1 membrane protein; contains an Ig domain; ORF25 family""";CyHV3_ORF25;47346;P90;7;0,49;sv;-1850;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P15;3;0,714;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P15;5;1;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P30;1;0,981;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P30;3;0,905;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P50;1;0,623;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P50;3;0,431;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P50;7;0,87;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P65;1;0,569;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P65;3;0,876;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P90;10;0,811;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P90;1;0,734;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P90;3;0,954;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P90;6;0,866;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P90;7;0,858;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P90;8;0,873;sv;-75;DEL
+"/note=""type 1 membrane protein; contains an Ig domain; ORF25 family; frameshifted""
+/codon_start=1
+/product=""truncated membrane protein ORF27""";CyHV3_ORF27;49268;P90;9;0,919;sv;-75;DEL
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P15;6;0,837;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P30;3;0,642;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P50;1;0,55;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P50;2;0,844;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P50;3;0,587;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P50;9;0,566;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P65;1;0,789;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P65;2;0,933;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P65;3;0,341;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P90;1;0,312;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P90;2;0,279;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P90;3;0,285;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P90;4;0,311;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P90;5;0,265;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P90;7;0,242;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P90;8;0,325;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion""";CyHV3_ORF30;53453;P90;9;0,243;sv;38;INS
+"ORF30 note=""type 1 membrane protein; frameshifted by a 23 bp deletion"" |ORF33  note=""contains an ATPase domain; involved in DNA
+                     encapsidation""";CyHV3_ORF30|CyHV3_ORF31|CyHV3_ORF33;54238;P30;5;0,866;sv;4977;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;59928;P65;1;0,815;sv;10;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;59928;P65;2;0,929;sv;10;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;59928;P65;3;0,441;sv;10;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;59928;P90;10;1;sv;10;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;59928;P90;5;1;sv;10;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;59928;P90;6;1;sv;10;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;60281;P15;6;0,918;sv;-25;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;60281;P30;1;0,49;sv;-25;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;60281;P30;3;0,902;sv;-25;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;60281;P50;1;0,882;sv;-25;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;60281;P50;3;0,802;sv;-25;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;60281;P65;1;1;sv;-25;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;60281;P65;3;0,926;sv;-25;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;60281;P90;10;1;sv;-25;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;60281;P90;6;1;sv;-25;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;60281;P90;7;1;sv;-25;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF40|CyHV3_ORF41;60281;P90;8;1;sv;-25;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF41;61833;P15;9;0,17;sv;2910;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P15;6;0,847;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P30;1;0,755;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P30;3;0,874;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P50;10;0,925;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P50;1;0,955;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P50;2;0,897;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P50;3;0,854;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P50;6;0,916;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P50;7;0,847;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P50;9;0,826;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P65;1;1;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P65;2;0,976;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P65;3;0,984;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P90;10;1;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P90;1;1;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P90;2;1;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P90;3;1;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P90;4;1;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P90;5;1;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P90;6;1;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P90;7;1;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P90;8;1;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF43;69696;P90;9;1;sv;27;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45;76048;P15;6;0,833;sv;-66;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45;76048;P30;1;0,79;sv;-66;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45;76048;P30;3;0,567;sv;-66;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45;76048;P50;3;0,463;sv;-66;DEL
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;81347;P15;10;0,178;sv;3157;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P15;6;0,746;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P30;1;0,584;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P30;3;0,725;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P50;2;0,732;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P50;3;0,626;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P50;9;0,609;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P65;1;0,592;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P65;2;0,887;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P65;3;0,662;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P90;1;0,098;sv;84;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P90;2;0,097;sv;84;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P90;4;0,109;sv;84;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P90;1;0,234;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P90;2;0,207;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P90;3;0,301;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P90;4;0,227;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P90;5;0,196;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P90;7;0,236;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P90;8;0,225;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83046;P90;9;0,199;sv;39;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83076;P90;10;0,749;sv;48;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83076;P90;1;0,694;sv;48;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83076;P90;2;0,747;sv;48;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83076;P90;3;0,645;sv;48;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83076;P90;4;0,707;sv;48;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83076;P90;5;0,746;sv;48;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83076;P90;6;0,773;sv;48;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83076;P90;7;0,646;sv;48;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83076;P90;8;0,763;sv;48;INS
+"ORF33 note=""contains an ATPase domain; involved in DNA encapsidation"" | ORF 46 = ""putative; involved in DNA replication"" | ORF47 = ""weakly similar to herpesvirus DNA packaging terminase subunit 2; possibly involved in DNA replication"" | ORF48 = ""similar to protein kinases; possibly involved in protein phosphorylation""";CyHV3_ORF33|CyHV3_ORF44|CyHV3_ORF45|CyHV3_ORF46|CyHV3_ORF47|CyHV3_ORF48;83076;P90;9;0,852;sv;48;INS
+;CyHV3_ORF49|CyHV3_ORF50|CyHV3_ORF51;85419;P15;8;0,575;sv;7568;INS
+;CyHV3_ORF49;90594;P15;6;0,844;sv;25;INS
+;CyHV3_ORF49;90594;P30;1;0,467;sv;25;INS
+;CyHV3_ORF49;90594;P30;3;0,325;sv;25;INS
+;CyHV3_ORF49;90594;P50;3;0,458;sv;25;INS
+;CyHV3_ORF49;90594;P50;9;0,449;sv;25;INS
+;CyHV3_ORF49;90594;P65;3;0,602;sv;25;INS
+;CyHV3_ORF49|CyHV3_ORF52;90695;P15;6;0,872;sv;-15;DEL
+;CyHV3_ORF49|CyHV3_ORF52;90695;P30;1;0,751;sv;-15;DEL
+;CyHV3_ORF49|CyHV3_ORF52;91154;P15;6;0,662;sv;84;INS
+;CyHV3_ORF49|CyHV3_ORF52;91154;P30;1;0,545;sv;84;INS
+;CyHV3_ORF49|CyHV3_ORF52;91622;P15;6;0,779;sv;-10;DEL
+;CyHV3_ORF49|CyHV3_ORF52;91622;P30;1;0,619;sv;-10;DEL
+;;95731;P15;3;0,705;sv;-11;DEL
+;;95731;P15;5;0,925;sv;-11;DEL
+;;95731;P50;3;0,778;sv;-11;DEL
+;;95731;P65;1;1;sv;-11;DEL
+;;95731;P65;3;1;sv;-11;DEL
+;;95731;P90;10;1;sv;-11;DEL
+;;95731;P90;3;1;sv;-11;DEL
+;;95731;P90;6;1;sv;-11;DEL
+;;95731;P90;7;1;sv;-11;DEL
+;;95731;P90;8;1;sv;-11;DEL
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P30;3;0,346;sv;18;INS
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P50;6;0,321;sv;18;INS
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P65;2;0,271;sv;18;INS
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P90;1;0,274;sv;18;INS
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P90;2;0,278;sv;18;INS
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P90;3;0,215;sv;18;INS
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P90;4;0,281;sv;18;INS
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P90;5;0,269;sv;18;INS
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P90;6;0,298;sv;18;INS
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P90;7;0,274;sv;18;INS
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P90;8;0,257;sv;18;INS
+"apparition post choc de ces INS de mm taille /note=""type 3 membrane protein; 12 transmembrane domains;
+                     contains a signal peptide; similar to equilibrative
+                     nucleoside transporter ENT1""";CyHV3_ORF64;120042;P90;9;0,276;sv;18;INS
+;CyHV3_ORF65;122251;P15;8;1;sv;5459;INS
+"ORF68 = /note=""similar to myosin and related proteins""";CyHV3_ORF68|CyHV3_ORF69;127195;P15;5;0,951;sv;-12;DEL
+"ORF68 = /note=""similar to myosin and related proteins""";CyHV3_ORF68|CyHV3_ORF69;131013;P15;6;0,936;sv;-33;DEL
+"ORF68 = /note=""similar to myosin and related proteins""";CyHV3_ORF68|CyHV3_ORF69;131013;P30;1;0,975;sv;-33;DEL
+"ORF68 = /note=""similar to myosin and related proteins""";CyHV3_ORF68|CyHV3_ORF69;131013;P30;3;0,677;sv;-33;DEL
+"ORF68 = /note=""similar to myosin and related proteins""";CyHV3_ORF68|CyHV3_ORF69;131013;P65;1;0,892;sv;-33;DEL
+"ORF68 = /note=""similar to myosin and related proteins""";CyHV3_ORF68|CyHV3_ORF69;131013;P65;2;0,695;sv;-33;DEL
+"ORF68 = /note=""similar to myosin and related proteins""";CyHV3_ORF68|CyHV3_ORF69;131013;P65;3;0,609;sv;-33;DEL
+"ORF68 = /note=""similar to myosin and related proteins""";CyHV3_ORF68|CyHV3_ORF69;131013;P90;10;1;sv;-33;DEL
+"ORF68 = /note=""similar to myosin and related proteins""";CyHV3_ORF68|CyHV3_ORF69;131013;P90;3;0,935;sv;-33;DEL
+"ORF68 = /note=""similar to myosin and related proteins""";CyHV3_ORF68|CyHV3_ORF69;131013;P90;6;0,954;sv;-33;DEL
+"ORF68 = /note=""similar to myosin and related proteins""";CyHV3_ORF68|CyHV3_ORF69;131013;P90;7;0,86;sv;-33;DEL
+" /note=""putative; involved in capsid morphogenesis""";CyHV3_ORF69;133271;P15;6;0,717;sv;-12;DEL
+" /note=""putative; involved in capsid morphogenesis""";CyHV3_ORF69;133271;P30;1;0,903;sv;-12;DEL
+" /note=""putative; involved in capsid morphogenesis""";CyHV3_ORF69;133271;P65;1;0,817;sv;-12;DEL
+" /note=""putative; involved in capsid morphogenesis""";CyHV3_ORF69;133271;P65;2;1;sv;-12;DEL
+" /note=""putative; involved in capsid morphogenesis""";CyHV3_ORF69;133271;P65;3;0,913;sv;-12;DEL
+" /note=""putative; involved in capsid morphogenesis""";CyHV3_ORF69;133271;P90;10;0,84;sv;-12;DEL
+" /note=""putative; involved in capsid morphogenesis""";CyHV3_ORF69;133271;P90;6;0,857;sv;-12;DEL
+" /note=""putative; involved in capsid morphogenesis""";CyHV3_ORF69;133271;P90;7;0,783;sv;-12;DEL
+;CyHV3_ORF70|CyHV3_ORF71|CyHV3_ORF72;138818;P30;6;1;sv;8855;INS
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;142608;P15;10;0,657;sv;6168;INS
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P15;5;0,844;sv;-24;DEL
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P15;6;0,903;sv;-96;DEL
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P30;1;0,903;sv;-96;DEL
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P30;3;0,709;sv;-96;DEL
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P50;10;0,72;sv;-24;DEL
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P50;3;0,626;sv;-96;DEL
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P50;9;0,562;sv;-96;DEL
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P65;2;0,453;sv;-96;DEL
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P65;3;0,356;sv;-96;DEL
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P90;10;0,891;sv;-24;DEL
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P90;6;0,905;sv;-24;DEL
+"Grosse insertion dans P15 suivi par des deletions beaucoup plus petite | ORF78 =  /note=""putative; involved in capsid morphogenesis""
+                     /codon_start=1
+                     /product=""capsid maturation protease""";CyHV3_ORF75|CyHV3_ORF77|CyHV3_ORF78;143509;P90;7;0,852;sv;-24;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155446;P15;5;1;sv;-66;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155446;P30;1;0,857;sv;-33;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155446;P30;3;1;sv;-33;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155446;P50;10;0,677;sv;-66;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155446;P65;1;0,855;sv;-33;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155446;P65;3;0,498;sv;-66;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155446;P90;10;1;sv;-33;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155446;P90;6;0,995;sv;-33;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155446;P90;7;0,932;sv;-33;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155446;P90;8;1;sv;-33;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155447;P15;6;0,917;sv;-32;DEL
+Grosse insertion dans P30 puis deletions dans les gens … suivre, une sorte d'‚quilibre? ;CyHV3_ORF84|CyHV3_ORF85;155479;P30;9;1;sv;6668;INS
+insertion principalement dans traitement froid (?) ;CyHV3_ORF89;165060;P15;6;0,859;sv;18;INS
+insertion principalement dans traitement froid (?) ;CyHV3_ORF89;165060;P30;1;0,733;sv;18;INS
+insertion principalement dans traitement froid (?) ;CyHV3_ORF89;165060;P30;3;0,726;sv;18;INS
+insertion principalement dans traitement froid (?) ;CyHV3_ORF89;165060;P50;3;0,597;sv;18;INS
+insertion principalement dans traitement froid (?) ;CyHV3_ORF89;165060;P50;9;0,562;sv;18;INS
+insertion principalement dans traitement froid (?) ;CyHV3_ORF89;165060;P65;2;0,742;sv;18;INS
+insertion principalement dans traitement froid (?) ;CyHV3_ORF89;165060;P65;3;0,551;sv;18;INS
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P15;8;0,963;sv;-46;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P15;10;0,802;sv;-48;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P30;1;0,596;sv;-76;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P30;3;0,609;sv;-76;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P30;7;0,787;sv;-76;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P50;7;0,483;sv;-80;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P65;3;0,644;sv;-70;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P65;2;0,655;sv;-72;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P65;1;0,596;sv;-74;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P65;2;0,321;sv;-80;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P65;3;0,279;sv;-80;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;10;0,74;sv;-72;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;1;0,813;sv;-72;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;3;0,729;sv;-72;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;6;0,759;sv;-72;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;7;0,685;sv;-72;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;8;0,74;sv;-72;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;9;0,841;sv;-72;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;1;0,327;sv;-80;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;3;0,251;sv;-80;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;5;0,326;sv;-80;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;6;0,268;sv;-80;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;8;0,275;sv;-80;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177568;P90;9;0,326;sv;-80;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177570;P15;7;0,818;sv;-48;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177570;P15;9;0,891;sv;-48;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177570;P50;9;0,491;sv;-80;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177570;P90;7;0,279;sv;-80;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;177574;P15;4;0,853;sv;-48;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;178820;P15;5;0,948;sv;-12;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;178820;P90;10;0,7;sv;-12;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;178820;P90;3;0,689;sv;-12;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;178820;P90;6;0,827;sv;-12;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;178820;P90;7;0,689;sv;-12;DEL
+apparition dans P15 puis fixation ~ graduelle? ;CyHV3_ORF97;178820;P90;8;0,856;sv;-12;DEL
+"CHOSEN INTERESTING!!! apparition post choc, fixation graduelle. /note=""membrane glycoprotein; Provisional"" /note=""family of the cytolysin A (ClyA) family alpha
+                     pore-forming toxins (alpha-PFT) including Bacillus cereus
+                     HblB, Aeromonas hydrophila AhlB, Bacillus thuringiensis
+                     Cry6Aa and similar proteins; cl45899""";CyHV3_ORF99;186552;P30;3;0,874;sv;-11;DEL
+"CHOSEN INTERESTING!!! apparition post choc, fixation graduelle. /note=""membrane glycoprotein; Provisional"" /note=""family of the cytolysin A (ClyA) family alpha
+                     pore-forming toxins (alpha-PFT) including Bacillus cereus
+                     HblB, Aeromonas hydrophila AhlB, Bacillus thuringiensis
+                     Cry6Aa and similar proteins; cl45899""";CyHV3_ORF99;186552;P65;1;0,497;sv;-11;DEL
+"CHOSEN INTERESTING!!! apparition post choc, fixation graduelle. /note=""membrane glycoprotein; Provisional"" /note=""family of the cytolysin A (ClyA) family alpha
+                     pore-forming toxins (alpha-PFT) including Bacillus cereus
+                     HblB, Aeromonas hydrophila AhlB, Bacillus thuringiensis
+                     Cry6Aa and similar proteins; cl45899""";CyHV3_ORF99;186552;P65;3;0,445;sv;-11;DEL
+"CHOSEN INTERESTING!!! apparition post choc, fixation graduelle. /note=""membrane glycoprotein; Provisional"" /note=""family of the cytolysin A (ClyA) family alpha
+                     pore-forming toxins (alpha-PFT) including Bacillus cereus
+                     HblB, Aeromonas hydrophila AhlB, Bacillus thuringiensis
+                     Cry6Aa and similar proteins; cl45899""";CyHV3_ORF99;186552;P90;10;1;sv;-11;DEL
+"CHOSEN INTERESTING!!! apparition post choc, fixation graduelle. /note=""membrane glycoprotein; Provisional"" /note=""family of the cytolysin A (ClyA) family alpha
+                     pore-forming toxins (alpha-PFT) including Bacillus cereus
+                     HblB, Aeromonas hydrophila AhlB, Bacillus thuringiensis
+                     Cry6Aa and similar proteins; cl45899""";CyHV3_ORF99;186552;P90;3;1;sv;-11;DEL
+"CHOSEN INTERESTING!!! apparition post choc, fixation graduelle. /note=""membrane glycoprotein; Provisional"" /note=""family of the cytolysin A (ClyA) family alpha
+                     pore-forming toxins (alpha-PFT) including Bacillus cereus
+                     HblB, Aeromonas hydrophila AhlB, Bacillus thuringiensis
+                     Cry6Aa and similar proteins; cl45899""";CyHV3_ORF99;186552;P90;6;1;sv;-11;DEL
+"CHOSEN INTERESTING!!! apparition post choc, fixation graduelle. /note=""membrane glycoprotein; Provisional"" /note=""family of the cytolysin A (ClyA) family alpha
+                     pore-forming toxins (alpha-PFT) including Bacillus cereus
+                     HblB, Aeromonas hydrophila AhlB, Bacillus thuringiensis
+                     Cry6Aa and similar proteins; cl45899""";CyHV3_ORF99;186552;P90;7;0,935;sv;-11;DEL
+;CyHV3_ORF101;188010;P30;1;0,901;sv;-24;DEL
+;CyHV3_ORF101;188010;P30;3;0,766;sv;-24;DEL
+;CyHV3_ORF101;188010;P65;1;0,534;sv;-24;DEL
+;CyHV3_ORF101;188010;P65;3;0,375;sv;-24;DEL
+;CyHV3_ORF101;188010;P90;10;1;sv;-24;DEL
+;CyHV3_ORF101;188010;P90;3;0,877;sv;-24;DEL
+;CyHV3_ORF101;188010;P90;6;1;sv;-24;DEL
+;CyHV3_ORF101;188010;P90;7;0,892;sv;-24;DEL
+;CyHV3_ORF101;188695;P30;1;0,813;sv;24;INS
+;CyHV3_ORF101;188695;P30;3;0,748;sv;24;INS
+;CyHV3_ORF101;188695;P50;1;0,427;sv;24;INS
+;CyHV3_ORF101;188695;P50;2;0,445;sv;24;INS
+;CyHV3_ORF101;188695;P50;3;0,537;sv;24;INS
+;CyHV3_ORF101;188695;P50;9;0,5;sv;24;INS
+;CyHV3_ORF101;188695;P65;1;0,395;sv;24;INS
+;CyHV3_ORF101;188695;P65;2;0,382;sv;24;INS
+;CyHV3_ORF101;188695;P65;3;0,328;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P30;1;0,835;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P30;3;0,854;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P50;1;0,531;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P50;2;0,54;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P50;3;0,727;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P50;9;0,724;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P65;1;0,803;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P65;2;0,549;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P65;3;0,97;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P90;10;0,956;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P90;1;0,923;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P90;2;0,959;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P90;3;0,92;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P90;4;0,932;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P90;5;0,954;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P90;6;0,941;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P90;7;0,861;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P90;8;0,977;sv;24;INS
+;CyHV3_ORF101|CyHV3_ORF103;192550;P90;9;1;sv;24;INS
+;CyHV3_ORF105|CyHV3_ORF106|CyHV3_ORF107;196282;P30;2;0,808;sv;16622;INS
+;CyHV3_ORF110;203513;P30;1;0,772;sv;-22;DEL
+;CyHV3_ORF110;203513;P30;3;0,703;sv;-22;DEL
+;CyHV3_ORF110;203513;P65;3;0,421;sv;-22;DEL
+"ORF16 = ""type 1 membrane protein"" |ORF17 = ""contains a potential transmembrane domain""";CyHV3_ORF116|CyHV3_ORF117;210810;P15;6;0,826;sv;-18;DEL
+"ORF16 = ""type 1 membrane protein"" |ORF17 = ""contains a potential transmembrane domain""";CyHV3_ORF116|CyHV3_ORF117;210810;P15;3;0,709;sv;-27;DEL
+"ORF16 = ""type 1 membrane protein"" |ORF17 = ""contains a potential transmembrane domain""";CyHV3_ORF116|CyHV3_ORF117;210810;P15;5;1;sv;-27;DEL
+"ORF16 = ""type 1 membrane protein"" |ORF17 = ""contains a potential transmembrane domain""";CyHV3_ORF116|CyHV3_ORF117;210810;P30;1;0,823;sv;-18;DEL
+"ORF16 = ""type 1 membrane protein"" |ORF17 = ""contains a potential transmembrane domain""";CyHV3_ORF116|CyHV3_ORF117;210810;P65;3;0,631;sv;-18;DEL
+"ORF16 = ""type 1 membrane protein"" |ORF17 = ""contains a potential transmembrane domain""";CyHV3_ORF116|CyHV3_ORF117;210810;P65;1;0,783;sv;-27;DEL
+"ORF16 = ""type 1 membrane protein"" |ORF17 = ""contains a potential transmembrane domain""";CyHV3_ORF116|CyHV3_ORF117;210810;P65;3;0,509;sv;-27;DEL
+"ORF16 = ""type 1 membrane protein"" |ORF17 = ""contains a potential transmembrane domain""";CyHV3_ORF116|CyHV3_ORF117;210810;P90;10;1;sv;-27;DEL
+"ORF16 = ""type 1 membrane protein"" |ORF17 = ""contains a potential transmembrane domain""";CyHV3_ORF116|CyHV3_ORF117;210810;P90;3;1;sv;-27;DEL
+"ORF16 = ""type 1 membrane protein"" |ORF17 = ""contains a potential transmembrane domain""";CyHV3_ORF116|CyHV3_ORF117;210810;P90;6;1;sv;-27;DEL
+"ORF16 = ""type 1 membrane protein"" |ORF17 = ""contains a potential transmembrane domain""";CyHV3_ORF116|CyHV3_ORF117;210810;P90;7;0,986;sv;-27;DEL
+;CyHV3_ORF118|CyHV3_ORF119|CyHV3_ORF120|CyHV3_ORF121;214607;P65;2;0,335;sv;60;INS
+;CyHV3_ORF122;216443;P15;6;0,885;sv;90;INS
+;CyHV3_ORF122;216443;P30;10;1;sv;99;INS
+;CyHV3_ORF122;216443;P30;8;1;sv;99;INS
+;CyHV3_ORF122;216443;P30;3;0,817;sv;90;INS
+;CyHV3_ORF122;216443;P50;10;0,937;sv;99;INS
+;CyHV3_ORF122;216443;P50;1;0,944;sv;99;INS
+;CyHV3_ORF122;216443;P50;2;0,936;sv;99;INS
+;CyHV3_ORF122;216443;P50;6;0,996;sv;99;INS
+;CyHV3_ORF122;216443;P50;7;0,959;sv;99;INS
+;CyHV3_ORF122;216443;P50;3;0,944;sv;90;INS
+;CyHV3_ORF122;216443;P50;4;1;sv;90;INS
+;CyHV3_ORF122;216443;P50;9;0,955;sv;90;INS
+;CyHV3_ORF122;216443;P65;1;1;sv;99;INS
+;CyHV3_ORF122;216443;P65;2;1;sv;99;INS
+;CyHV3_ORF122;216443;P65;3;1;sv;99;INS
+;CyHV3_ORF122;216443;P90;10;1;sv;126;INS
+;CyHV3_ORF122;216443;P90;1;1;sv;126;INS
+;CyHV3_ORF122;216443;P90;2;1;sv;126;INS
+;CyHV3_ORF122;216443;P90;3;1;sv;126;INS
+;CyHV3_ORF122;216443;P90;4;1;sv;126;INS
+;CyHV3_ORF122;216443;P90;5;1;sv;126;INS
+;CyHV3_ORF122;216443;P90;6;1;sv;126;INS
+;CyHV3_ORF122;216443;P90;7;1;sv;126;INS
+;CyHV3_ORF122;216443;P90;8;1;sv;126;INS
+;CyHV3_ORF122;216443;P90;9;1;sv;126;INS
+;CyHV3_ORF122;216552;P30;1;0,89;sv;81;INS
+;;228198;P15;6;0,975;sv;74;INS
+;;228198;P30;10;1;sv;74;INS
+;;228198;P30;1;1;sv;74;INS
+;;228198;P30;3;1;sv;74;INS
+;;228198;P30;8;1;sv;74;INS
+;;228198;P50;10;0,987;sv;74;INS
+;;228198;P50;1;1;sv;74;INS
+;;228198;P50;2;1;sv;74;INS
+;;228198;P50;3;1;sv;74;INS
+;;228198;P50;4;1;sv;74;INS
+;;228198;P50;6;1;sv;74;INS
+;;228198;P50;7;0,989;sv;74;INS
+;;228198;P50;8;1;sv;74;INS
+;;228198;P50;9;1;sv;74;INS
+;;228198;P65;1;1;sv;74;INS
+;;228198;P65;2;1;sv;74;INS
+;;228198;P65;3;1;sv;74;INS
+;;228198;P90;10;1;sv;74;INS
+;;228198;P90;1;1;sv;74;INS
+;;228198;P90;2;1;sv;74;INS
+;;228198;P90;3;1;sv;74;INS
+;;228198;P90;4;1;sv;74;INS
+;;228198;P90;5;1;sv;74;INS
+;;228198;P90;6;1;sv;74;INS
+;;228198;P90;7;1;sv;74;INS
+;;228198;P90;8;1;sv;74;INS
+;;228198;P90;9;1;sv;74;INS
+;;229939;P30;1;1;sv;-17;DEL
+;;229939;P30;3;1;sv;-17;DEL
+;;229939;P50;5;1;sv;-17;DEL
+;;229939;P50;8;1;sv;-17;DEL
+;;229939;P65;1;1;sv;-17;DEL
+;;229939;P65;3;1;sv;-17;DEL
+;;229939;P90;10;1;sv;-17;DEL
+;;229939;P90;3;1;sv;-17;DEL
+;;229939;P90;5;1;sv;-17;DEL
+;;229939;P90;6;1;sv;-17;DEL
+;;229939;P90;7;1;sv;-17;DEL
+;;229939;P90;8;1;sv;-17;DEL
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P30;1;0,897;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P50;10;0,929;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P50;1;0,724;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P50;3;0,867;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P50;7;0,895;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P50;9;0,868;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P65;1;0,791;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P65;2;1;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P65;3;0,919;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P90;10;0,742;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P90;1;0,681;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P90;2;0,748;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P90;3;0,714;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P90;4;0,696;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P90;5;0,723;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P90;6;0,791;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P90;7;0,662;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P90;8;0,713;sv;15;INS
+"CHOSEN ORF135 = ""possibly ORF2 famile"" | regulatory_class=""polyA_signal_sequence""";CyHV3_ORF135;230496;P90;9;0,793;sv;15;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P30;1;0,902;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P50;10;0,941;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P50;1;0,969;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P50;3;0,957;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P50;7;0,904;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P50;9;0,938;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P65;1;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P65;2;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P65;3;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P90;10;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P90;1;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P90;2;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P90;3;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P90;4;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P90;5;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P90;6;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P90;7;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P90;8;1;sv;12;INS
+"CHOSEN ORF136 = ""type 1 membrane protein""";CyHV3_ORF136;231446;P90;9;0,965;sv;12;INS
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P15;6;0,759;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P30;1;0,684;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P30;3;0,784;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P50;10;0,825;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P65;1;1;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P65;3;0,94;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P90;10;0,983;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P90;3;0,996;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P90;5;0,982;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P90;6;0,999;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P90;7;0,936;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P90;8;0,959;sv;-21;DEL
+"INTERESTING? ORF139 = ""membrane protein ORF139"" | ""type 1 membrane protein; similar to poxvirus B22R proteins""";CyHV3_ORF139;240001;P90;9;0,897;sv;-21;DEL
+;CyHV3_ORF145;249095;P15;3;0,645;sv;10;INS
+;CyHV3_ORF145;249095;P15;5;0,836;sv;10;INS
+;CyHV3_ORF145;249095;P50;1;0,335;sv;10;INS
+;CyHV3_ORF145;249095;P65;2;0,2;sv;10;INS
+;CyHV3_ORF145;249095;P90;1;0,23;sv;10;INS
+;CyHV3_ORF145;249095;P90;2;0,215;sv;10;INS
+;CyHV3_ORF145;249095;P90;3;0,182;sv;10;INS
+;CyHV3_ORF145;249095;P90;4;0,254;sv;10;INS
+;CyHV3_ORF145;249095;P90;5;0,206;sv;10;INS
+;CyHV3_ORF145;249095;P90;8;0,241;sv;10;INS
+;CyHV3_ORF145;249095;P90;9;0,223;sv;10;INS
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254131;P15;6;1;sv;-18;DEL
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254131;P50;10;1;sv;-18;DEL
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254131;P50;5;0,963;sv;-18;DEL
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254131;P50;8;0,971;sv;-18;DEL
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254131;P65;1;1;sv;-18;DEL
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254131;P65;2;1;sv;-18;DEL
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254131;P65;3;1;sv;-18;DEL
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254131;P90;10;1;sv;-18;DEL
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254131;P90;6;1;sv;-18;DEL
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254131;P90;7;1;sv;-18;DEL
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254131;P90;8;1;sv;-18;DEL
+"ORF148 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF148;254597;P30;8;0,615;sv;4226;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P15;6;0,871;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P30;1;0,961;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P30;3;1;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P50;10;0,938;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P50;1;1;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P50;2;0,938;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P50;3;0,915;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P50;5;0,967;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P50;6;1;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P50;7;0,926;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P50;8;0,96;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P50;9;0,927;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P65;1;1;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P65;2;0,93;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P65;3;0,922;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;1;0,131;sv;40;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;2;0,142;sv;40;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;4;0,12;sv;40;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;5;0,135;sv;40;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;9;0,13;sv;40;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;10;0,945;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;1;0,952;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;2;0,944;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;3;0,958;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;4;0,963;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;5;0,938;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;6;0,969;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;7;0,93;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;8;0,982;sv;39;INS
+"ORF149 = """"type 1 membrane protein; contains an Ig domain""";CyHV3_ORF149;256462;P90;9;0,956;sv;39;INS
+;;265177;P15;3;0,972;sv;12;INS
+;;265177;P15;5;0,89;sv;12;INS
+;;265177;P50;10;0,89;sv;12;INS
+;;265177;P50;2;0,932;sv;12;INS
+;;265177;P50;5;0,928;sv;12;INS
+;;265177;P50;8;0,934;sv;12;INS
+;;265177;P50;9;0,905;sv;12;INS
+;;265177;P65;1;1;sv;12;INS
+;;265177;P65;2;0,916;sv;12;INS
+;;265177;P65;3;0,927;sv;12;INS
+;;265177;P90;10;1;sv;12;INS
+;;265177;P90;1;1;sv;12;INS
+;;265177;P90;2;1;sv;12;INS
+;;265177;P90;3;1;sv;12;INS
+;;265177;P90;4;1;sv;12;INS
+;;265177;P90;5;1;sv;12;INS
+;;265177;P90;6;1;sv;12;INS
+;;265177;P90;7;0,997;sv;12;INS
+;;265177;P90;8;1;sv;12;INS
+;;265177;P90;9;1;sv;12;INS
+;;270645;P15;3;0,675;sv;-15;DEL
+;;270719;P65;2;0,213;sv;34;INS
+;CyHV3_ORF156;270829;P65;1;0,637;sv;19;INS
+;CyHV3_ORF156;270829;P65;2;0,55;sv;19;INS
+;CyHV3_ORF156;270829;P90;4;0,098;sv;22;INS
+;CyHV3_ORF156;270829;P90;1;0,101;sv;21;INS
+;CyHV3_ORF156;270829;P90;2;0,1;sv;21;INS
+;CyHV3_ORF156;270829;P90;5;0,098;sv;21;INS
+;CyHV3_ORF156;270829;P90;9;0,107;sv;21;INS
+;CyHV3_ORF156;270829;P90;10;0,766;sv;19;INS
+;CyHV3_ORF156;270829;P90;1;0,718;sv;19;INS
+;CyHV3_ORF156;270829;P90;2;0,8;sv;19;INS
+;CyHV3_ORF156;270829;P90;3;0,659;sv;19;INS
+;CyHV3_ORF156;270829;P90;4;0,724;sv;19;INS
+;CyHV3_ORF156;270829;P90;5;0,734;sv;19;INS
+;CyHV3_ORF156;270829;P90;6;0,752;sv;19;INS
+;CyHV3_ORF156;270829;P90;7;0,666;sv;19;INS
+;CyHV3_ORF156;270829;P90;8;0,762;sv;19;INS
+;CyHV3_ORF156;270829;P90;9;0,838;sv;19;INS
+;CyHV3_ORF156;271616;P65;2;0,784;sv;12;INS
+;CyHV3_ORF156;271616;P65;3;0,801;sv;12;INS
+;CyHV3_ORF156;272012;P15;6;0,86;sv;-24;DEL
+;CyHV3_ORF156;272012;P30;1;0,866;sv;-24;DEL
+;CyHV3_ORF156;272012;P30;3;0,63;sv;-24;DEL
+;CyHV3_ORF156;272012;P50;10;0,591;sv;-24;DEL
+;CyHV3_ORF156;272012;P50;7;0,671;sv;-24;DEL
+;CyHV3_ORF156;272012;P50;9;0,84;sv;-24;DEL
+;CyHV3_ORF156;272012;P65;1;0,994;sv;-24;DEL
+;CyHV3_ORF156;272012;P65;2;0,949;sv;-24;DEL
+;CyHV3_ORF156;272012;P65;3;0,889;sv;-24;DEL
+;CyHV3_ORF156;272012;P90;10;1;sv;-24;DEL
+;CyHV3_ORF156;272012;P90;3;1;sv;-24;DEL
+;CyHV3_ORF156;272012;P90;5;1;sv;-24;DEL
+;CyHV3_ORF156;272012;P90;6;1;sv;-24;DEL
+;CyHV3_ORF156;272012;P90;7;0,984;sv;-24;DEL
+;CyHV3_ORF156;272012;P90;8;1;sv;-24;DEL
+;CyHV3_ORF156;272012;P90;9;1;sv;-24;DEL
+;;272444;P90;5;1;sv;235;INS
+;;272739;P15;6;0,606;sv;-11;DEL
+;;272771;P15;8;0,902;sv;3210;INS
+;CyHV3_ORF1_2;273887;P15;6;0,826;sv;12;INS
+;CyHV3_ORF6_2;284052;P15;4;1;sv;31;INS
+;CyHV3_ORF6_2;284052;P15;7;1;sv;31;INS
+;CyHV3_ORF6_2;284052;P15;9;0,977;sv;31;INS

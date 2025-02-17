@@ -173,7 +173,7 @@ gq_plot_2.0
 ```
 
 ```{r}
-ggsave(plot = gq_plot_2.0, "gqplot.png")
+#ggsave(plot = gq_plot_2.0, "gqplot.png")
 
 remove(af_data, af_plot, gq_data, gq_plot, gq_plot_2.0)
 ```
@@ -257,7 +257,7 @@ table_sv <- table_sv %>%
 ```
 
 Je vais travailler sur : count_snp_sv_type
-```{r}
+```{r, include=FALSE}
 # rajouter la colonne COUNT_GEN
 count_snp_sv_type[, c("GENERATION", "COUNT_ech_gen", "ECHANTILLON")] %>% unique() %>%
   ggplot(aes(x = GENERATION, y = COUNT_ech_gen, color = as.factor(ECHANTILLON))) +
@@ -280,7 +280,10 @@ count_snp_sv_type[, c("GENERATION", "COUNT_ech_gen", "ECHANTILLON")] %>% unique(
   ggtitle("nombre de mutations total dans les échantillons par génération") +
   theme_classic() +
   theme(axis.title.y = element_text(angle=0, vjust = 0.5))
+```
 
+
+```{r}
 nb_mu_moy <- count_snp_sv_type %>%  aggregate(COUNT_ech_gen ~ GENERATION, FUN = mean)
 nb_mu_moy <- nb_mu_moy %>% mutate(GEN_num = case_when(nb_mu_moy$GENERATION == "P15"~ 15, 
                                                       nb_mu_moy$GENERATION == "P30"~ 30, 
@@ -289,12 +292,12 @@ nb_mu_moy <- nb_mu_moy %>% mutate(GEN_num = case_when(nb_mu_moy$GENERATION == "P
                                                       nb_mu_moy$GENERATION == "P90"~ 90, 
                                                       ))
 nb_mu_moy$GEN_num <- as.numeric(nb_mu_moy$GEN_num)
-nb_mu_moy %>%
+P_nb_mu_1 <- nb_mu_moy %>%
   ggplot(aes(x = GEN_num, y = COUNT_ech_gen)) +
   geom_point() +
   geom_line() +
-  labs(x = "Génération", y = "Effectif total moyen") +
-  ggtitle("nombre moyen de mutations par génération") +
+  labs(x = "Génération", y = "Effectif\total\nmoyen") +
+  ggtitle("Nombre moyen de mutations par génération") +
   theme_classic() +
   theme(axis.title.y = element_text(angle=0, vjust = 0.5))
 
@@ -307,16 +310,20 @@ nb_mu_moy_t <- nb_mu_moy_t %>% mutate(GEN_num = case_when(nb_mu_moy_t$GENERATION
                                                       nb_mu_moy_t$GENERATION == "P90"~ 90, 
                                                       ))
 nb_mu_moy_t$GEN_num <- as.numeric(nb_mu_moy_t$GEN_num)
-nb_mu_moy_t %>%
+P_nb_mu_2 <- nb_mu_moy_t %>%
   ggplot(aes(x = GEN_num, y = COUNT_ech_gen, color = TRAITEMENT)) +
   geom_point() +
   geom_line() +
-  labs(x = "Génération", y = "Effectif total moyen") +
-  ggtitle("nombre moyen de mutations par génération") +
+  labs(x = "Génération", y = "Effectif\ntotal\nmoyen") +
+  ggtitle("Nombre moyen de mutations par génération et par traitement") +
   scale_color_brewer(palette="Dark2") +
   theme_classic() +
   theme(axis.title.y = element_text(angle=0, vjust = 0.5))
 
+#ggsave(plot = P_nb_mu_1, "nb_moy_mutation_Gen.png", height = 5, width = 7)
+#ggsave(plot = P_nb_mu_2, "nb_moy_mutation_Gen_T.png", height = 5, width = 7)
+P_nb_mu_1
+P_nb_mu_2
 #remove(nb_mu_moy, nb_mu_moy_t)
 ```
 
@@ -414,11 +421,15 @@ count_snp_sv_type[,c("GENERATION", "ECHANTILLON", "COUNT", "SV_SNP", "TRAITEMENT
            by = TRAITEMENT,
            fill = TRAITEMENT)) +
   geom_bar(position=position_dodge(), width=0.5, stat = "identity")+
-  scale_fill_brewer(palette="Dark2") +
-  labs(x = "Génération", y = "Effectif des mutations", fill = "Type de traitement") +
+  scale_fill_brewer(palette="Dark2", name = "Traitement", labels = c("Aucun", "Chaud", "Froid")) +
+  #scale_fill_discrete(name = "Traitement", labels = c("Aucun", "Chaud", "Froid"))+
+  labs(x = "Génération", y = "Effectif", fill = "Type de traitement") +
   facet_wrap(~ SV_SNP, scales = "free")  + 
-   ggtitle("Distribution des mutations de variants structuraux\n(délétions et des insértions confondues)   par type de traitement et par génération") +
-  theme_bw()
+  ggtitle("Nombre de mutations (SNP ou Structural Variant) par traitement\net par génération") +
+  theme_bw()+
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+
+#ggsave("nb_snp_sv_TG.png", height = 5, width = 7)
 ```
 
 
@@ -730,8 +741,12 @@ count_snp_sv_type  %>%
   scale_fill_brewer(palette = "Set2") +
   facet_wrap(~GENERATION, ncol = 1) +
   scale_color_manual(values = c("#339966", "#990000", "#0066CC"))+ 
-  labs(title = "Fréquence relative des types de mutations dans chaque échantillon par génération") +
+  labs(title = "Fréquence relative des types de mutations (snp, insertion, délétion)\ndans chaque échantillon par génération") +
   theme_bw()
+
+#ggsave("freq_snp_ins_del_ech_gen.png", height = 13, width = 6)
+
+
 ```
 ```{r}
 #là j'ai voulu faire une moyenne de fréquence des mutations dans les générations sans prendre en compte le traitement

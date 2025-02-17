@@ -1,0 +1,81 @@
+---
+title: "Untitled"
+author: "heloise_calzan"
+date: "2025-02-17"
+output: html_document
+---
+
+```{r cars}
+setwd("E:\\github\\BILL_2025\\R")
+
+
+# Step 1: Load necessary libraries
+library(tidyverse)
+library(gridExtra)
+library(dplyr)
+library(ggplot2)
+library(patchwork)
+
+
+library(pals)
+library(rcartocolor)
+library(wesanderson)
+```
+
+```{r}
+df_ORF <- read.csv("sv_with_ORF_rayane2.csv" , header = FALSE, sep = ";",  na ="NA", stringsAsFactors = FALSE)
+df_ORF %>% str()
+df_ORF$V2 <- as.factor(df_ORF$V2)
+df_ORF$V2 %>% levels()
+sapply(df_ORF,FUN=function(el) sum(is.na(el)))
+
+df_ORF %>% names()
+df_ORF_filtre <- df_ORF[,c(2,4,5,6)]
+
+df_ORF_filtre %>% names()
+names(df_ORF_filtre)[names(df_ORF_filtre) == "V2"] <- "ORF"
+names(df_ORF_filtre)[names(df_ORF_filtre) == "V4"] <- "Generation"
+names(df_ORF_filtre)[names(df_ORF_filtre) == "V5"] <- "Echantillon"
+names(df_ORF_filtre)[names(df_ORF_filtre) == "V6"] <- "AF"
+
+
+#df_ORF_filtre <- df_ORF_filtre %>% mutate(AF_2 = as.numeric(paste(AF)))
+#df_ORF_filtre$AF <- as.numeric(df_ORF_filtre$AF)
+#df_ORF_filtre <- df_ORF_filtre[,-5]
+#df_ORF_filtre$AF_2 <- trimws(df_ORF_filtre$AF_2)
+#df_ORF_filtre$AF_2 <- as.numeric(trimws(df_ORF_filtre$AF))
+
+df_ORF_filtre$AF_2 <- gsub(",", ".", df_ORF_filtre$AF)  # Remplace les virgules par des points
+df_ORF_filtre$AF_2 <- as.numeric(df_ORF_filtre$AF_2)  # Convertit en numérique
+
+df_ORF_filtre[which(df_ORF_filtre$ORF != "CyHV3_ORF135"), ] %>%
+ggplot(aes(x = Generation, y = AF_2, color = ORF))+
+  geom_boxplot() +
+  scale_color_brewer(palette = "Dark2") +
+  facet_wrap(~ORF) +
+  labs(y = "Fréquence\nallélique", title = "Statistiques des fréquences alléliques\ndes ORF par génération", x = "Génération") +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+
+#ggsave("plot_AF_ORF.png", height = 4, width = 6)
+```
+
+
+```{r}
+df_ORF_filtre$Generation %>% unique()
+
+df_ORF_filtre <- df_ORF_filtre %>% 
+  mutate(Traitement = case_when(Echantillon <=5 ~ "Froid",
+                                Echantillon > 5 ~ "Chaud")) 
+
+
+df_ORF_filtre[which(df_ORF_filtre$ORF != "CyHV3_ORF135"), ] %>%
+ggplot(aes(x = Generation, y = AF_2, color = Traitement))+
+  geom_boxplot(position = position_dodge(1)) +
+  scale_color_brewer(palette = "Dark2") +
+  facet_wrap(~ORF) +
+  labs(y = "Fréquence\nallélique", title = "Statistiques des fréquences alléliques des ORF par génération") +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+```
+
