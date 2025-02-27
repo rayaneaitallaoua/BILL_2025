@@ -407,13 +407,14 @@ count_snp_sv_type[,c("GENERATION", "ECHANTILLON", "COUNT", "SV_SNP", "TRAITEMENT
   geom_boxplot(outlier.colour="black", outlier.shape=16, outlier.size=2, outlier.alpha = 0.5 ,notch=FALSE, position = position_dodge(1)) +
   geom_dotplot(aes(fill = TRAITEMENT) ,binaxis='y', stackdir='center', dotsize=0.5, alpha = 0.7, position = position_dodge(1)) +
    #geom_jitter(shape=16, position=position_jitter(0.2), alpha = 0.5) 
-  scale_fill_brewer(palette="Dark2") +
-  scale_color_brewer(palette="Dark2") +
+  scale_fill_brewer(palette="Dark2",  name = "Traitement", labels = c("Aucun", "Chaud", "Froid")) +
+  scale_color_brewer(palette="Dark2", name = "Traitement", labels = c("Aucun", "Chaud", "Froid")) +
   facet_wrap(~ SV_SNP, scales = "free")  +  #, ncol = 5
-  labs(x = "mutation SNP et SV", y = "nombre de variants") +
+  labs(x = "Générations", y = "Effectif") +
   ggtitle("Statistiques des mutation de type SNP et SV par Génération et traitement") +
-  theme_classic()
-
+  theme_classic() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+#ggsave("boxplot_nb_snp_sv_TG.png", height = 5, width = 7)
 
 count_snp_sv_type[,c("GENERATION", "ECHANTILLON", "COUNT", "SV_SNP", "TRAITEMENT")] %>% unique() %>%
   ggplot(aes(x = GENERATION,
@@ -1233,6 +1234,19 @@ df_length_mut_sv %>%
   scale_y_log10()+
   labs(y = "longueur\nabsolue\nmoyenne", x = "Génération", title = "Statistiques des longueurs absolues moyennes des\ninsertions et des délétions par génération") +
   theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+
+table_sv %>%
+  ggplot(aes(x = GENERATION, y = abs(LONGUEUR), by = TRAITEMENT, color = TRAITEMENT))+
+  geom_boxplot(position = position_dodge(1))+
+  #geom_dotplot(aes(fill = TRAITEMENT), binaxis='y', stackdir='center', position=position_dodge(1), alpha = 0.8, dotsize = 0.7) + 
+  scale_color_brewer(palette="Dark2", name = "Traitement", labels = c("Aucun", "Chaud", "Froid")) +
+  #scale_fill_brewer(palette="Dark2") +
+  labs(y = "longueur\nabsolue\nmoyenne", x = "Génération", title = "Statistiques des longueurs absolues moyennes des\ninsertions et des délétions par génération et par traitement") +
+  facet_wrap(~TYPE.DE.MUTATION)+
+  scale_y_log10() +
+  theme_bw() +
+  
   theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
 
 #ggsave("boxplot_longueur_mean_ins_del.png", height = 4, width = 7)
