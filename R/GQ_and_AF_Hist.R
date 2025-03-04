@@ -9,9 +9,9 @@ library(gridExtra)
 
 #penser à la normalisation des valuer AF et GQ?
 
-af_data <- read.table("AF_per_SV.txt", header = FALSE,
+af_data <- read.table(".\\fichiers_utilises\\AF_per_SV.txt", header = FALSE,
                       col.names = c("Frequency", "AF"))
-gq_data <- read.table("GQ_per_SNP.txt", header = FALSE,
+gq_data <- read.table(".\\fichiers_utilises\\GQ_per_SNP.txt", header = FALSE,
                       col.names = c("Frequency", "GQ"))
 
 # Step 3: Check the structure of the data ----

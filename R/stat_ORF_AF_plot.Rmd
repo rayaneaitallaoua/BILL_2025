@@ -23,7 +23,7 @@ library(wesanderson)
 ```
 
 ```{r}
-df_ORF <- read.csv("sv_with_ORF_rayane2.csv" , header = FALSE, sep = ";",  na ="NA", stringsAsFactors = FALSE)
+df_ORF <- read.csv(".\\fichiers_utilises\\sv_with_ORF_rayane2.csv" , header = FALSE, sep = ";",  na ="NA", stringsAsFactors = FALSE)
 df_ORF %>% str()
 df_ORF$V2 <- as.factor(df_ORF$V2)
 df_ORF$V2 %>% levels()
@@ -57,7 +57,7 @@ ggplot(aes(x = Generation, y = AF_2, color = ORF))+
   theme_bw() +
   theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
 
-#ggsave("plot_AF_ORF.png", height = 4, width = 6)
+#ggsave(".\\images_scripts\\plot_AF_ORF.png", height = 4, width = 6)
 ```
 
 

@@ -50,8 +50,8 @@ scales::show_col(carto_pal(12, "Safe"))
 
 ```{r cars}
 # Step 2: Import the data
-af_data <- read.table("AF_per_SV.txt", header = FALSE, col.names = c("Frequency", "AF"))
-gq_data <- read.table("GQ_per_SNP.txt", header = FALSE, col.names = c("Quality", "GQ"))
+af_data <- read.table(".\\fichiers_utilises\\AF_per_SV.txt", header = FALSE, col.names = c("Frequency", "AF"))
+gq_data <- read.table(".\\fichiers_utilises\\GQ_per_SNP.txt", header = FALSE, col.names = c("Quality", "GQ"))
 
 # Step 3: Check the structure of the data
 glimpse(af_data)
@@ -173,7 +173,7 @@ gq_plot_2.0
 ```
 
 ```{r}
-#ggsave(plot = gq_plot_2.0, "gqplot.png")
+#ggsave(plot = gq_plot_2.0, ".\\images_scripts\\gqplot.png")
 
 remove(af_data, af_plot, gq_data, gq_plot, gq_plot_2.0)
 ```
@@ -182,10 +182,10 @@ remove(af_data, af_plot, gq_data, gq_plot, gq_plot_2.0)
 #Données brutes mutations SV et SNP
 
 ```{r}
-table_nb_variants <- read.csv("counts.csv" , header = TRUE, sep = ";",  na ="NA", stringsAsFactors = FALSE)
+table_nb_variants <- read.csv(".\\fichiers_utilises\\counts.csv" , header = TRUE, sep = ";",  na ="NA", stringsAsFactors = FALSE)
 
-table_snp <- read.csv("snp.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
-table_sv <- read.csv("sv.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+table_snp <- read.csv(".\\fichiers_utilises\\snp.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+table_sv <- read.csv(".\\fichiers_utilises\\sv.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
 
 names(table_snp)
 names(table_snp)[names(table_snp) == "ECHANTILLONQUALITE"] <- "ECHANTILLON"
@@ -320,8 +320,8 @@ P_nb_mu_2 <- nb_mu_moy_t %>%
   theme_classic() +
   theme(axis.title.y = element_text(angle=0, vjust = 0.5))
 
-#ggsave(plot = P_nb_mu_1, "nb_moy_mutation_Gen.png", height = 5, width = 7)
-#ggsave(plot = P_nb_mu_2, "nb_moy_mutation_Gen_T.png", height = 5, width = 7)
+#ggsave(plot = P_nb_mu_1, ".\\images_scripts\\nb_moy_mutation_Gen.png", height = 5, width = 7)
+#ggsave(plot = P_nb_mu_2, ".\\images_scripts\\nb_moy_mutation_Gen_T.png", height = 5, width = 7)
 P_nb_mu_1
 P_nb_mu_2
 #remove(nb_mu_moy, nb_mu_moy_t)
@@ -414,7 +414,7 @@ count_snp_sv_type[,c("GENERATION", "ECHANTILLON", "COUNT", "SV_SNP", "TRAITEMENT
   ggtitle("Statistiques des mutation de type SNP et SV par Génération et traitement") +
   theme_classic() +
   theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
-#ggsave("boxplot_nb_snp_sv_TG.png", height = 5, width = 7)
+#ggsave(".\\images_scripts\\boxplot_nb_snp_sv_TG.png", height = 5, width = 7)
 
 count_snp_sv_type[,c("GENERATION", "ECHANTILLON", "COUNT", "SV_SNP", "TRAITEMENT")] %>% unique() %>%
   ggplot(aes(x = GENERATION,
@@ -430,7 +430,7 @@ count_snp_sv_type[,c("GENERATION", "ECHANTILLON", "COUNT", "SV_SNP", "TRAITEMENT
   theme_bw()+
   theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
 
-#ggsave("nb_snp_sv_TG.png", height = 5, width = 7)
+#ggsave(".\\images_scripts\\nb_snp_sv_TG.png", height = 5, width = 7)
 ```
 
 
@@ -459,7 +459,7 @@ count_snp_sv_type %>%
   labs(x = "Génération", y = "nombre de mutation", title = "distribution des statistiques des types mutations par Génération") +
   theme_classic()
 
-#ggsave("P_nb_variant_generation.png", width = 14, height = 6)
+#ggsave(".\\images_scripts\\P_nb_variant_generation.png", width = 14, height = 6)
 ```
 
 
@@ -493,8 +493,8 @@ plot_boxplot_snpsvEff2 <-count_snp_sv_type %>%
 plot_boxplot_snpsvEff
 plot_boxplot_snpsvEff2
 
-#ggsave(plot = plot_boxplot_snpsvEff, "plot_boxplot_snpsvEff.png", width = 8, height = 12)
-#ggsave(plot = plot_boxplot_snpsvEff2, "plot_boxplot_snpsvEff2.png", width = 14, height = 6)
+#ggsave(plot = plot_boxplot_snpsvEff, ".\\images_scripts\\plot_boxplot_snpsvEff.png", width = 8, height = 12)
+#ggsave(plot = plot_boxplot_snpsvEff2, ".\\images_scripts\\plot_boxplot_snpsvEff2.png", width = 14, height = 6)
 ```
 
 
@@ -745,7 +745,7 @@ count_snp_sv_type  %>%
   labs(title = "Fréquence relative des types de mutations (snp, insertion, délétion)\ndans chaque échantillon par génération") +
   theme_bw()
 
-#ggsave("freq_snp_ins_del_ech_gen.png", height = 13, width = 6)
+#ggsave(".\\images_scripts\\freq_snp_ins_del_ech_gen.png", height = 13, width = 6)
 
 
 ```
@@ -866,7 +866,7 @@ count_ins_del_sv %>%
   labs(title = "Fréquence relative des délétions et des insertions dans chaque échantillon par génération") +
   theme_bw()
 
-ggsave("freq_del_ins_ech.png", height = 6, width = 10)
+ggsave(".\\images_scripts\\freq_del_ins_ech.png", height = 6, width = 10)
 ```
 
 
@@ -901,7 +901,7 @@ freq_moy_indel_gen %>%
   labs(x = "Génération", y = "Fréquence\nmoyenne", title = "Fréquences moyennes des insertions et\ndes délétions par génération") +
   theme_bw() +
   theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
-#ggsave("freq_ins_del_gen.png", height = 4, width = 6)
+#ggsave(".\\images_scripts\\freq_ins_del_gen.png", height = 4, width = 6)
 
 freq_moy_indel_gen %>%
   ggplot(aes(x = as.factor(GENERATION), y = freq_indel, color = TYPE)) +
@@ -1249,7 +1249,7 @@ table_sv %>%
   
   theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
 
-#ggsave("boxplot_longueur_mean_ins_del.png", height = 4, width = 7)
+#ggsave(".\\images_scripts\\boxplot_longueur_mean_ins_del.png", height = 4, width = 7)
   
 ```
 
@@ -1344,7 +1344,7 @@ df_length_moy_mutg %>%
   theme_bw() + 
   theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
 
-#ggsave("boxplot_longueur_mean_mean_ins_del.png", height = 4, width = 7)
+#ggsave(".\\images_scripts\\boxplot_longueur_mean_mean_ins_del.png", height = 4, width = 7)
 ```
 
 
