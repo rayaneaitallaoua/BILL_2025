@@ -462,7 +462,8 @@ F_ORF <- function(name_ORF, df_gen, info_ech){
   #Pour header du fichier fasta, il faut que le variant apparaissent en premier mot : 
   accession_genome <- "DQ657948.1"
   name_species <- "Cyprinid herpesvirus 3 strain KHV-U"
-  identifiant_header <- paste0(accession_genome, ":", pos_begin, "-", pos_end, "_VAR", info_ech)
+  #identifiant_header <- paste0(accession_genome, ":", pos_begin, "-", pos_end, "_VAR", info_ech)
+  identifiant_header <- paste0("VAR", info_ech, "_" , accession_genome, ":", pos_begin, "-", pos_end)
   comment_header <- paste0(name_species, " ",name_ORF)
   header <- paste0(identifiant_header, " ", comment_header)
   print(header)
@@ -517,16 +518,16 @@ F_liste_fasta_file <- function(df_iupac, ech){
 
 
 ```{r fonction boucle qui itere sur une liste d'ORF, include = FALSE}
-list_ORF_P901 <- F_liste_fasta_file(df_iupac = df_gen_P901_iupac, ech = ".P901")
-list_ORF_P902 <- F_liste_fasta_file(df_iupac = df_gen_P902_iupac, ech = ".P902")
-list_ORF_P903 <- F_liste_fasta_file(df_iupac = df_gen_P903_iupac, ech = ".P903")
-list_ORF_P904 <- F_liste_fasta_file(df_iupac = df_gen_P904_iupac, ech = ".P904")
-list_ORF_P905 <- F_liste_fasta_file(df_iupac = df_gen_P905_iupac, ech = ".P905")
-list_ORF_P906 <- F_liste_fasta_file(df_iupac = df_gen_P906_iupac, ech = ".P906")
-list_ORF_P907 <- F_liste_fasta_file(df_iupac = df_gen_P907_iupac, ech = ".P907")
-list_ORF_P908 <- F_liste_fasta_file(df_iupac = df_gen_P908_iupac, ech = ".P908")
-list_ORF_P909 <- F_liste_fasta_file(df_iupac = df_gen_P909_iupac, ech = ".P909")
-list_ORF_P9010 <- F_liste_fasta_file(df_iupac = df_gen_P9010_iupac, ech = ".P9010")
+list_ORF_P901 <- F_liste_fasta_file(df_iupac = df_gen_P901_iupac, ech = "P901")
+list_ORF_P902 <- F_liste_fasta_file(df_iupac = df_gen_P902_iupac, ech = "P902")
+list_ORF_P903 <- F_liste_fasta_file(df_iupac = df_gen_P903_iupac, ech = "P903")
+list_ORF_P904 <- F_liste_fasta_file(df_iupac = df_gen_P904_iupac, ech = "P904")
+list_ORF_P905 <- F_liste_fasta_file(df_iupac = df_gen_P905_iupac, ech = "P905")
+list_ORF_P906 <- F_liste_fasta_file(df_iupac = df_gen_P906_iupac, ech = "P906")
+list_ORF_P907 <- F_liste_fasta_file(df_iupac = df_gen_P907_iupac, ech = "P907")
+list_ORF_P908 <- F_liste_fasta_file(df_iupac = df_gen_P908_iupac, ech = "P908")
+list_ORF_P909 <- F_liste_fasta_file(df_iupac = df_gen_P909_iupac, ech = "P909")
+list_ORF_P9010 <- F_liste_fasta_file(df_iupac = df_gen_P9010_iupac, ech = "P9010")
 
 ```
 
@@ -557,8 +558,8 @@ list_ORF_gen_ref <- list()
     
     #header : 
     accession_genome <- "DQ657948.1"
-    identifiant_header <- paste0(accession_genome, ":", pos_begin, "-", pos_end, "_REF")
-    
+    #identifiant_header <- paste0(accession_genome, ":", pos_begin, "-", pos_end, "_REF")
+    identifiant_header <- paste0("REF_" ,accession_genome, ":", pos_begin, "-", pos_end)
     
     name_species <- "Cyprinid herpesvirus 3 strain KHV-U"
     comment_header <- paste0(name_species, " ", i)
@@ -642,4 +643,105 @@ F_save_fasta(list = list_ORF_gen_ref, info_ech = "_gen_ref")
 ```
 
 
+```{r}
+df_gen_P901_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
+df_gen_P902_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
+df_gen_P903_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
+df_gen_P904_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "R" "M" "K"
+df_gen_P905_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
+df_gen_P906_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M" "Y"
+df_gen_P907_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
+df_gen_P908_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M" "K"
+df_gen_P909_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "R" "M" "K"
+df_gen_P9010_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
 
+#M, R, K, Y
+
+# il y a des M partout
+which(df_gen_P901_iupac$new_alt_iupac == "M") %>% length()
+which(df_gen_P902_iupac$new_alt_iupac == "M") %>% length()
+which(df_gen_P903_iupac$new_alt_iupac == "M") %>% length()
+which(df_gen_P904_iupac$new_alt_iupac == "M") %>% length()
+which(df_gen_P905_iupac$new_alt_iupac == "M") %>% length()
+which(df_gen_P906_iupac$new_alt_iupac == "M") %>% length()
+which(df_gen_P907_iupac$new_alt_iupac == "M") %>% length()
+which(df_gen_P908_iupac$new_alt_iupac == "M") %>% length()
+which(df_gen_P909_iupac$new_alt_iupac == "M") %>% length()
+which(df_gen_P9010_iupac$new_alt_iupac == "M") %>% length()
+#1 seul M à chaque fois
+
+df_gen_P901_iupac[which(df_gen_P901_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
+df_gen_P902_iupac[which(df_gen_P902_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
+df_gen_P903_iupac[which(df_gen_P903_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
+df_gen_P904_iupac[which(df_gen_P904_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
+df_gen_P905_iupac[which(df_gen_P905_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
+df_gen_P906_iupac[which(df_gen_P906_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
+df_gen_P907_iupac[which(df_gen_P907_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
+df_gen_P908_iupac[which(df_gen_P908_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
+df_gen_P909_iupac[which(df_gen_P909_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
+df_gen_P9010_iupac[which(df_gen_P901_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
+#ORF64
+
+#R
+which(df_gen_P901_iupac$new_alt_iupac == "R") %>% length() #0
+which(df_gen_P902_iupac$new_alt_iupac == "R") %>% length() #0
+which(df_gen_P903_iupac$new_alt_iupac == "R") %>% length() #0
+which(df_gen_P904_iupac$new_alt_iupac == "R") %>% length() #6
+which(df_gen_P905_iupac$new_alt_iupac == "R") %>% length() #0
+which(df_gen_P906_iupac$new_alt_iupac == "R") %>% length() #0
+which(df_gen_P907_iupac$new_alt_iupac == "R") %>% length() #0
+which(df_gen_P908_iupac$new_alt_iupac == "R") %>% length() #0
+which(df_gen_P909_iupac$new_alt_iupac == "R") %>% length() #27
+which(df_gen_P9010_iupac$new_alt_iupac == "R") %>% length() #0
+
+df_gen_P904_iupac[which(df_gen_P904_iupac$new_alt_iupac == "R"), "Locus.tag"] %>% unique() %>% as.vector()
+#ORF 33, 41, 40
+df_gen_P909_iupac[which(df_gen_P909_iupac$new_alt_iupac == "R"), "Locus.tag"] %>% unique() %>% as.vector()
+#ORF 33, 41, 40
+
+#K
+which(df_gen_P904_iupac$new_alt_iupac == "K") %>% length()#1
+which(df_gen_P908_iupac$new_alt_iupac == "K") %>% length()#1
+which(df_gen_P909_iupac$new_alt_iupac == "K") %>% length()#1
+
+
+df_gen_P904_iupac[which(df_gen_P904_iupac$new_alt_iupac == "K"), "Locus.tag"] %>% as.character() # Pas sur un ORF donc osef
+df_gen_P908_iupac[which(df_gen_P908_iupac$new_alt_iupac == "K"), "Locus.tag"] %>% as.character() #CyHV3_ORF64
+df_gen_P909_iupac[which(df_gen_P909_iupac$new_alt_iupac == "K"), "Locus.tag"] %>% as.character() #CyHV3_ORF64
+
+#Y
+which(df_gen_P906_iupac$new_alt_iupac == "Y") %>% length()
+df_gen_P906_iupac[which(df_gen_P906_iupac$new_alt_iupac == "Y"), "Locus.tag"] %>% as.character() #CyHV3_ORF64
+
+```
+
+```{r ORF64}
+
+
+df_gen_P901_iupac[which(df_gen_P901_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow() #2204
+df_gen_P902_iupac[which(df_gen_P902_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+df_gen_P903_iupac[which(df_gen_P903_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+df_gen_P904_iupac[which(df_gen_P904_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+df_gen_P905_iupac[which(df_gen_P905_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+df_gen_P906_iupac[which(df_gen_P906_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+df_gen_P907_iupac[which(df_gen_P907_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+df_gen_P908_iupac[which(df_gen_P908_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+df_gen_P909_iupac[which(df_gen_P909_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+df_gen_P9010_iupac[which(df_gen_P901_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+
+df_gen_P901_iupac[which(df_gen_P901_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2194
+df_gen_P902_iupac[which(df_gen_P902_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2186
+df_gen_P903_iupac[which(df_gen_P903_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2183
+df_gen_P904_iupac[which(df_gen_P904_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2190
+df_gen_P905_iupac[which(df_gen_P905_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2188
+df_gen_P906_iupac[which(df_gen_P906_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2190
+df_gen_P907_iupac[which(df_gen_P907_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"]%>% is.na() %>% sum() #2192
+df_gen_P908_iupac[which(df_gen_P908_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2187
+df_gen_P909_iupac[which(df_gen_P909_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2186
+df_gen_P9010_iupac[which(df_gen_P901_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2185
+
+summary(c(10, 18, 21, 14, 16, 14, 12, 17, 18, 19))
+
+```
+
+En moyenne l'ORF64 a 16 mutations pour 2204 pb et il comporte des mutations M, K, Y (les deux derniers dans les ech 4, 8, 9 et 6)
