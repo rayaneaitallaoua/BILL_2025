@@ -63,6 +63,6 @@ done
 find "$DIR_COMPRESS_INDEX" -type f -name "*.vcf.gz" | while read -r file ; do
     base_name=$(basename "${file%.vcf}")
     
-    bcftools query -f "%POS\t%ALT" "$file" > "${DIR_FASTA}/${base_name}.fasta" # extrait que l'allèle alternatif
+    bcftools query -f "%POS\t%REF\t%ALT" "$file" > "${DIR_FASTA}/${base_name}.fasta" # extrait que l'allèle alternatif
 
 done

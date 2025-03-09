@@ -1,0 +1,489 @@
+---
+title: "Calcul du dN/dS"
+author: "heloise_calzan"
+date: "2025-03-09"
+output: html_document
+---
+
+Il y a deux manières sur R de calculer le dNdS de séquences: avec le package ape et avec le package seqinr
+le package seqinr nécessite que les deux séquences à comparer soient dans le même fichier FASTA
+pour le package ape, les séquences sont dans des fichiers séparés.
+
+Les deux packages utilisent la
+
+
+On va utiliser le package Ape parce qu'après avoir comparer les résultats des deux packages sur les données, la fonction dnds de ape donne moins de résultats aberrants (mais au final les séquences codantes qui sont sous sélections positives sont les mêmes dans les deux package)
+
+Du coup pour le package Ape, on a besoin des fichiers FASTA générés avec le script R "fasta_file_preparation_dnds.Rmd" (ils sont dans le dossier resultats_fasta_files). Il n'y a pas besoin de faire tourner les script bash dnds_step2 (à la limite celui là pour s'assurer que les fichiers FASTA sont propres) et dnds_step3 (celui là c'est inutile, il sert que si on veut calculer le dNdS avec le package seqinr).
+
+
+```{r librairies, include=FALSE}
+library(tidyverse)
+library(dplyr)
+library(Biostrings)
+library(ape)
+library(stringr)
+#install.packages("seqinr")
+library(seqinr)
+```
+
+```{r working directory, include=FALSE}
+setwd("E:\\github\\BILL_2025\\R")
+```
+
+fonction qui parcours les sous dossier d'un dossier puis dans chaque sous dossier les fichiers, prend celui qui se termine par gen_ref.fasta et compare deux à deux avec les autres fichiers du sous dossier
+```{r}
+
+#Fonction pour vérifier l'alignement des deux séquences : 
+checkalgn <- function (seq1, seq2) {
+  problemes <- c()
+  
+  #vérifier la longueur des séquences
+  if(length(seq1) != length(seq2)){
+    problemes <- c(problemes, "longueurs différentes")
+  } 
+  
+  if(length(seq1) %%3 != 0 & length(seq2) %%3){
+    problemes <- c(problemes, "longueurs non divisibles par 3")
+  } 
+  
+  if (length(problemes) == 0){
+    return(list(aligned = TRUE))
+  } else {
+    return(list(aligned = FALSE, reason = problemes))
+  }
+    
+}
+
+#Fonction pour convertir les sequences : 
+#Cette fonction a été pensée pour des fichiers lu avec read.fasta du package seqinr mais ça ne pose pas de pb ici
+seqinr_to_dnabin <- function(seqs) {
+  
+  #Extraire les séquences sous forme de caractères : 
+  seq_chars <- lapply(seqs, function(x) toupper(c2s(x)))
+  
+  #Convertir en format DNAbin
+  dna_bin <- as.DNAbin(seq_chars)
+  if(!is.null(names(seqs))){
+    names(dna_bin) <- names(seqs)
+  }
+  return(dna_bin)
+}
+
+
+dossier_principal <- ".\\resultats_fasta_files"
+
+#Fonction principale
+F_seq <- function(dossier_principal){
+  
+  #tableau vide
+  result_dnds <- data.frame(
+    CDS = character(),
+    Fichier_ref = character(),
+    Fichier_Comp = character(),
+    Aligned = logical(),
+    dnds = numeric(),
+    stringsAsFactors = FALSE
+  )
+  
+
+  #liste des dossiers pésents dans le dossier principale (et dans chaque dossier il y a 11 fichiers fasta pour les 10 variants et la séquence référente)
+  dossier_CDS <- list.dirs(path =dossier_principal, full.names = TRUE, recursive = FALSE)
+  #sous windows il faut faire attention aux chemins, et changer les separeteurs pour que le path soit valide : 
+  dossier_CDS <- gsub("/", "\\\\", dossier_CDS)  
+  
+  
+  for (CDS in dossier_CDS) {
+    
+    nom_CDS <- basename(CDS)
+    cat("Traitement du CDS:", nom_CDS, "\n")
+    
+    fasta_file <- list.files(CDS, pattern = "\\.fasta$", full.names = TRUE) #liste des fichiers dans chaque dossier
+    fasta_file <- gsub("/", "\\\\", fasta_file)
+    
+    ref_file <- fasta_file[grep("_gen_ref\\.fasta", fasta_file)]
+    
+    #boucle if vérif du fichier de référence : un peut inutile parce que normalement il y a un seul fichier de référence
+    if(length(ref_file) == 0){
+      cat("aucun fichier de référence trouvé pour", nom_CDS, "\n")
+      next
+    } else if (length(ref_file)>1){
+      cat("Plusieurs fichiers de référence trouvés pour", nom_CDS, " utilisation du premier\n")
+      ref_file <- ref_file[1]
+    }
+    
+    #charger la séquence de référence
+    seq_ref <- read.dna(ref_file, format = "fasta")
+    seq_ref2 <- read.fasta(ref_file)
+    
+    seq_files <- fasta_file[!fasta_file %in% ref_file] #toues les fichiers de la liste qui ne sont le fichier de référence
+    if(length(seq_files) == 0){
+      cat("Aucun autre fichier fasta trouvé pour", nom_CDS, "\n")
+    }
+    
+    #Comparer le fichier de référence avec chacun des autres fichiers
+    for (i in seq_files) {
+      var_file <- basename(i)
+      #cat(" Comparaison avec:", var_file, "\n")
+      
+      #charger la séquence à comparer
+      var_seq <- read.dna(i, format = "fasta") #package Ape
+      var_seq2 <- read.fasta(i) #package seqinr -> pour vérifier l'alignement avec la fonction faite au dessus
+      
+      #Vérifier si les séquences son alignées
+      alignement <- checkalgn(seq_ref2[[1]], var_seq2[[1]]) #celle là
+      algn <- alignement$aligned #algn prend une valeur TRUE ou FALSE
+      
+      if(algn){
+        
+        aln <- rbind(seq_ref, var_seq) #on empile les sequences chargées avec Ape dans une matrice pour faire le dNdS
+      
+        tryCatch({
+          if (dist.dna(aln) == 0) { # dist.dna : ça arrive quand il n'y a pas de différence entre le variant et la séquence de référence (vu que j'ai voulu faire le dnds pour tous les échantillons à partir d'un SNP observé sur une séquence codante d'un échantillon, donc les autres n'ont pas forcément le SNP)
+            dnds_result <- NA  # ou 0 si on veut un résultat numerique
+          } else {
+            dnds_result <- dnds(aln)
+            }
+   
+          #Ajouter les résultats au dataframe
+          new_line <- data.frame(
+            CDS = nom_CDS,
+            Fichier_Ref = basename(ref_file),
+            Fichier_comp = var_file,
+            Aligned = TRUE,
+            dnds = dnds_result,
+            stringsAsFactors = FALSE)
+          
+          result_dnds <- rbind(result_dnds, new_line)
+          
+        } , error = function(e) { 
+            #cat(" Erreur lors du calcul du dN/dS", e$message, "\n")
+          
+          new_line <- data.frame(
+            CDS = nom_CDS,
+            Fichier_Ref = basename(ref_file),
+            Fichier_comp = var_file,
+            Aligned = TRUE,
+            dnds = dnds_result,
+            stringsAsFactors = FALSE)
+          
+          result_dnds <- rbind(result_dnds, new_line)
+          })
+ 
+      } else { #s'il y a un pb dans les fichiers (pas divisible par 3, longueurs différentes...)
+        #cat(" Séquences non alignées:", alignement$reason, "\n")
+        
+        new_line <- data.frame(
+            CDS = nom_CDS,
+            Fichier_Ref = basename(ref_file),
+            Fichier_comp = var_file,
+            dnds = dnds_result,
+            Aligned = FALSE,
+            stringsAsFactors = FALSE)
+          
+          result_dnds <- rbind(result_dnds, new_line)
+      }
+    }
+  }
+  return(result_dnds)
+}
+
+```
+
+
+```{r, include=FALSE}
+
+df_dnds_ape <- F_seq(dossier_principal = dossier_principal)
+```
+
+```{r exploration des donnees}
+df_dnds_ape$dnds %>% unique()
+
+df_dnds_ape[which(df_dnds_ape$dnds == 0), ] %>% nrow() #140
+df_dnds_ape[which(df_dnds_ape$dnds < 0), ] %>% nrow() #51
+df_dnds_ape[which(df_dnds_ape$dnds > 0), ] %>% nrow() #382
+df_dnds_ape[which(df_dnds_ape$dnds > 0 & df_dnds_ape$dnds != Inf), ] %>% nrow() #136
+df_dnds_ape[which(df_dnds_ape$dnds == Inf), ] %>% nrow() #246
+df_dnds_ape[which(is.na(df_dnds_ape$dnds) == TRUE), ] %>% nrow() #10
+
+df_dnds_ape[which(df_dnds_ape$dnds == 0), "CDS"] %>% unique() %>% length() #22
+df_dnds_ape[which(df_dnds_ape$dnds < 0), "CDS"] %>% unique() %>% length() #6
+df_dnds_ape[which(df_dnds_ape$dnds > 0), "CDS"] %>% unique() %>% length() #46
+df_dnds_ape[which(df_dnds_ape$dnds > 0 & df_dnds_ape$dnds != Inf), "CDS"] %>% unique() %>% length()#17
+df_dnds_ape[which(df_dnds_ape$dnds == Inf), "CDS"] %>% unique() %>% length() #33
+df_dnds_ape[which(is.na(df_dnds_ape$dnds) == TRUE), "CDS"] %>% unique() %>% length() #18
+```
+
+Il y a des NA, de très grandes valeurs négatives des 0 et des Inf
+
+Si c'est = Inf -> dS = 0
+Donc pas de mutations synnymes, du coup division par 0 entraine une très grande valeur
+Soit il y a une forte sélection positive
+Soit c'est parce qu'il y a peu de mutations observées
+
+le dNdS peut être négatif à cause de l'estimation du taux de substitution :
+La méthode de Li (1993) utilisée par dnds() repose sur un modèle probabiliste.
+Si l’alignement contient très peu de mutations, le modèle peut donner des valeurs incohérentes.
+Dans ce cas, dS peut être légèrement négatif, ce qui donne un dN/dS très négatif.
+
+C'est donc un artefact dû à l'approximation du modèle, soit parce qu'il y a très peu de mutations soit parce que l'alignement est mauvais
+
+Si == 0 -> que des mutations synonymes, pas de mutation non synonymes
+
+Na lorsque les séquences sont les mêmes entre ref et var
+```{r, include=FALSE}
+df_dnds_ape <- df_dnds_ape %>% mutate(variant = gsub(".fasta", "", df_dnds_ape$Fichier_comp))
+
+df_dnds_ape[which(df_dnds_ape$dnds == 0), "variant"] %>% unique()
+df_dnds_ape[which(df_dnds_ape$dnds < 0), "variant"] %>% unique()
+df_dnds_ape[which(df_dnds_ape$dnds > 0), "variant"] %>% unique() 
+df_dnds_ape[which(df_dnds_ape$dnds > 0 & df_dnds_ape$dnds != Inf), "variant"] %>% unique()
+df_dnds_ape[which(df_dnds_ape$dnds == Inf), "variant"] %>% unique()
+df_dnds_ape[which(is.na(df_dnds_ape$dnds) == TRUE), "variant"] %>% unique() 
+
+
+#Sélection conservatrice
+df_dnds_ape[which(df_dnds_ape$dnds >= 0 & df_dnds_ape$dnds < 0.9), "variant"] %>% unique()
+df_dnds_ape[which(df_dnds_ape$dnds >= 0 & df_dnds_ape$dnds < 0.9), "CDS"] %>% unique()
+
+#Evolution neutre
+df_dnds_ape[which(df_dnds_ape$dnds > 0.9 & df_dnds_ape$dnds < 1.1), "variant"] %>% unique()
+#"ABG42895.1_126122_132925_P90.6"
+
+#Sélection positive
+df_dnds_ape[which(df_dnds_ape$dnds > 1.1 & df_dnds_ape$dnds < 3), "variant"] %>% unique()
+df_dnds_ape[which(df_dnds_ape$dnds > 1.1 & df_dnds_ape$dnds < 3), "CDS"] %>% unique() #4 CDS
+
+#Valeurs aberrantes : 
+# valeurs négatives
+df_dnds_ape[which(df_dnds_ape$dnds < 0), "variant"] %>% unique()
+df_dnds_ape[which(df_dnds_ape$dnds < 0), "CDS"] %>% unique() # ceux là on va aller compter le nombre moyen de SNP qu'il y a sur les CDS pour voir si c'est pas bcp de mutation
+
+#Valeus infinies
+df_dnds_ape[which(df_dnds_ape$dnds == Inf), "variant"] %>% unique()
+df_dnds_ape[which(df_dnds_ape$dnds == Inf), "CDS"] %>% unique()
+
+#nb varients identiques à la séquence ref : 
+df_dnds_ape[which(is.na(df_dnds_ape$dnds) == TRUE), "variant"] %>% unique() 
+```
+
+Si les fichier fasta ont été généré avec le script fasta_file_preparation_dnds qui est dans le github, normalement tout va bien, il n'y a pas besoin de lancer cette fenêtre R (les colonnes CDS_TRUE_ID de df_dnds_ape correspondent avec celle des tableaux importés)
+```{r}
+#names(df_dnds_ape)[1] <- "ID_CDS"
+#df_dnds_ape <- df_dnds_ape %>% separate(ID_CDS, into = c("CDS", "Begin", "End"), sep = "_", remove = TRUE)
+#df_dnds_ape <- df_dnds_ape %>% mutate(CDS = paste0("cds-", df_dnds_ape$CDS))
+#df_dnds_ape <- df_dnds_ape %>% mutate(start_end = paste(as.factor(df_dnds_ape$Begin), as.factor(df_dnds_ape$End), sep = "."))
+#df_dnds_ape <- df_dnds_ape %>% mutate(CDS_TRUE_ID = paste(CDS, start_end, sep = "_")) %>% relocate(CDS_TRUE_ID, .before = CDS)
+#df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "Begin")]
+#df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "End")]
+#df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "start_end")]
+#df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "CDS")]
+```
+
+
+CDS_genbank_2
+list_CDS_mu_2
+df_CDS
+```{r imoprtation tables variants}
+Liste_CDS_mu_2 <- read.table(".\\fichiers_utilises\\list_CDS_mu_2.txt")
+Liste_CDS_mu_2 <- as.vector(Liste_CDS_mu_2$V1) 
+
+gen_P90_1_IUPAC <-  read.csv(".\\fichiers_utilises\\gen_P90_1_IUPAC.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+gen_P90_2_IUPAC <-  read.csv(".\\fichiers_utilises\\gen_P90_2_IUPAC.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+gen_P90_3_IUPAC <-  read.csv(".\\fichiers_utilises\\gen_P90_3_IUPAC.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+gen_P90_4_IUPAC <-  read.csv(".\\fichiers_utilises\\gen_P90_4_IUPAC.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+gen_P90_5_IUPAC <-  read.csv(".\\fichiers_utilises\\gen_P90_5_IUPAC.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+gen_P90_6_IUPAC <-  read.csv(".\\fichiers_utilises\\gen_P90_6_IUPAC.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+gen_P90_7_IUPAC <-  read.csv(".\\fichiers_utilises\\gen_P90_7_IUPAC.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+gen_P90_8_IUPAC <-  read.csv(".\\fichiers_utilises\\gen_P90_8_IUPAC.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+gen_P90_9_IUPAC <-  read.csv(".\\fichiers_utilises\\gen_P90_9_IUPAC.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+gen_P90_10_IUPAC <-  read.csv(".\\fichiers_utilises\\gen_P90_10_IUPAC.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+
+CDS_genbank_2 <-  read.csv(".\\fichiers_utilises\\CDS_genbank_2.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+df_CDS <-  read.csv(".\\fichiers_utilises\\df_CDS.csv" , header = TRUE,  na ="NA", stringsAsFactors = FALSE)
+```
+
+
+```{r imoprtation tables variants}
+gen_P90_1_IUPAC$traitement <- "Froid"
+gen_P90_2_IUPAC$traitement <- "Froid"
+gen_P90_3_IUPAC$traitement <- "Froid"
+gen_P90_4_IUPAC$traitement <- "Froid"
+gen_P90_5_IUPAC$traitement <- "Froid"
+gen_P90_6_IUPAC$traitement <- "Chaud"
+gen_P90_7_IUPAC$traitement <- "Chaud"
+gen_P90_8_IUPAC$traitement <- "Chaud"
+gen_P90_9_IUPAC$traitement <- "Chaud"
+gen_P90_10_IUPAC$traitement <- "Chaud"
+
+F_mut_count <- function(table){
+  table <- table %>% mutate(nb_mutation = case_when(is.na(table$ALT_IUPAC) == TRUE ~ 0, is.na(table$ALT_IUPAC) == FALSE ~ 1))
+  return(table)
+}
+
+gen_P90_1_IUPAC <- F_mut_count(gen_P90_1_IUPAC)
+gen_P90_2_IUPAC <- F_mut_count(gen_P90_2_IUPAC)
+gen_P90_3_IUPAC <- F_mut_count(gen_P90_3_IUPAC)
+gen_P90_4_IUPAC <- F_mut_count(gen_P90_4_IUPAC)
+gen_P90_5_IUPAC <- F_mut_count(gen_P90_5_IUPAC)
+gen_P90_6_IUPAC <- F_mut_count(gen_P90_6_IUPAC)
+gen_P90_7_IUPAC <- F_mut_count(gen_P90_7_IUPAC)
+gen_P90_8_IUPAC <- F_mut_count(gen_P90_8_IUPAC)
+gen_P90_9_IUPAC <- F_mut_count(gen_P90_9_IUPAC)
+gen_P90_10_IUPAC <- F_mut_count(gen_P90_10_IUPAC)
+
+
+
+F_CDS_mut_ech <- function(table, type, ech){
+  df <- table[which(table$CDS_Region == "CDS"), c("POS", "POS_factor", "CDS_TRUE_ID", "nb_mutation")] %>%
+    unique() %>% 
+    aggregate(nb_mutation ~ CDS_TRUE_ID, FUN = sum)
+  df1 <- table[which(table$CDS_Region == "CDS"),c("CDS_TRUE_ID", "Locus.tag", "CDS_Name")] %>% unique()
+  df2 <- table[which(table$CDS_Region == "CDS"), c("POS_factor", "CDS_TRUE_ID")] %>%
+    unique() %>% 
+    aggregate(. ~ CDS_TRUE_ID, FUN = length)
+  names(df2)[2] <- "Length_CDS"
+  
+  df <- left_join(df, df1, by="CDS_TRUE_ID")
+  df <- left_join(df, df2, by="CDS_TRUE_ID")
+  df <- df %>% mutate(taux_mutation = round((df$nb_mutation/df$Length_CDS), 4))
+  df$traitement <- type
+  df$ech <- ech
+  
+ 
+  
+  return(df)
+}
+
+P9010_CDS_mut <- F_CDS_mut_ech(gen_P90_10_IUPAC, type = "Chaud", ech = "P9010")
+P901_CDS_mut <- F_CDS_mut_ech(gen_P90_1_IUPAC, type = "Froid", ech = "P901")
+P902_CDS_mut <- F_CDS_mut_ech(gen_P90_2_IUPAC, type = "Froid", ech = "P902")
+P903_CDS_mut <- F_CDS_mut_ech(gen_P90_3_IUPAC, type = "Froid", ech = "P903")
+P904_CDS_mut <- F_CDS_mut_ech(gen_P90_4_IUPAC, type = "Froid", ech = "P904")
+P905_CDS_mut <- F_CDS_mut_ech(gen_P90_5_IUPAC, type = "Froid", ech = "P905")
+P906_CDS_mut <- F_CDS_mut_ech(gen_P90_6_IUPAC, type = "Chaud", ech = "P906")
+P907_CDS_mut <- F_CDS_mut_ech(gen_P90_7_IUPAC, type = "Chaud", ech = "P907")
+P908_CDS_mut <- F_CDS_mut_ech(gen_P90_8_IUPAC, type = "Chaud", ech = "P908")
+P909_CDS_mut <- F_CDS_mut_ech(gen_P90_9_IUPAC, type = "Chaud", ech = "P909")
+
+
+df_CDS_mut <- rbind(P901_CDS_mut, P902_CDS_mut)
+df_CDS_mut <- rbind(df_CDS_mut, P903_CDS_mut)
+df_CDS_mut <- rbind(df_CDS_mut, P904_CDS_mut)
+df_CDS_mut <- rbind(df_CDS_mut, P905_CDS_mut)
+df_CDS_mut <- rbind(df_CDS_mut, P906_CDS_mut)
+df_CDS_mut <- rbind(df_CDS_mut, P907_CDS_mut)
+df_CDS_mut <- rbind(df_CDS_mut, P908_CDS_mut)
+df_CDS_mut <- rbind(df_CDS_mut, P909_CDS_mut)
+df_CDS_mut <- rbind(df_CDS_mut, P9010_CDS_mut)
+
+remove(gen_P90_10_IUPAC,gen_P90_1_IUPAC, gen_P90_2_IUPAC, gen_P90_3_IUPAC, gen_P90_4_IUPAC, gen_P90_5_IUPAC, gen_P90_6_IUPAC, gen_P90_7_IUPAC, gen_P90_8_IUPAC, gen_P90_9_IUPAC, P901_CDS_mut, P902_CDS_mut, P903_CDS_mut, P904_CDS_mut, P905_CDS_mut, P906_CDS_mut, P907_CDS_mut, P908_CDS_mut, P909_CDS_mut, P9010_CDS_mut)
+```
+
+
+```{r}
+df_dnds_ape$CDS %>% unique() %>% length()
+df_CDS_mut[which(df_CDS_mut$CDS_TRUE_ID %in% Liste_CDS_mu_2), "CDS_TRUE_ID"] %>% unique() %>% length()
+names(df_dnds_ape)[1] <- "CDS_TRUE_ID"
+
+df_dnds_ape <- df_dnds_ape %>% separate(variant, into = c("name_CDS", "CDS_Begin", "CDS_End", "Sample"), sep = "_", remove = FALSE)
+df_dnds_ape <- df_dnds_ape %>% mutate(ech = sub("P90.", "P90", df_dnds_ape$Sample))
+
+df_dnds_ape_2 <- left_join(df_dnds_ape[,c("CDS_TRUE_ID", "dnds", "ech")], unique(df_CDS_mut[which(df_CDS_mut$CDS_TRUE_ID %in% Liste_CDS_mu_2), ]), by = c("CDS_TRUE_ID", "ech"))
+```
+
+```{r}
+#Valeurs aberrantes
+#DnDs infini
+df_dnds_ape_2[which(df_dnds_ape_2$dnds == Inf), c("nb_mutation", "taux_mutation")] %>% summary()
+#nb_mutation : 1 -> 4 et taux 0.0002 -> 0.0043
+#Donc très peu de mutations et probablement non synonymes
+
+#DnDs négatif
+df_dnds_ape_2[which(df_dnds_ape_2$dnds < 0), c("nb_mutation", "taux_mutation")] %>% summary()
+#1 à 9 mutations et taux de 0.0002 à 0.0067
+
+#DnDs = Na
+df_dnds_ape_2[which(is.na(df_dnds_ape_2$dnds) == TRUE), c("nb_mutation", "taux_mutation")] %>% summary()
+#Aucune mutation dans ces échantillons
+
+#Valeurs normales
+#DnDs égal à 0
+#dNdS == 0 : dN = 0 donc pas du mutations non synonymes : que des mutations synonymes
+df_dnds_ape_2[which(df_dnds_ape_2$dnds == 0), c("nb_mutation", "taux_mutation")] %>% summary()
+#1 à 3 mutations taux faible
+
+df_dnds_ape_2[which(df_dnds_ape_2$dnds > 0 & df_dnds_ape_2$dnds<3), c("nb_mutation", "taux_mutation")] %>% summary()
+# ça va de 2 à 23 mutations avec 3ième quartile à 4 et un taux de mutation qui va de 0.0003 à 0.0023 -> 0.04
+
+df_dnds_ape_2[which(df_dnds_ape_2$dnds > 1.1 & df_dnds_ape_2$dnds <3), c("nb_mutation", "taux_mutation")] %>% summary()
+df_dnds_ape_2[which(df_dnds_ape_2$dnds > 0.9 & df_dnds_ape_2$dnds < 1.1), c("nb_mutation", "taux_mutation")] %>% summary()
+df_dnds_ape_2[which(df_dnds_ape_2$dnds > 0 & df_dnds_ape_2$dnds < 0.9), c("nb_mutation", "taux_mutation")] %>% summary()
+```
+
+```{r}
+df_dnds_ape_2[which(df_dnds_ape_2$dnds >= 0 & df_dnds_ape_2$dnds != Inf & is.na(df_dnds_ape_2$dnds) == FALSE), "CDS_TRUE_ID"]
+df_dnds_ape_2 <- df_dnds_ape_2 %>% mutate(new_dnds_ape = case_when(df_dnds_ape_2$dnds < 0 ~ NA,
+                                                       df_dnds_ape_2$dnds == Inf ~ NA,
+                                                       is.na(df_dnds_ape_2$dnds) ~ NA ,
+                                                       df_dnds_ape_2$dnds > 3 ~ NA,
+                                                       (df_dnds_ape_2$dnds >= 0 & df_dnds_ape_2$dnds <3) ~ df_dnds_ape_2$dnds))
+
+
+df_dnds_ape_2 <- left_join(df_dnds_ape_2, df_CDS[,c("CDS_TRUE_ID", "CDS_Note", "Locus.tag", "CDS_product", "CDS_protein_id")], by = c("CDS_TRUE_ID", "Locus.tag"))
+sapply(df_dnds_ape_2, FUN = function(x) length(unique(x)))
+```
+
+
+Calcul de moyenne et medianne pour chaque CDS 
+```{r}
+unique(df_dnds_ape_2[which(is.na(df_dnds_ape_2$new_dnds_ape) == FALSE), "CDS_TRUE_ID"])
+
+df_dnds_ape_2[which(df_dnds_ape_2$CDS_TRUE_ID %in% unique(df_dnds_ape_2[which(is.na(df_dnds_ape_2$new_dnds_ape) == FALSE), "CDS_TRUE_ID"])), c("CDS_TRUE_ID", "new_dnds_ape", "ech") ]
+
+#moyenne dnds par CDS
+test <- df_dnds_ape_2 %>% aggregate(new_dnds_ape ~ CDS_TRUE_ID, FUN = mean)
+names(test)[2] <- "dnds_ape_mean"
+test_2 <- df_dnds_ape_2 %>% aggregate(new_dnds_ape ~ CDS_TRUE_ID, FUN = median)
+names(test_2)[2] <- "dnds_ape_median"
+test <- left_join(test, test_2)
+test[which(test$new_dnds_ape > 0),]
+remove(test_2)
+
+#Moyenne dnds par traitement par CDS
+df <- df_dnds_ape_2 %>% aggregate(new_dnds_ape ~ CDS_TRUE_ID + traitement, FUN = mean)
+names(df)[3] <- "dnds_ape_mean_treatement"
+df2 <- df_dnds_ape_2 %>% aggregate(new_dnds_ape ~ CDS_TRUE_ID + traitement, FUN = median)
+names(df2)[3] <- "dnds_ape_median_treatment"
+df <- left_join(df, df2)
+remove(df2)
+
+df3 <- df_dnds_ape_2 %>% aggregate(new_dnds_ape ~ CDS_TRUE_ID, FUN = sum) # ça c'est les CDS qui ont des dnds avec des valeurs "normales
+df3[which(df3$new_dnds_ape > 0), "CDS_TRUE_ID"] 
+
+```
+
+```{r Figure}
+library(ggplot2)
+library(brew)
+df_dnds_ape_2 <- df_dnds_ape_2 %>% mutate(summary_product = paste0(CDS_Name, " ", Locus.tag, "\n(", CDS_product, ")"))
+
+df_dnds_ape_2[which(df_dnds_ape_2$CDS_TRUE_ID %in% df3[which(df3$new_dnds_ape > 0), "CDS_TRUE_ID"]),] %>%
+  ggplot( aes(x = traitement, y = new_dnds_ape)) +
+    geom_boxplot(aes(color = traitement), na.rm = TRUE)+
+    geom_dotplot( aes(fill = traitement, color = traitement), binaxis='y', stackdir='center', dotsize= 1.5 , alpha = 0.6) +
+    geom_hline(yintercept = 1, linetype = "dashed", color = "turquoise4", size = 0.5, alpha = 0.8) +
+    scale_color_manual(values = c("#990000", "#0066CC"))+ 
+    scale_fill_manual(values = c("#990000", "#0066CC"))+ 
+    #scale_color_brewer(palette="Dark2") +
+    #scale_fill_brewer(palette="Dark2") +
+    labs(y = "dN/dS", x = "Traitement") +
+    facet_wrap(.~ summary_product)+
+    theme_bw() +
+    theme(axis.title.y = element_text(angle=0, vjust = 0.5), legend.position = "none", strip.text.x = element_text(
+        size = 7))
+
+
+#ggsave(".\\images_scripts\\dnds_traitement.png", width = 8, height = 8)
+```
+

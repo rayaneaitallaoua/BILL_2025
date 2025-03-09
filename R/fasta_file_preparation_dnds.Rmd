@@ -11,23 +11,32 @@ et
 les génomes de mutations SNP des échantillons de P90 (c'est pas vraiment des fasta)
 P90-1.trimed1000_filtered.vcf.gz.fasta 
 
-```{r librairies, include=FALSE}
+L'objectif c'est de pouvoir calculer le dnds sur les séquences codantes (et pas les ORF) des génomes de variants. Pour ça on doit avoir en format fasta les séquences codantes des variants, alignées avec la séquence codante de référence. 
+Il y a surement plus simple pour faire ça mais on va récupérer le génome de référence complet en format fasta, le tableau de genbank avec les annotations des ORF et des CDS en format csv et pour les variants on a les fichiers vcf avec les mutations à certaines positions. Donc on va bricoler des dataframe de génome.
 
+```{r librairies, include=FALSE}
 library(tidyverse)
 library(dplyr)
 library(Biostrings)
 library(ape)
 library(stringr)
+```
 
 
+```{r Chemin d'accès, include=FALSE}
 setwd("E:\\github\\BILL_2025\\R")
 ```
 
 
-```{r}
+```{r importation des données}
 table_CyHV3_genbank <- read.csv(".\\fichiers_utilises\\annotation_genes_CyHV3_genbank.csv" , header = TRUE, sep = "\t",  na ="NA", stringsAsFactors = FALSE)
 CyHV3_ref<-read.dna(".\\fichiers_utilises\\sequence_reference.fasta", format="fasta", as.character=TRUE)
+CDS_genbank <- read.csv(".\\fichiers_utilises\\genomic.csv" , header = FALSE, sep = "\t",  na ="NA", stringsAsFactors = FALSE)
 ```
+
+# Préparation des données
+
+## Table donnees ORF Genbank : table_CyHV3_genbank
 
 ```{r exploration table_CyHV3_genbank}
 table_CyHV3_genbank %>% str()
@@ -70,57 +79,30 @@ ORF_repetes <- ORF_repetes %>% as.vector() %>% unlist()
 
 df_CyHV3_genbank_filter[which(df_CyHV3_genbank_filter$Name %in% ORF_repetes),]
 
-
-remove(ORF_repetes)
 ```
+
+
 Il y a eu une duplication de ces 8 ORF?
 On remarque que L'ORF8 et l'ORF 7 commencent au même endroit
 
-```{r remove table 1}
-remove(df)
+```{r Suppression objets 1}
+
+remove(ORF_repetes, df)#table_CyHV3_genbank
 ```
 
-CyHV3_ref c'est une grosse matrice, je vais la transformer en tableau parce que c'est plus simple pour moi ed faire des oppérations dessus
 
-```{r CyHV3_ref_2}
-CyHV3_ref_2 <- CyHV3_ref
-
-for (i in 1:ncol(CyHV3_ref_2)) {
- CyHV3_ref_2[,i] <- str_to_upper(CyHV3_ref_2[,i]) # comme les nucléotides sont ecris en minuscules, je les met en majuscule
-}
-
-CyHV3_ref[,c(1:50)] #montrer les 50 premières colonnes de la matrice
-CyHV3_ref_2[,c(1:50)] #pareil mais pour le dataframe
-
-
-CyHV3_ref_2 <- as.data.frame(CyHV3_ref_2, header = TRUE) # transformation de la matrice en df
-colnames(CyHV3_ref_2) <- gsub("^V", "", colnames(CyHV3_ref_2)) # modification du nom des colonnes
-
-CyHV3_ref_2 %>% ncol() #normalement il doit y avoir autant de colonnes que de paires de bases dans le génomes
-CyHV3_ref_2 <- CyHV3_ref_2 %>% pivot_longer(cols = c(1:295146)) #la ligne devient colonne et les colonnes deviennent les lignes
-
-CyHV3_ref_2$value %>% unique() #il y a bien que A, C, G, T comme valeur
-
-#modification du nom des colonnes
-names(CyHV3_ref_2)[1] <- "POS"
-names(CyHV3_ref_2)[2] <- "REF"
-```
-
-```{r remove table 2}
-
-remove(CyHV3_ref, table_CyHV3_genbank)
-```
 
 Création d'un tableau qui permet de savoir si les ORF se suivent dans le génome ou s'ils se chevauchent -> s'ils ont des positions de start et/ou end communes
 ```{r combien d'ORF se chevauchent}
-df_CyHV3_ref_orf <- df_CyHV3_genbank_filter[,c("Begin", "End", "Locus.tag")]
+
+df_CyHV3_ref_orf <- df_CyHV3_genbank_filter[,c("Begin", "End", "Locus.tag", "Orientation")]
 
 df_CyHV3ref_orf_wdr <- df_CyHV3_ref_orf %>% pivot_longer(c("Begin", "End"))
 df_CyHV3ref_orf_wdr$value %>% unique() %>% length() #267
 df_CyHV3ref_orf_wdr$Locus.tag %>% unique() %>% length() #163
 
 
-df <- df_CyHV3ref_orf_wdr %>% group_by(value) %>% count()
+df <- df_CyHV3ref_orf_wdr %>% group_by(value) %>% dplyr::count()
 df_nb_ORF_par_pb <- df_CyHV3ref_orf_wdr %>% aggregate(Locus.tag ~ value, FUN = function(x) paste(x, collapse = " / "))
 ## Bon à savoir : ily a pas mal d'ORF qui commencent au même locus et qui se terminent à des locus différents
 df_nb_ORF_par_pb <- left_join(df_nb_ORF_par_pb, df, by = "value")
@@ -139,7 +121,10 @@ df_CyHV3_genbank_filter[which(df_CyHV3_genbank_filter$Locus.tag == "CyHV3_ORF33"
 df_CyHV3_genbank_filter[which(df_CyHV3_genbank_filter$Locus.tag == "CyHV3_ORF33"), "End"] #84245
 #30495 pb pour l'ORF 33 donc cet ORF il chevauche jusqu'à l'ORF48
 
-df_CyHV3_ref_orf <- df_CyHV3_ref_orf %>% mutate(ORF_length = End - Begin)
+#Comme R compte a partir de 1 vaut mieux faire un length sur les ORF et diviser ensuite par 3
+#df_CyHV3_ref_orf <- df_CyHV3_ref_orf %>% mutate(ORF_length = End - Begin)
+#df_CyHV3_ref_orf <- df_CyHV3_ref_orf %>% mutate(div_par_3 = (ORF_length/3))
+#Faire un compter de codon
 ```
 
 Ce qui est intéressant c'est de confronter ce tableau au graphique de Téo par rapport au nombre de mutations trouvées dans les ORF qui en comportaient le plus.
@@ -193,6 +178,356 @@ df_ORF_pb$pb_factor <- as.factor(df_ORF_pb$pb)
 ```
 ca donne un tableau df_ORF_pb qui est super grand (et qui ne fait pas 295K pb) parce que chaque ORF est associé à sa combinaison de positions de pb
 
+```{r Renommer colonnes de df_ORF_pb}
+sapply(df_ORF_pb, FUN = class)
+sapply(df_CyHV3_ref_orf, FUN = class)
+df_ORF_pb$Locus.tag <- as.factor(df_ORF_pb$Locus.tag)
+df_ORF_pb <- left_join(df_ORF_pb, df_CyHV3_ref_orf, by = "Locus.tag")
+df_ORF_pb$Region <- "ORF"
+
+df_ORF_pb %>% names()
+
+#names(df_ORF_pb)[names(df_ORF_pb) == "Locus.tag"] <- "ORF_Locus.tag"
+names(df_ORF_pb)[names(df_ORF_pb) == "Begin"] <- "ORF_Begin"
+names(df_ORF_pb)[names(df_ORF_pb) == "End"] <- "ORF_End"
+names(df_ORF_pb)[names(df_ORF_pb) == "Orientation"] <- "ORF_Orientation"
+names(df_ORF_pb)[names(df_ORF_pb) == "pb"] <- "ORF_POS"
+names(df_ORF_pb)[names(df_ORF_pb) == "pb_factor"] <- "POS_factor"
+```
+
+
+## Sequences codantes : CDS_genbank
+```{r Nettoyage CDS_genbank, include=FALSE}
+#on a un tableau sans nom pour les colonnes : 
+CDS_genbank$V3 %>% unique()
+names(CDS_genbank)[names(CDS_genbank) == "V1"] <- "Accesssion_genome" 
+names(CDS_genbank)[names(CDS_genbank) == "V2"] <- "Data_base"
+names(CDS_genbank)[names(CDS_genbank) == "V3"] <- "Region"
+names(CDS_genbank)[names(CDS_genbank) == "V4"] <- "Begin"
+names(CDS_genbank)[names(CDS_genbank) == "V5"] <- "End"
+names(CDS_genbank)[names(CDS_genbank) == "V7"] <- "Orientation"
+names(CDS_genbank)[names(CDS_genbank) == "V6"] <- "jsp_1"
+names(CDS_genbank)[names(CDS_genbank) == "V8"] <- "jsp_2"
+names(CDS_genbank)[names(CDS_genbank) == "V9"] <- "a_separer"
+#il faut virer la dernière ligne
+CDS_genbank %>% nrow()
+CDS_genbank <- CDS_genbank[-451,]
+
+CDS_genbank$a_separer %>% unique()
+df <- CDS_genbank %>% separate(a_separer, into = paste0("V", 1:11), sep = ";", fill = "right", remove = FALSE)
+df <- df %>% separate(V1, into = c("a_virer", "ID"), sep = "=", fill = "right", remove = TRUE)
+df$a_virer %>% unique()
+df <- df[,-which(names(df) == "a_virer")]
+df$Region %>% unique()
+
+df[which(df$Region == "repeat_region"), "ID"]
+df <- df %>% separate(ID, into = c("ID", "pos"), sep = ":", fill = "right", remove = TRUE)
+
+df <- df %>% mutate(start_end = paste(as.factor(df$Begin), as.factor(df$End), sep = ".")) 
+df <- df %>% mutate(TRUE_ID = paste(as.factor(df$ID), as.factor(df$start_end), sep = "_")) %>% relocate(TRUE_ID, .after = pos)
+df <- df[,-which(names(df) %in% c("pos", "start_end"))]
+
+df <- df %>% separate(V2, into = c("V2_1", "V2_3"), sep = "=", fill = "right", remove = FALSE)
+df$V2_1 %>% unique()
+
+df <- df %>% separate(V3, into = c("V3_1", "V3_2"), sep = "=", fill = "right", remove = FALSE)
+df <- df %>% separate(V4, into = c("V4_1", "V4_2"), sep = "=", fill = "right", remove = FALSE)
+df <- df %>% separate(V5, into = c("V5_1", "V5_2"), sep = "=", fill = "right", remove = FALSE)
+df <- df %>% separate(V6, into = c("V6_1", "V6_2"), sep = "=", fill = "right", remove = FALSE)
+df <- df %>% separate(V7, into = c("V7_1", "V7_2"), sep = "=", fill = "right", remove = FALSE)
+df <- df %>% separate(V8, into = c("V8_1", "V8_2"), sep = "=", fill = "right", remove = FALSE)
+df <- df %>% separate(V9, into = c("V9_1", "V9_2"), sep = "=", fill = "right", remove = FALSE)
+df <- df %>% separate(V10, into = c("V10_1", "V10_2"), sep = "=", fill = "right", remove = FALSE)
+df <- df %>% separate(V11, into = c("V11_1", "V11_2"), sep = "=", fill = "right", remove = FALSE)
+
+df$V2_1 %>% unique()
+df$V3_1 %>% unique()
+df$V4_1 %>% unique()
+df$V5_1 %>% unique()
+df$V6_1 %>% unique()
+df$V7_1 %>% unique()
+df$V8_1 %>% unique()
+df$V9_1 %>% unique()
+df$V10_1 %>% unique()
+df$V11_1 %>% unique()
+df <- df %>% select(-c("a_separer","V2", "V3", "V4", "V5", "V6", "V7", "V8", "V9", "V10", "V11"))
+
+
+F_colonne <- function(table, col1, col2,name_col1, name_col2, new_col, name_new_col){
+table <- table %>% 
+  mutate(new_col = case_when((is.na(col1) == TRUE & is.na(col2) == TRUE) ~ NA,
+                            (is.na(col1) == FALSE & is.na(col2) == TRUE) ~ col1,
+                            (is.na(col1) == TRUE & is.na(col2) == FALSE) ~ col2)) 
+table <- table[,-which(names(table) %in% c(name_col1, name_col2))]
+
+names(table)[names(table) == "new_col"] <- name_new_col
+return(table)
+}
+
+df1 <- pivot_wider(df[,c("TRUE_ID", "V2_1", "V2_3")], names_from ="V2_1", values_from = "V2_3")
+df2 <- pivot_wider(df[,c("TRUE_ID", "V3_1", "V3_2")], names_from ="V3_1", values_from = "V3_2")
+df1 <- left_join(df1, df2, by = "TRUE_ID")
+df1 %>% names()
+df1 <- F_colonne(df1, col1 = df1$Dbxref.x , col2 = df1$Dbxref.y , name_col1 = "Dbxref.x" , name_col2 = "Dbxref.y", new_col = Dbxref, name_new_col = "Dbxref")
+df1 <- F_colonne(df1, col1 = df1$gbkey.x , col2 = df1$gbkey.y , name_col1 = "gbkey.x" , name_col2 = "gbkey.y", new_col = gbkey, name_new_col = "gbkey")
+
+
+df2 <- pivot_wider(df[,c("TRUE_ID", "V4_1", "V4_2")], names_from ="V4_1", values_from = "V4_2")
+df1 <- left_join(df1, df2, by = "TRUE_ID")
+df1 %>% names()
+df1 <- F_colonne(df1, col1 = df1$Name.x , col2 = df1$Name.y , name_col1 = "Name.x" , name_col2 = "Name.y", new_col = Name, name_new_col = "Name")
+df1 <- F_colonne(df1, col1 = df1$rpt_type.x , col2 = df1$rpt_type.y , name_col1 = "rpt_type.x" , name_col2 = "rpt_type.y", new_col = rpt_type, name_new_col = "rpt_type")
+df1 <- F_colonne(df1, col1 = df1$locus_tag.x , col2 = df1$locus_tag.y , name_col1 = "locus_tag.x" , name_col2 = "locus_tag.y", new_col = locus_tag, name_new_col = "locus_tag")
+df1 <- df1[,-which(names(df1) == "NA")]
+
+
+df2 <- pivot_wider(df[,c("TRUE_ID", "V5_1", "V5_2")], names_from ="V5_1", values_from = "V5_2")
+df1 <- left_join(df1, df2, by = "TRUE_ID")
+df1 %>% names()
+df1 <- F_colonne(df1, col1 = df1$Note.x , col2 = df1$Note.y , name_col1 = "Note.x" , name_col2 = "Note.y", new_col = Note, name_new_col = "Note")
+df1 <- F_colonne(df1, col1 = df1$locus_tag.x , col2 = df1$locus_tag.y , name_col1 = "locus_tag.x" , name_col2 = "locus_tag.y", new_col = locus_tag, name_new_col = "locus_tag")
+df1 <- F_colonne(df1, col1 = df1$gbkey.x , col2 = df1$gbkey.y , name_col1 = "gbkey.x" , name_col2 = "gbkey.y", new_col = gbkey, name_new_col = "gbkey")
+df1 <- df1[,-which(names(df1) == "NA")]
+
+df2 <- pivot_wider(df[,c("TRUE_ID", "V6_1", "V6_2")], names_from ="V6_1", values_from = "V6_2")
+df1 <- left_join(df1, df2, by = "TRUE_ID")
+df1 %>% names()
+df1 <- F_colonne(df1, col1 = df1$locus_tag.x , col2 = df1$locus_tag.y , name_col1 = "locus_tag.x" , name_col2 = "locus_tag.y", new_col = locus_tag, name_new_col = "locus_tag")
+df1 <- F_colonne(df1, col1 = df1$gbkey.x , col2 = df1$gbkey.y , name_col1 = "gbkey.x" , name_col2 = "gbkey.y", new_col = gbkey, name_new_col = "gbkey")
+df1 <- df1[,-which(names(df1) == "NA")]
+
+
+df2 <- pivot_wider(df[,c("TRUE_ID", "V7_1", "V7_2")], names_from ="V7_1", values_from = "V7_2")
+df1 <- left_join(df1, df2, by = "TRUE_ID")
+df1 %>% names()
+df1 <- F_colonne(df1, col1 = df1$locus_tag.x , col2 = df1$locus_tag.y , name_col1 = "locus_tag.x" , name_col2 = "locus_tag.y", new_col = locus_tag, name_new_col = "locus_tag")
+df1 <- df1[,-which(names(df1) == "NA")]
+
+
+df2 <- pivot_wider(df[,c("TRUE_ID", "V8_1", "V8_2")], names_from ="V8_1", values_from = "V8_2")
+df1 <- left_join(df1, df2, by = "TRUE_ID")
+df1 %>% names()
+df1 <- F_colonne(df1, col1 = df1$product.x , col2 = df1$product.y , name_col1 = "product.x" , name_col2 = "product.y", new_col = product, name_new_col = "product")
+df1 <- df1[,-which(names(df1) == "NA")]
+
+
+df2 <- pivot_wider(df[,c("TRUE_ID", "V9_1", "V9_2")], names_from ="V9_1", values_from = "V9_2")
+df1 <- left_join(df1, df2, by = "TRUE_ID")
+df1 %>% names()
+df1 <- F_colonne(df1, col1 = df1$protein_id.x , col2 = df1$protein_id.y , name_col1 = "protein_id.x" , name_col2 = "protein_id.y", new_col = protein_id, name_new_col = "protein_id")
+df1 <- df1[,-which(names(df1) == "NA")]
+
+
+df2 <- pivot_wider(df[,c("TRUE_ID", "V10_1", "V10_2")], names_from ="V10_1", values_from = "V10_2")
+df1 <- left_join(df1, df2, by = "TRUE_ID")
+df1 %>% names()
+df1 <- df1[,-which(names(df1) == "NA")]
+
+df2 <- pivot_wider(df[,c("TRUE_ID", "V11_1", "V11_2")], names_from ="V11_1", values_from = "V11_2")
+df1 <- left_join(df1, df2, by = "TRUE_ID")
+df1 %>% names()
+df1 <- df1[,-which(names(df1) == "NA")]
+
+CDS_genbank_2 <- left_join(df[,c(1:10)], df1, by = "TRUE_ID")
+
+```
+
+```{r suppression objet 3}
+remove(df, df1, df2, CDS_genbank)
+```
+
+
+```{r df_CDS, include=FALSE}
+sapply(CDS_genbank_2, FUN = function(x) length(unique(x)))
+sapply(CDS_genbank_2[,c(1:3, 6:8, 11:15, 17:28)], FUN = unique)
+CDS_genbank_2[,c("Region","gbkey", "TRUE_ID","Parent", "locus_tag")]
+
+df_CDS <- CDS_genbank_2[which(CDS_genbank_2$gbkey == "CDS"),]
+sapply(df_CDS, FUN = function(x) sum(is.na(x)))
+#sapply(df_CDS, FUN = function(x) which(sum(is.na(x)) == 176))
+
+df_CDS <- df_CDS %>% select(-c("acronym", "collection-date", "gene_biotype", "rpt_type", "country", "isolation-source", "mol_type", "nat-host", "note", "strain"))
+
+sapply(df_CDS, FUN = function(x) length(unique(x)))
+sapply(df_CDS[,c(1:3,6,8,15)], FUN = unique)
+#Il y a plusieurs cadres de lectures de sequences codantes -> duplications... (chevauchantes)
+
+df_CDS <- df_CDS[,-c(1:2,6,8,15)]
+
+names(df_CDS)[names(df_CDS) == "TRUE_ID"] <- "CDS_TRUE_ID"
+names(df_CDS)[names(df_CDS) == "Region"] <- "CDS_Region"
+names(df_CDS)[names(df_CDS) == "Begin"] <- "CDS_Begin"
+names(df_CDS)[names(df_CDS) == "End"] <- "CDS_End"
+names(df_CDS)[names(df_CDS) == "Orientation"] <- "CDS_Orientation"
+names(df_CDS)[names(df_CDS) == "ID"] <- "CDS_ID"
+names(df_CDS)[names(df_CDS) == "Name"] <- "CDS_Name"
+names(df_CDS)[names(df_CDS) == "Parent"] <- "CDS_Parent"
+names(df_CDS)[names(df_CDS) == "locus_tag"] <- "Locus.tag"
+names(df_CDS)[names(df_CDS) == "Dbxref"] <- "CDS_Dbxref"
+names(df_CDS)[names(df_CDS) == "Note"] <- "CDS_Note"
+names(df_CDS)[names(df_CDS) == "product"] <- "CDS_product"
+names(df_CDS)[names(df_CDS) == "protein_id"] <- "CDS_protein_id"
+
+
+df_CDS <- df_CDS %>% relocate(CDS_TRUE_ID, .before = CDS_Region)
+df_CDS <- df_CDS %>% mutate(CDS_Orientation = case_when(df_CDS$CDS_Orientation == "+" ~ "plus",
+                                                                  df_CDS$CDS_Orientation == "-" ~ "minus"))
+
+df_CDS_pb <- data.frame()
+for(i in df_CDS$CDS_TRUE_ID){ # i prend chaque nom de CDS
+  begin <- df_CDS[which(df_CDS$CDS_TRUE_ID == i),"CDS_Begin"] #Begin prend la valeur de position de début de CDS
+  end <- df_CDS[which(df_CDS$CDS_TRUE_ID == i),"CDS_End"] #End, la valeur de fin
+  CDS_POS <- c(begin:end) #création d'un vecteur pb qui va du début à la fin de CDS (ses paires de bases)
+  df <- data.frame(i, CDS_POS) # on en fait un df qui associe une paire de base du CDS
+  names(df)[1] <- "CDS_TRUE_ID" #modif du nom de la colonne
+  df_CDS_pb <- rbind(df_CDS_pb, df) # on empile les df au fur et à mesure que ça boucle
+}
+
+remove(df)
+
+
+df <- df_CDS_pb %>% aggregate(.~CDS_TRUE_ID, FUN = length)
+names(df)[2] <- "CDS_length"
+df$CDS_length %% 3
+df <- df %>% mutate(CDS_modulo_3 = df$CDS_length %% 3) #permet de savoir si c'est un multiple de 3
+df_CDS_pb <- left_join(df_CDS_pb, df, by = c("CDS_TRUE_ID"))
+remove(df)
+
+
+df_CDS_pb <- left_join(df_CDS_pb, df_CDS, by = "CDS_TRUE_ID")
+
+df_CDS_pb <- df_CDS_pb %>% mutate(POS_factor = as.factor(df_CDS_pb$CDS_POS)) %>% relocate(POS_factor, .after = CDS_POS)
+
+```
+
+```{r Exportation dataframe}
+
+#write.csv(CDS_genbank_2, ".\\fichiers_utilises\\CDS_genbank_2.csv")
+#write.csv(df_CDS, ".\\fichiers_utilises\\df_CDS.csv")
+
+```
+
+
+
+## Genome de reference complet : CyHV3_ref :
+CyHV3_ref c'est une grosse matrice, je vais la transformer en tableau parce que c'est plus simple pour moi ed faire des oppérations dessus
+
+```{r CyHV3_ref_2}
+CyHV3_ref_2 <- CyHV3_ref
+
+for (i in 1:ncol(CyHV3_ref_2)) {
+ CyHV3_ref_2[,i] <- str_to_upper(CyHV3_ref_2[,i]) # comme les nucléotides sont ecris en minuscules, je les met en majuscule
+}
+
+CyHV3_ref[,c(1:50)] #montrer les 50 premières colonnes de la matrice
+CyHV3_ref_2[,c(1:50)] #pareil mais pour le dataframe
+
+
+CyHV3_ref_2 <- as.data.frame(CyHV3_ref_2, header = TRUE) # transformation de la matrice en df
+colnames(CyHV3_ref_2) <- gsub("^V", "", colnames(CyHV3_ref_2)) # modification du nom des colonnes
+
+CyHV3_ref_2 %>% ncol() #normalement il doit y avoir autant de colonnes que de paires de bases dans le génomes
+CyHV3_ref_2 <- CyHV3_ref_2 %>% pivot_longer(cols = c(1:295146)) #la ligne devient colonne et les colonnes deviennent les lignes
+
+CyHV3_ref_2$value %>% unique() #il y a bien que A, C, G, T comme valeur
+
+#modification du nom des colonnes
+names(CyHV3_ref_2)[1] <- "POS"
+names(CyHV3_ref_2)[2] <- "REF_plus"
+CyHV3_ref_2 <- CyHV3_ref_2 %>% dplyr::mutate(REF_moins = case_when(CyHV3_ref_2$REF_plus == "A" ~ "T" ,
+                                                            CyHV3_ref_2$REF_plus == "T" ~ "A",
+                                                            CyHV3_ref_2$REF_plus == "G" ~ "C",
+                                                            CyHV3_ref_2$REF_plus == "C" ~ "G"))
+
+ 
+
+```
+
+
+```{r suppression objet 2}
+
+remove(CyHV3_ref, CDS_genbank_2) #table_CyHV3_genbank
+```
+### Annotation genome de reference complet : fusion CyHV3_ref_2, df_ORF_pb et df_CDS_ref_pb
+
+```{r fusion df}
+CyHV3_ref_2$POS_factor <- as.factor(CyHV3_ref_2$POS) 
+CyHV3_ref_2$POS <- as.numeric(CyHV3_ref_2$POS)
+CyHV3_ref_2 <- CyHV3_ref_2 %>% relocate(POS_factor, .after =POS)
+
+sapply(CyHV3_ref_2, FUN = class) 
+  #POS        numeric
+  #POS_factor factor
+  #REF_plus   character 
+  #REF_moins  character 
+sapply(df_ORF_pb, FUN = class) 
+  #ORF_Locus.tag    factor      
+  #ORF_POS          integer -> changer en numeric
+  #POS_factor       factor
+  #ORF_Begin        integer
+  #ORF_End          integer
+  #ORF_Orientation  factor      
+  #Region           character -> changer en factor
+sapply(df_CDS_pb, FUN = class)
+  #CDS_TRUE_ID            character #    
+  #CDS_POS                intger -> changer en numeric #
+  #POS_factor             factor #
+  #CDS_Length             intger #
+  #CDS_trois_division     numeric #            
+  #Region                 character -> changer en factor #
+  #CDS_Begin              integer #
+  #CDS_End                integer #
+  #CDS_Orientation        character -> changer en factor #      
+  #CDS_ID                 character
+  #CDS_Name               character # -> changer en factor
+  #CDS_Parent             character
+  #CDS_Locus.tag          character # -> changer en factor
+  #CDS_Start_End          character
+
+
+# CyHV3_ref_2
+df_ORF_pb$ORF_POS <- as.numeric(df_ORF_pb$ORF_POS)
+df_ORF_pb$Region <- as.factor(df_ORF_pb$Region)
+
+#df_CDS_pb
+df_CDS_pb$CDS_POS <- as.numeric(df_CDS_pb$CDS_POS)
+df_CDS_pb$CDS_Region <- as.factor(df_CDS_pb$CDS_Region)
+df_CDS_pb$CDS_Orientation <- as.factor(df_CDS_pb$CDS_Orientation)
+df_CDS_pb$CDS_Name <- as.factor(df_CDS_pb$CDS_Name)
+df_CDS_pb$Locus.tag <- as.factor(df_CDS_pb$Locus.tag)
+
+df_gen_ref <- left_join(CyHV3_ref_2, df_ORF_pb, by = c("POS_factor"))
+df_gen_ref %>% names()
+df_CDS_pb %>% names()
+df_gen_ref <- left_join(df_gen_ref, df_CDS_pb[,c("CDS_Region", "CDS_TRUE_ID", "CDS_Orientation", "CDS_Name","Locus.tag", "CDS_POS", "POS_factor", "CDS_length", "CDS_modulo_3", "CDS_Begin", "CDS_End")], by = c("POS_factor", "Locus.tag"))
+
+df_gen_ref %>% names()
+#df_gen_ref[which(df_gen_ref$ORF_Locus.tag == "CyHV3_ORF1_1"), c(2:5,8:10,12:14)]
+
+```
+
+
+```{r df_gen_ref}
+df_gen_ref %>% names()
+
+c(as.data.frame(df_gen_ref[which(is.na(df_gen_ref$CDS_Region) == FALSE), c("ORF_Orientation", "CDS_Orientation")]$ORF_Orientation) == as.data.frame(df_gen_ref[which(is.na(df_gen_ref$CDS_Region) == FALSE), c("ORF_Orientation", "CDS_Orientation")]$CDS_Orientation)) %>% unique()
+
+
+df <-df_gen_ref[which(is.na(df_gen_ref$CDS_Region) == FALSE), c("ORF_Orientation", "CDS_Orientation", "POS", "ORF_POS", "CDS_POS")]
+c(df$ORF_Orientation == df$ORF_Orientation) %>% unique()
+c(df$ORF_POS == df$CDS_POS) %>% unique()
+c(df$POS == df$CDS_POS) %>% unique()
+
+df_gen_ref <- df_gen_ref %>% select(-c("CDS_Orientation", "ORF_POS", "CDS_POS"))
+
+names(df_gen_ref)[names(df_gen_ref) == "ORF_Orientation"] <- "Orientation"
+
+remove(df)
+```
+l'orientation des CDS c'est la même que leurs ORF (logique)
+
+## Variants 
+
 P90-1.trimed1000_filtered.vcf.gz_seq_consensus
 P90-1.trimed1000_filtered.vcf.gz
 ```{r chargement des mutations des échantillons}
@@ -224,6 +559,7 @@ A ce stade on a
  - un tableau df_ORF_pb qui fait correspondre un ORF à ses bases
 - les tableaux de chaque échantillon de P90 avec les mutations
 - un tableau du génome de référence
+- un tableau pour les sequences codantes
 on va marquer pour chaque mutation, l'ORF ou les ORF touchés (avec duplication de lignes dans le cas où il y en a plusieurs)
 
 code IUPAC : 
@@ -258,26 +594,38 @@ gen_P90_9$V2 %>% unique() #"A,G" "G,A" "A,C" "G,T"
 gen_P90_10$V2 %>% unique() #"A,C"
 
 
+names(gen_P90_1)[names(gen_P90_1) == "V2"] <- "REF"
+names(gen_P90_2)[names(gen_P90_2) == "V2"] <- "REF"
+names(gen_P90_3)[names(gen_P90_3) == "V2"] <- "REF"
+names(gen_P90_4)[names(gen_P90_4) == "V2"] <- "REF"
+names(gen_P90_5)[names(gen_P90_5) == "V2"] <- "REF"
+names(gen_P90_6)[names(gen_P90_6) == "V2"] <- "REF"
+names(gen_P90_7)[names(gen_P90_7) == "V2"] <- "REF"
+names(gen_P90_8)[names(gen_P90_8) == "V2"] <- "REF"
+names(gen_P90_9)[names(gen_P90_9) == "V2"] <- "REF"
+names(gen_P90_10)[names(gen_P90_10) == "V2"] <- "REF"
+
 #fonction
 F_table_IUPAC <- function(table){
-  table_IUPAC <- table %>% mutate(ALT_IUPAC = case_when(table$V2 == "A"~"A",
-                                               table$V2 == "C"~"C",
-                                               table$V2 == "T"~"T",
-                                               table$V2 == "G"~"G",
-                                               table$V2 == "A,C"~"M",
-                                               table$V2 == "C,A"~"M",
-                                               table$V2 == "A,G"~"R",
-                                               table$V2 == "G,A"~"R",
-                                               table$V2 == "A,T"~"W",
-                                               table$V2 == "T,A"~"W",
-                                               table$V2 == "C,G"~"S",
-                                               table$V2 == "G,C"~"S",
-                                               table$V2 == "C,T"~"Y",
-                                               table$V2 == "T,C"~"Y",
-                                               table$V2 == "G,T"~"K",
-                                               table$V2 == "T,G"~"K"))
+  table_IUPAC <- table %>% mutate(ALT_IUPAC = case_when(table$V3 == "A"~"A",
+                                               table$V3 == "C"~"C",
+                                               table$V3 == "T"~"T",
+                                               table$V3 == "G"~"G",
+                                               table$V3 == "A,C"~"M",
+                                               table$V3 == "C,A"~"M",
+                                               table$V3 == "A,G"~"R",
+                                               table$V3 == "G,A"~"R",
+                                               table$V3 == "A,T"~"W",
+                                               table$V3 == "T,A"~"W",
+                                               table$V3 == "C,G"~"S",
+                                               table$V3 == "G,C"~"S",
+                                               table$V3 == "C,T"~"Y",
+                                               table$V3 == "T,C"~"Y",
+                                               table$V3 == "G,T"~"K",
+                                               table$V3 == "T,G"~"K"))
   return(table_IUPAC)
 }
+
 gen_P90_1_IUPAC <- F_table_IUPAC(table = gen_P90_1)
 gen_P90_2_IUPAC <- F_table_IUPAC(table = gen_P90_2)
 gen_P90_3_IUPAC <- F_table_IUPAC(table = gen_P90_3)
@@ -289,7 +637,6 @@ gen_P90_8_IUPAC <- F_table_IUPAC(table = gen_P90_8)
 gen_P90_9_IUPAC <- F_table_IUPAC(table = gen_P90_9)
 gen_P90_10_IUPAC <- F_table_IUPAC(table = gen_P90_10)
 
-gen_P90_1_IUPAC$ALT_IUPAC
 
 #gen_P90_1_IUPAC <- gen_P90_1_IUPAC[, c("V1", "ALT_IUPAC")] %>% pivot_wider(names_from = "V1", values_from = "ALT_IUPAC")
 
@@ -298,14 +645,14 @@ gen_P90_1_IUPAC$ALT_IUPAC
 
 Je vais fusionner ces tables pour recréer pour chaque variant un génome complet avec ses mutations (de la pb 1 à la pb 295146)
 ```{r fusion de table CyHV3_ref_2 et des tables de variant}
-sapply(CyHV3_ref_2, FUN = class)
-sapply(df_CyHV3_ref_orf, FUN = class)
-sapply(gen_P90_1_IUPAC, FUN = class)
+df_gen_ref %>% names()
+df_gen_ref <- df_gen_ref %>% relocate(Locus.tag, .after = REF_moins)
+df_gen_ref <- df_gen_ref %>% relocate(CDS_TRUE_ID, .after = Locus.tag)
+df_gen_ref <- df_gen_ref %>% relocate(Orientation, .after = CDS_TRUE_ID)
+df_gen_ref <- df_gen_ref %>% relocate(CDS_Name, .after = Orientation)
+df_gen_ref <- df_gen_ref %>% relocate(Region, .after = CDS_Name)
+df_gen_ref <- df_gen_ref %>% relocate(CDS_Region, .after = Region)
 
-
-CyHV3_ref_2$POS_factor <- as.factor(CyHV3_ref_2$POS) 
-CyHV3_ref_2$POS <- as.numeric(CyHV3_ref_2$POS)
-CyHV3_ref_2 <- CyHV3_ref_2 %>% relocate(POS_factor, .after =POS)
 
 #Fonction pour les fusionner
 F_table_join <- function(table){
@@ -313,14 +660,11 @@ F_table_join <- function(table){
   table$POS <- as.numeric(table$POS)
   table$POS_factor <- as.factor(table$POS)
   table <- table %>% relocate(POS_factor, .after = POS)
-  table <- left_join(CyHV3_ref_2, table[,c("POS", "POS_factor", "ALT_IUPAC")], by = c("POS", "POS_factor"))
-  table <- table %>% mutate(new_alt_iupac = case_when(is.na(table$ALT_IUPAC) == TRUE ~ table$REF,
-                                                  is.na(table$ALT_IUPAC) == FALSE ~  table$ALT_IUPAC))
-
+  table <- left_join(df_gen_ref, table[,c("POS", "POS_factor", "REF" ,"ALT_IUPAC")], by = c("POS", "POS_factor"))
+  
   return(table)
 }
 
-#gen_P90_1_IUPAC <- gen_P90_1_IUPAC[,-5]
 
 gen_P90_1_IUPAC <- F_table_join(table = gen_P90_1_IUPAC)
 gen_P90_2_IUPAC <- F_table_join(table = gen_P90_2_IUPAC)
@@ -333,46 +677,88 @@ gen_P90_8_IUPAC <- F_table_join(table = gen_P90_8_IUPAC)
 gen_P90_9_IUPAC <- F_table_join(table = gen_P90_9_IUPAC)
 gen_P90_10_IUPAC <- F_table_join(table = gen_P90_10_IUPAC)
 
+#Il faut qu'on sache si la mutation a touché le brin + ou le brin -
+#Faire une fonction qui verife si la mutation touche le brin + ou le brin - en fonction du nucléotide référent
+F_verif_brin <- function(df){
+  test <- df[which(is.na(df$ALT_IUPAC) == FALSE),c("POS_factor", "REF_plus", "REF_moins", "REF", "ALT_IUPAC")]
+  a <-(test$REF == test$REF_plus) %>% unique()
+  return(a)
+}
+
+
+F_verif_brin(gen_P90_1_IUPAC)
+F_verif_brin(gen_P90_2_IUPAC)
+F_verif_brin(gen_P90_3_IUPAC)
+F_verif_brin(gen_P90_4_IUPAC)
+F_verif_brin(gen_P90_5_IUPAC)
+F_verif_brin(gen_P90_6_IUPAC)
+F_verif_brin(gen_P90_7_IUPAC)
+F_verif_brin(gen_P90_8_IUPAC)
+F_verif_brin(gen_P90_9_IUPAC)
+F_verif_brin(gen_P90_10_IUPAC)
+
+#Ca renvoit TRUE a chaque fois donc ce ne sera pas compliqué de recreer un brin muté
+#Sinon faudrait faire ce genre de fonction deux fois pour créer une colonne ALT_IUPAC_plus et une colonne ALT_IUPAC_moins
+#test <- table %>% 
+#  mutate(ALT_IUPAC_plus = case_when(
+#    is.na(table$ALT_IUPAC) == TRUE ~ table$REF_plus,
+#    (is.na(table$ALT_IUPAC) != TRUE & table$REF == table$REF_plus) ~ table$ALT_IUPAC,
+#    (is.na(table$ALT_IUPAC)!= TRUE & table$REF == table$REF_moins) ~ "voir_plus_tard"))
+
+# Du coup on peut faire la fonction en dessous pour recrer deux brins mutés
+F_bricolage_seq <- function(table){
+  table <- table %>% 
+    mutate(new_alt_iupac = case_when(is.na(table$ALT_IUPAC) == TRUE ~ table$REF_plus,
+                                     is.na(table$ALT_IUPAC) == FALSE ~  table$ALT_IUPAC))
+  
+  table <- table %>% 
+    relocate(ALT_IUPAC, .after = REF_moins) %>% 
+    relocate(new_alt_iupac, .after = ALT_IUPAC)
+  
+  names(table)[names(table) == "new_alt_iupac"] <- "alt_iupac_plus"
+  
+  
+  table <- table %>% 
+    mutate(alt_iupac_moins = case_when(table$alt_iupac_plus == "A" ~ "T",
+                                       table$alt_iupac_plus == "T" ~ "A",
+                                       table$alt_iupac_plus == "C" ~ "G",
+                                       table$alt_iupac_plus == "G" ~ "C",
+                                       table$alt_iupac_plus == "M" ~ "K",
+                                       table$alt_iupac_plus == "K" ~ "M",
+                                       table$alt_iupac_plus == "Y" ~ "R",
+                                       table$alt_iupac_plus == "R" ~ "Y")) %>% 
+    relocate(alt_iupac_moins, .after = alt_iupac_plus)
+  
+  return(table)
+}
+
+gen_P90_1_IUPAC <- F_bricolage_seq(table = gen_P90_1_IUPAC)
+gen_P90_2_IUPAC <- F_bricolage_seq(table = gen_P90_2_IUPAC)
+gen_P90_3_IUPAC <- F_bricolage_seq(table = gen_P90_3_IUPAC)
+gen_P90_4_IUPAC <- F_bricolage_seq(table = gen_P90_4_IUPAC)
+gen_P90_5_IUPAC <- F_bricolage_seq(table = gen_P90_5_IUPAC)
+gen_P90_6_IUPAC <- F_bricolage_seq(table = gen_P90_6_IUPAC)
+gen_P90_7_IUPAC <- F_bricolage_seq(table = gen_P90_7_IUPAC)
+gen_P90_8_IUPAC <- F_bricolage_seq(table = gen_P90_8_IUPAC)
+gen_P90_9_IUPAC <- F_bricolage_seq(table = gen_P90_9_IUPAC)
+gen_P90_10_IUPAC <- F_bricolage_seq(table = gen_P90_10_IUPAC)
+
+  
+  
 
 
 ```
 
 
-```{r remove table 3}
+```{r suppression objet}
 remove(gen_P90_1, gen_P90_2, gen_P90_3, gen_P90_4, gen_P90_5, gen_P90_6, gen_P90_7, gen_P90_8, gen_P90_9, gen_P90_10)
 
 remove(begin, end, i, pb)
 ```
 
 
-```{r ajout des ORF pour chaque postion}
-gen_P90_1_IUPAC %>% names()
-names(df_ORF_pb)
-names(df_ORF_pb)[2] <- "POS"
-names(df_ORF_pb)[3] <- "POS_factor"
-
-df_ORF_pb %>% names()
-gen_P90_1_IUPAC %>% names()
-sapply(df_ORF_pb, FUN = class)
-sapply(gen_P90_1_IUPAC, FUN = class)
-df_ORF_pb$POS <- as.numeric(df_ORF_pb$POS)
-
-
-#on prend le rang de la position et on y attache un ORF et si dans df_ORF_pb il y a plusieurs ORF sur une même position alors les lignes sont dupliquées
-df_gen_P901_iupac <- left_join(gen_P90_1_IUPAC, df_ORF_pb[,c("Locus.tag", "POS_factor")], by = c("POS_factor"))
-df_gen_P902_iupac <- left_join(gen_P90_2_IUPAC, df_ORF_pb[,c("Locus.tag", "POS_factor")], by = c("POS_factor"))
-df_gen_P903_iupac <- left_join(gen_P90_3_IUPAC, df_ORF_pb[,c("Locus.tag", "POS_factor")], by = c("POS_factor"))
-df_gen_P904_iupac <- left_join(gen_P90_4_IUPAC, df_ORF_pb[,c("Locus.tag", "POS_factor")], by = c("POS_factor"))
-df_gen_P905_iupac <- left_join(gen_P90_5_IUPAC, df_ORF_pb[,c("Locus.tag", "POS_factor")], by = c("POS_factor"))
-df_gen_P906_iupac <- left_join(gen_P90_6_IUPAC, df_ORF_pb[,c("Locus.tag", "POS_factor")], by = c("POS_factor"))
-df_gen_P907_iupac <- left_join(gen_P90_7_IUPAC, df_ORF_pb[,c("Locus.tag", "POS_factor")], by = c("POS_factor"))
-df_gen_P908_iupac <- left_join(gen_P90_8_IUPAC, df_ORF_pb[,c("Locus.tag", "POS_factor")], by = c("POS_factor"))
-df_gen_P909_iupac <- left_join(gen_P90_9_IUPAC, df_ORF_pb[,c("Locus.tag", "POS_factor")], by = c("POS_factor"))
-df_gen_P9010_iupac <- left_join(gen_P90_10_IUPAC, df_ORF_pb[,c("Locus.tag", "POS_factor")], by = c("POS_factor"))
-
-#Genome de reference
-df_gen_ref <- left_join(CyHV3_ref_2, df_ORF_pb[,c("Locus.tag", "POS_factor")], by = c("POS_factor"))
-
+Il faut lister les ORF, voire les CDS qui sont concernés par les SNP
+```{r ORF avec SNP, include=FALSE}
 #Fonction liste d'ORF concernés par les SNP
 F_list_ORF <- function(df){
   list_ORF <- df[which(is.na(df$ALT_IUPAC) == FALSE & is.na(df$Locus.tag) == FALSE),]$Locus.tag %>% unique() %>% as.vector()
@@ -383,95 +769,188 @@ F_list_ORF <- function(df){
 
 #Creation d'une liste des ORF qui ont des SNP dans des echantillons de P90
 list_ORF_mu <- c()
-list_ORF_P901 <- F_list_ORF(df = df_gen_P901_iupac)
-list_ORF_P902 <- F_list_ORF(df = df_gen_P902_iupac)
-list_ORF_P903 <- F_list_ORF(df = df_gen_P903_iupac)
-list_ORF_P904 <- F_list_ORF(df = df_gen_P904_iupac)
-list_ORF_P905 <- F_list_ORF(df = df_gen_P905_iupac)
-list_ORF_P906 <- F_list_ORF(df = df_gen_P906_iupac)
-list_ORF_P907 <- F_list_ORF(df = df_gen_P907_iupac)
-list_ORF_P908 <- F_list_ORF(df = df_gen_P908_iupac)
-list_ORF_P909 <- F_list_ORF(df = df_gen_P909_iupac)
-list_ORF_P9010 <- F_list_ORF(df = df_gen_P9010_iupac)
+list_ORF_P901 <- F_list_ORF(df = gen_P90_1_IUPAC)
+list_ORF_P902 <- F_list_ORF(df = gen_P90_2_IUPAC)
+list_ORF_P903 <- F_list_ORF(df = gen_P90_3_IUPAC)
+list_ORF_P904 <- F_list_ORF(df = gen_P90_4_IUPAC)
+list_ORF_P905 <- F_list_ORF(df = gen_P90_5_IUPAC)
+list_ORF_P906 <- F_list_ORF(df = gen_P90_6_IUPAC)
+list_ORF_P907 <- F_list_ORF(df = gen_P90_7_IUPAC)
+list_ORF_P908 <- F_list_ORF(df = gen_P90_8_IUPAC)
+list_ORF_P909 <- F_list_ORF(df = gen_P90_9_IUPAC)
+list_ORF_P9010 <- F_list_ORF(df = gen_P90_10_IUPAC)
+
 list_ORF_mu <- c(list_ORF_P901, list_ORF_P902, list_ORF_P903, list_ORF_P904, list_ORF_P905, list_ORF_P906, list_ORF_P907, list_ORF_P908, list_ORF_P909, list_ORF_P9010)
+
 list_ORF_mu <- list_ORF_mu %>% unique()
 
 remove(list_ORF_P901, list_ORF_P902, list_ORF_P903, list_ORF_P904, list_ORF_P905, list_ORF_P906, list_ORF_P907, list_ORF_P908, list_ORF_P909, list_ORF_P9010)
 
+#gen_P90_1_IUPAC[which(gen_P90_1_IUPAC$Locus.tag == "CyHV3_ORF33"),] %>% nrow() #30496
+#gen_P90_1_IUPAC[which(gen_P90_1_IUPAC$Locus.tag == "CyHV3_ORF33"),]$ALT_IUPAC %>% is.na() %>% sum() #30480
+
+```
+Si on regarde l'ORF33 : Il y a 16 mutations sur l'ORF33 alors qu'il fait 30 000 pb
 
 
-list_ORF_mu
+On fait pareil pour les CDS
+```{r CDS avec SNP, include=FALSE}
+
+#Fonction liste d'ORF concernés par les SNP
+F_list_CDS <- function(df){
+  list_CDS <- df[which(is.na(df$ALT_IUPAC) == FALSE & is.na(df$CDS_TRUE_ID) == FALSE), c("Locus.tag", "CDS_TRUE_ID")] %>% unique() #on recupere les lignes où il y a des mutations et qui correspondent a des CDS
+  if(sum(is.na(list_CDS$Locus.tag)) > 0 ){
+    print(paste0("erreur pour : ", list_CDS[which(is.na(list_CDS$Locus.tag) == TRUE), "CDS_TRUE_ID"]))
+  }
+  
+  list_ORF_2 <- as.vector(list_CDS$Locus.tag)
+  list_CDS <- as.vector(list_CDS$CDS_TRUE_ID)
+
+    if(unique(list_ORF_2 %in% list_ORF_mu) != TRUE){
+    print(list_ORF_2[which(!list_ORF_2 %in%list_ORF_mu)])
+  }
+  
+  return(list(list_ORF_2, list_CDS))
+}
+
+
+list_CDS_P901 <- F_list_CDS(df = gen_P90_1_IUPAC)
+list_CDS_P902 <- F_list_CDS(df = gen_P90_2_IUPAC)
+list_CDS_P903 <- F_list_CDS(df = gen_P90_3_IUPAC)
+list_CDS_P904 <- F_list_CDS(df = gen_P90_4_IUPAC)
+list_CDS_P905 <- F_list_CDS(df = gen_P90_5_IUPAC)
+list_CDS_P906 <- F_list_CDS(df = gen_P90_6_IUPAC)
+list_CDS_P907 <- F_list_CDS(df = gen_P90_7_IUPAC)
+list_CDS_P908 <- F_list_CDS(df = gen_P90_8_IUPAC)
+list_CDS_P909 <- F_list_CDS(df = gen_P90_9_IUPAC)
+list_CDS_P9010 <- F_list_CDS(df = gen_P90_10_IUPAC)
+
+
+list_ORF_2 <- c()
+list_ORF_2 <- c(list_ORF_2, 
+                as.vector(list_CDS_P901[[1]]),
+                as.vector(list_CDS_P902[[1]]),
+                as.vector(list_CDS_P903[[1]]),
+                as.vector(list_CDS_P904[[1]]),
+                as.vector(list_CDS_P905[[1]]),
+                as.vector(list_CDS_P906[[1]]),
+                as.vector(list_CDS_P907[[1]]),
+                as.vector(list_CDS_P908[[1]]),
+                as.vector(list_CDS_P909[[1]]),
+                as.vector(list_CDS_P9010[[1]]))
+
+list_CDS_mu <- c()
+list_CDS_mu <- c(list_CDS_mu, 
+                 as.vector(list_CDS_P901[[2]]),
+                 as.vector(list_CDS_P902[[2]]),
+                 as.vector(list_CDS_P903[[2]]),
+                 as.vector(list_CDS_P904[[2]]),
+                 as.vector(list_CDS_P905[[2]]),
+                 as.vector(list_CDS_P906[[2]]),
+                 as.vector(list_CDS_P907[[2]]),
+                 as.vector(list_CDS_P908[[2]]),
+                 as.vector(list_CDS_P909[[2]]),
+                 as.vector(list_CDS_P9010[[2]]))
+
+
+list_ORF_2 <- list_ORF_2 %>% unique()
+list_CDS_mu <- list_CDS_mu %>% unique()
+
+list_ORF_2[which(!list_ORF_2 %in% list_ORF_mu)]
+ORF_a_verifier <- list_ORF_mu[which(!list_ORF_mu %in% list_ORF_2)]
+
+df_gen_ref[which(df_gen_ref$Locus.tag %in% ORF_a_verifier & is.na(df_gen_ref$CDS_Region) == FALSE),]
+df_CDS[which(df_CDS$Locus.tag %in% ORF_a_verifier),]
+
+#ORF_a_verifier : il n'y a pas de SNP dans les sequences codantes de certains ORF qui comportent eux des SNP
+
+remove(list_CDS_P901, list_CDS_P902, list_CDS_P903, list_CDS_P904, list_CDS_P905, list_CDS_P906, list_CDS_P907, list_CDS_P908, list_CDS_P909, list_CDS_P9010, ORF_a_verifier)
+list_CDS_mu
+
 ```
 
-Donc là j'ai un vecteur qui contient le nom des ORF dans lesquels il y a des SNP dans P90
+Donc là j'ai un vecteur qui contient le nom des ORF dans lesquels il y a des SNP dans P90 et pareil pour les CDS
 
-```{r re ORF33, include=FALSE}
+# Extraction des sequences codantes : 
 
-df_gen_P901_iupac[which(df_gen_P901_iupac$Locus.tag == "CyHV3_ORF33"),]
-df_gen_P901_iupac[which(df_gen_P901_iupac$Locus.tag == "CyHV3_ORF33"),] %>% nrow() #30496
-df_gen_P901_iupac[which(df_gen_P901_iupac$Locus.tag == "CyHV3_ORF33"),]$ALT_IUPAC %>% is.na() %>% sum() #30480
-```
-Il y a 16 mutations sur l'ORF33 alors qu'il fait 30 000 pb
-
-```{r remove table 3}
-remove(gen_P90_1_IUPAC, 
-       gen_P90_2_IUPAC,
-       gen_P90_3_IUPAC,
-       gen_P90_4_IUPAC,
-       gen_P90_5_IUPAC,
-       gen_P90_6_IUPAC,
-       gen_P90_7_IUPAC,
-       gen_P90_8_IUPAC,
-       gen_P90_9_IUPAC,
-       gen_P90_10_IUPAC)
-```
-
-Je vais faire deux fonction imbriquées : la première tourne sur un ORF, elle l'extrait, elle le transforme en fichier fasta. ELle est imbriquée dans la deuxième fonction plus bas qui tourne sur une liste d'ORF
+Je vais faire deux fonction imbriquées : la première tourne sur un ORF, elle l'extrait, elle le transforme en fichier fasta. ELle est imbriquée dans la deuxième fonction plus bas qui tourne sur la liste des CDS
+Il va falloire vérifier que la séquence est bien un multiple de 3 et qu'elle commence par un codon start et se termine par un codon stop
+Et il faut tenir compte de l'orientation de lecture des sequences codantes
 
 Exemple de header pour l'ORF4_1 sur NCBI : 
 ">DQ657948.1:7386-8419 Cyprinid herpesvirus 3 strain KHV-U, complete genome"
 7386-8419 c'est la position sur le chromosome
-```{r fonction creation liste FASTA par ORF}
-#df_CyHV3_genbank_filter
-#df_CyHV3_ref_orf
 
-F_ORF <- function(name_ORF, df_gen, info_ech){
-  
+Exemple de header pour la premiere sequence codante du genome
+">lcl|DQ657948.1_cds_ABG42832.1_1 [locus_tag=CyHV3_ORF1_1] [protein=protein ORF1] [protein_id=ABG42832.1] [location=426..1199] [gbkey=CDS]"
+```{r fonction creation liste FASTA par ORF}
+
+F_CDS <- function(id_CDS, table, info_ech){
+
   #Recuperer les positions de début et de fin du gene
-  pos_begin <- df_CyHV3_ref_orf[which(df_CyHV3_ref_orf$Locus.tag == name_ORF),]$Begin %>% as.numeric()
-  pos_end <- df_CyHV3_ref_orf[which(df_CyHV3_ref_orf$Locus.tag == name_ORF),]$End %>% as.numeric()
+  pos_begin <- df_gen_ref[which(df_gen_ref$CDS_TRUE_ID == id_CDS), "CDS_Begin"] %>% unique() %>% as.numeric()
+  pos_end <- df_gen_ref[which(df_gen_ref$CDS_TRUE_ID == id_CDS), "CDS_End"] %>% unique() %>% as.numeric()
   
   #dans df_gen, recuperer les lignes qui correspondent à l'ORF souhaité
-  df_gen_2 <- df_gen[which(df_gen$Locus.tag == name_ORF),]
+  table_2 <- table[which(table$CDS_TRUE_ID == id_CDS), c("POS", "POS_factor", "alt_iupac_plus", "alt_iupac_moins", "Locus.tag", "Orientation",  "CDS_TRUE_ID", "CDS_Name")] %>% unique()
   
-  if(min(df_gen_2$POS) == pos_begin & max(df_gen_2$POS) == pos_end){
+  if(min(table_2$POS) == pos_begin & max(table_2$POS) == pos_end){
     verif <- "OK"
   } else {
     verif <- "problem"
   }
   
+  if(unique(table_2$Orientation) == "plus"){
+    CDS_vec <- as.vector(table_2$alt_iupac_plus) # on n récupère que les nuléotides
+    CDS_seq <- paste(CDS_vec, collapse = "") #on fait une seule chaine de caractères
+    codon_start <- substr(CDS_seq, 1, 3)
+    codon_stop <- substr(CDS_seq, nchar(CDS_seq) - 2, nchar(CDS_seq))
+    taille_seq <- nchar(CDS_seq)
+    seq_modulo_3 <- taille_seq %% 3
+    
   
-  #creation d'un nouveau tableau qui contient juste l'ORF et les positions de ses nucléotides variants
-  df_gen_2 <- df_gen_2[,c("POS_factor", "new_alt_iupac")]
+  } else if(unique(table_2$Orientation) == "minus"){
+    CDS_vec <- as.vector(table_2$alt_iupac_moins) 
+    CDS_vec <- rev(CDS_vec)
+    CDS_seq <- paste(CDS_vec, collapse = "")
+    codon_start <- substr(CDS_seq, 1, 3) # on regarde les trois premieres positions
+    codon_stop <- substr(CDS_seq, nchar(CDS_seq) - 2, nchar(CDS_seq)) # les trois dernières positions
+    taille_seq <- nchar(CDS_seq) #la taille de la séquence
+    seq_modulo_3 <- taille_seq %% 3 # si elle est divisible par trois
+    
+  }
   
-  ORF_vec <- as.vector(df_gen_2$new_alt_iupac) # on n récupère que les nuléotides
-  ORF_seq <- paste(ORF_vec, collapse = "") #on fait une seule chaine de caractères
+  
+  info_CDS <- list(id_CDS = id_CDS, 
+                       nom_CDS = unique(table_2$CDS_Name),
+                       locus_CDS = unique(table_2$Locus.tag),
+                       Orientation_CDS = unique(table_2$Orientation),
+                       taille_CDS = taille_seq,
+                       div_par_3 = seq_modulo_3,
+                       start = codon_start,
+                       stop = codon_stop)
   
   
   #Construction du header
   #Pour header du fichier fasta, il faut que le variant apparaissent en premier mot : 
   accession_genome <- "DQ657948.1"
-  name_species <- "Cyprinid herpesvirus 3 strain KHV-U"
-  #identifiant_header <- paste0(accession_genome, ":", pos_begin, "-", pos_end, "_VAR", info_ech)
-  identifiant_header <- paste0("VAR", info_ech, "_" , accession_genome, ":", pos_begin, "-", pos_end)
-  comment_header <- paste0(name_species, " ",name_ORF)
+  name_species <- "CHyV3_strain_KHV-U"  #"Cyprinid herpesvirus 3 strain KHV-U"
+  CDS_nom <- unique(table_2$CDS_Name)
+  nom_ORF <- unique(table_2$Locus.tag)
+  nom_ORF <- gsub("CyHV3_ORF", "ORF_", nom_ORF)
+  
+  identifiant_header <- paste0("VAR", info_ech, "_" , accession_genome, "_", CDS_nom, ":", pos_begin, "-", pos_end)
+  comment_header <- paste0(name_species, "_", nom_ORF , "_CDS_", CDS_nom)
+  
   header <- paste0(identifiant_header, " ", comment_header)
-  print(header)
+  #print(header)
   
-  ORF_fasta <- DNAStringSet(ORF_seq)
-  names(ORF_fasta) <- header  # Ajouter l'entête
+  CDS_seq <- gsub("\\s+", "", CDS_seq)  # Supprime les espaces et retours à la ligne
+  CDS_seq <- gsub("\n", "", CDS_seq)
+  CDS_fasta <- DNAStringSet(CDS_seq)
+  names(CDS_fasta) <- header  # Ajouter l'entête
   
-  return(list("ORF_fasta" = ORF_fasta, "verif" = verif))
+  return(list("CDS_fasta" = CDS_fasta, "verif" = verif, "INFO" = info_CDS))
 }
 ```
 
@@ -484,263 +963,386 @@ DQ657948.1:pos_begin-pos_end_VAR
 #La fonction juste au dessus creer des fichiers fasta pour un ORF donne
 #la boucle en dessous fait tourner la fonction du dessus, recupère le nom de l'ORF et le fichier fasta et l'indexe dans une liste
 
-F_liste_fasta_file <- function(df_iupac, ech){
-  list_ORF <- list()
-  vec_verif <- c()
+F_liste_fasta_file <- function(df_iupac, ech, LISTE){
   
-  for (i in list_ORF_mu) {
+  list_CDS <- list()
+  #list_info_CDS <- list()
+  vec_verif <- c()
+  info_df_CDS <- data.frame()
+  
+  for (i in LISTE) {
     
     #on fait tourner la fonction au dessus
-    test <- F_ORF(name_ORF = i, 
-                  df_gen = df_iupac,
+    test <- F_CDS( id_CDS = i, 
+                  table = df_iupac,
                   info_ech = ech) #info_ORF_header = ID_ORF
     
+    #print(str(test))
     vec_verif <- c(vec_verif, test$verif)
-
-    ORF_FASTA <-test$ORF_fasta
-    list_ORF[[i]] <- list("resultat_fonction_ORF" = ORF_FASTA) #ajoute les uns après les autres les nouvelles valeurs
+    CDS_FASTA <-test$CDS_fasta
+    
+    INFO_CDS <- test$INFO
+    # Convertir la liste INFO_CDS en dataframe
+    info_df <- as.data.frame(INFO_CDS)
+    # Ajouter la colonne pour l'identifiant i
+    info_df$CDS_id <- i
+    info_df_CDS <- rbind(info_df_CDS, info_df)
+    
+    list_CDS[[i]] <- list("resultat_fonction_CDS" = CDS_FASTA) #ajoute les uns après les autres les nouvelles valeurs
+    #list_info_CDS[[i]] <- list("infos_CDS" = INFO_CDS)
+    
     test <- list()
   }
   
-   if(length(which(vec_verif == "OK")) != length(list_ORF_mu)){
+  
+  
+   if(length(which(vec_verif == "OK")) != length(LISTE)){
      pos_pb_vec_verif <- which(vec_verif != "OK")
-     ORF_pb <- list_ORF[which(list_ORF == pos_pb_vec_verif)]
-     print(paste("probleme : ", ORF_pb))
+     CDS_pb <- LISTE[which(LISTE == pos_pb_vec_verif)]
+     print(paste("probleme : ", CDS_pb))
      print(pos_pb_vec_verif, vec_verif)
     } else {
       print("RAS")
       #print(vec_verif)
     }
-  
-  return(list_ORF) #"verification" = vec_verif
+   
+  return(list(CDS = list_CDS, info_CDS = info_df_CDS)) #"verification" = vec_verif
 }
 ```
 
 
-```{r fonction boucle qui itere sur une liste d'ORF, include = FALSE}
-list_ORF_P901 <- F_liste_fasta_file(df_iupac = df_gen_P901_iupac, ech = "P901")
-list_ORF_P902 <- F_liste_fasta_file(df_iupac = df_gen_P902_iupac, ech = "P902")
-list_ORF_P903 <- F_liste_fasta_file(df_iupac = df_gen_P903_iupac, ech = "P903")
-list_ORF_P904 <- F_liste_fasta_file(df_iupac = df_gen_P904_iupac, ech = "P904")
-list_ORF_P905 <- F_liste_fasta_file(df_iupac = df_gen_P905_iupac, ech = "P905")
-list_ORF_P906 <- F_liste_fasta_file(df_iupac = df_gen_P906_iupac, ech = "P906")
-list_ORF_P907 <- F_liste_fasta_file(df_iupac = df_gen_P907_iupac, ech = "P907")
-list_ORF_P908 <- F_liste_fasta_file(df_iupac = df_gen_P908_iupac, ech = "P908")
-list_ORF_P909 <- F_liste_fasta_file(df_iupac = df_gen_P909_iupac, ech = "P909")
-list_ORF_P9010 <- F_liste_fasta_file(df_iupac = df_gen_P9010_iupac, ech = "P9010")
+```{r affinage, include = FALSE}
+list_CDS_P901 <- F_liste_fasta_file(df_iupac = gen_P90_1_IUPAC, ech = "P901", LISTE = list_CDS_mu)
+list_CDS_P902 <- F_liste_fasta_file(df_iupac = gen_P90_2_IUPAC, ech = "P902", LISTE = list_CDS_mu)
+list_CDS_P903 <- F_liste_fasta_file(df_iupac = gen_P90_3_IUPAC, ech = "P903", LISTE =list_CDS_mu)
+list_CDS_P904 <- F_liste_fasta_file(df_iupac = gen_P90_4_IUPAC, ech = "P904", LISTE =list_CDS_mu)
+list_CDS_P905 <- F_liste_fasta_file(df_iupac = gen_P90_5_IUPAC, ech = "P905", LISTE =list_CDS_mu)
+list_CDS_P906 <- F_liste_fasta_file(df_iupac = gen_P90_6_IUPAC, ech = "P906", LISTE =list_CDS_mu)
+list_CDS_P907 <- F_liste_fasta_file(df_iupac = gen_P90_7_IUPAC, ech = "P907", LISTE =list_CDS_mu)
+list_CDS_P908 <- F_liste_fasta_file(df_iupac = gen_P90_8_IUPAC, ech = "P908", LISTE =list_CDS_mu)
+list_CDS_P909 <- F_liste_fasta_file(df_iupac = gen_P90_9_IUPAC, ech = "P909", LISTE =list_CDS_mu)
+list_CDS_P9010 <- F_liste_fasta_file(df_iupac = gen_P90_10_IUPAC, ech = "P9010", LISTE =list_CDS_mu)
+
+#CDS_a_retirer <- c()
+
+#vérification du format des séquences : on regarde si c'est divisible par 3 et si ça commence bien par un codon start
+F_purge_CDS <- function(liste){
+  codon_stop <- c("TGA", "TAA", "TAG")
+  df_liste_CDS <- liste$info_CDS
+  purge_1 <- df_liste_CDS[which(df_liste_CDS$div_par_3 > 0), c("id_CDS")]
+  purge_2 <- df_liste_CDS[which(df_liste_CDS$start != "ATG"), c("id_CDS")]
+  purge_3 <-df_liste_CDS[which(!df_liste_CDS$stop %in% codon_stop), c("id_CDS")]
+  purge_cds <- c(purge_1, purge_2) %>% unique()
+  return(purge_cds)
+}
+
+purge_cds_P901 <- F_purge_CDS(list_CDS_P901)
+purge_cds_P902 <- F_purge_CDS(list_CDS_P902)
+purge_cds_P903 <- F_purge_CDS(list_CDS_P903)
+purge_cds_P904 <- F_purge_CDS(list_CDS_P904)
+purge_cds_P905 <- F_purge_CDS(list_CDS_P905)
+purge_cds_P906 <- F_purge_CDS(list_CDS_P906)
+purge_cds_P907 <- F_purge_CDS(list_CDS_P907)
+purge_cds_P908 <- F_purge_CDS(list_CDS_P908)
+purge_cds_P909 <- F_purge_CDS(list_CDS_P909)
+purge_cds_P9010 <- F_purge_CDS(list_CDS_P9010)
+
+CDS_a_retirer <- c(purge_cds_P901, purge_cds_P902, purge_cds_P903, purge_cds_P904, purge_cds_P905, purge_cds_P906, purge_cds_P907, purge_cds_P908, purge_cds_P909, purge_cds_P9010)
+
+CDS_a_retirer <- CDS_a_retirer %>% unique()
+CDS_a_retirer
+
+remove(purge_cds_P901, purge_cds_P902, purge_cds_P903, purge_cds_P904, purge_cds_P905, purge_cds_P906, purge_cds_P907, purge_cds_P908, purge_cds_P909, purge_cds_P9010)
+
+list_CDS_mu %>% length() #76
+list_CDS_mu_2 <- list_CDS_mu[which(!list_CDS_mu %in% CDS_a_retirer)]
+list_CDS_mu_2 %>% length()
+
+list_CDS_P901 <- F_liste_fasta_file(df_iupac = gen_P90_1_IUPAC, ech = "P901", LISTE = list_CDS_mu_2)
+list_CDS_P902 <- F_liste_fasta_file(df_iupac = gen_P90_2_IUPAC, ech = "P902", LISTE = list_CDS_mu_2)
+list_CDS_P903 <- F_liste_fasta_file(df_iupac = gen_P90_3_IUPAC, ech = "P903", LISTE =list_CDS_mu_2)
+list_CDS_P904 <- F_liste_fasta_file(df_iupac = gen_P90_4_IUPAC, ech = "P904", LISTE =list_CDS_mu_2)
+list_CDS_P905 <- F_liste_fasta_file(df_iupac = gen_P90_5_IUPAC, ech = "P905", LISTE =list_CDS_mu_2)
+list_CDS_P906 <- F_liste_fasta_file(df_iupac = gen_P90_6_IUPAC, ech = "P906", LISTE =list_CDS_mu_2)
+list_CDS_P907 <- F_liste_fasta_file(df_iupac = gen_P90_7_IUPAC, ech = "P907", LISTE =list_CDS_mu_2)
+list_CDS_P908 <- F_liste_fasta_file(df_iupac = gen_P90_8_IUPAC, ech = "P908", LISTE =list_CDS_mu_2)
+list_CDS_P909 <- F_liste_fasta_file(df_iupac = gen_P90_9_IUPAC, ech = "P909", LISTE =list_CDS_mu_2)
+list_CDS_P9010 <- F_liste_fasta_file(df_iupac = gen_P90_10_IUPAC, ech = "P9010", LISTE =list_CDS_mu_2)
 
 ```
 
-Pour le genome de reference
+## Pour le genome de reference
 
 DQ657948.1:pos_begin-pos_end_REF Cyprinid herpesvirus 3 strain KHV-U Locus.tag
-```{r liste ORF genome de reference}
+```{r liste CDS genome de reference, include=FALSE}
 #ID_ORF <- paste0(gsub("CyHV3_ORF", "ORF_", i), "_", "reference_genome")
   
-list_ORF_gen_ref <- list()
-  vec_verif <- c()
-  
-  for (i in list_ORF_mu) {
+list_CDS_gen_ref <- list()
+vec_verif <- c()
+df_cds_info_ref <- data.frame()
+
+  for (i in list_CDS_mu_2) {
+    pos_begin <- df_gen_ref[which(df_gen_ref$CDS_TRUE_ID == i), "CDS_Begin"] %>% unique() %>% as.numeric()
+    pos_end <- df_gen_ref[which(df_gen_ref$CDS_TRUE_ID == i), "CDS_End"] %>% unique() %>% as.numeric()
     
-    pos_begin <- df_CyHV3_ref_orf[which(df_CyHV3_ref_orf$Locus.tag == i),]$Begin %>% as.numeric()
-    pos_end <- df_CyHV3_ref_orf[which(df_CyHV3_ref_orf$Locus.tag == i),]$End %>% as.numeric()
-    df <- df_gen_ref[which(df_gen_ref$Locus.tag == i),]
+    #dans df_gen, recuperer les lignes qui correspondent à l'ORF souhaité
+    df <- df_gen_ref[which(df_gen_ref$CDS_TRUE_ID == i), c("POS", "POS_factor", "REF_plus", "REF_moins", "Locus.tag", "Orientation",  "CDS_TRUE_ID", "CDS_Name")]
     
     if(min(df$POS) == pos_begin & max(df$POS) == pos_end){
       verif <- "OK"
     } else {
       verif <- "problem"
     }
-    df <- df[,c("POS_factor", "REF")]
     
-    ORF_vec <- as.vector(df$REF)
-    ORF_seq <- paste(ORF_vec, collapse = "")
+    if(unique(df$Orientation) == "plus"){
+    CDS_vec <- as.vector(df$REF_plus) # on n récupère que les nuléotides
+    CDS_seq <- paste(CDS_vec, collapse = "") #on fait une seule chaine de caractères
+    codon_start <- substr(CDS_seq, 1, 3)
+    codon_stop <- substr(CDS_seq, nchar(CDS_seq) - 2, nchar(CDS_seq))
+    taille_seq <- nchar(CDS_seq)
+    seq_modulo_3 <- taille_seq %% 3
     
-    #header : 
-    accession_genome <- "DQ657948.1"
-    #identifiant_header <- paste0(accession_genome, ":", pos_begin, "-", pos_end, "_REF")
-    identifiant_header <- paste0("REF_" ,accession_genome, ":", pos_begin, "-", pos_end)
-    
-    name_species <- "Cyprinid herpesvirus 3 strain KHV-U"
-    comment_header <- paste0(name_species, " ", i)
-    
-    header <- paste0(identifiant_header, " ", comment_header)
-    print(header)
   
-    ORF_fasta <- DNAStringSet(ORF_seq)
-    names(ORF_fasta) <- header  # Ajouter l'entête
+    } else if(unique(df$Orientation) == "minus"){
+    CDS_vec <- as.vector(df$REF_moins) 
+    CDS_vec <- rev(CDS_vec)
+    CDS_seq <- paste(CDS_vec, collapse = "")
+    codon_start <- substr(CDS_seq, 1, 3) # on regarde les trois premieres positions
+    codon_stop <- substr(CDS_seq, nchar(CDS_seq) - 2, nchar(CDS_seq)) # les trois dernières positions
+    taille_seq <- nchar(CDS_seq) #la taille de la séquence
+    seq_modulo_3 <- taille_seq %% 3 # si elle est divisible par trois
+    
+    }
+  
+  
+    info_CDS <- data.frame(id_CDS = i, 
+                         nom_CDS = unique(df$CDS_Name),
+                         locus_CDS = unique(df$Locus.tag),
+                         Orientation_CDS = unique(df$Orientation),
+                         taille_CDS = taille_seq,
+                         div_par_3 = seq_modulo_3,
+                         start = codon_start,
+                         stop = codon_stop)
+    
+    df_cds_info_ref <- rbind(df_cds_info_ref, info_CDS)
+    
+    #Construction du header
+    #Pour header du fichier fasta, il faut que le variant apparaissent en premier mot : 
+    accession_genome <- "DQ657948.1"
+    name_species <- "CHyV3_strain_KHV-U" #"Cyprinid herpesvirus 3 strain KHV-U"
+    CDS_nom <- unique(df$CDS_Name)
+    identifiant_header <- paste0("REF_", accession_genome, "_", CDS_nom, ":", pos_begin, "-", pos_end)
+    
+    
+    nom_ORF <- unique(df$Locus.tag)
+    nom_ORF <- gsub("CyHV3_ORF", "ORF_", nom_ORF)
+  
+    comment_header <- paste0(name_species, "_", nom_ORF , "_CDS_", CDS_nom)
+    header <- paste0(identifiant_header, " ", comment_header)
+    #print(header)
+    
+    CDS_seq <- gsub("\\s+", "", CDS_seq)  # Supprime les espaces et retours à la ligne
+    CDS_seq <- gsub("\n", "", CDS_seq)  
+    CDS_fasta <- DNAStringSet(CDS_seq)
+    names(CDS_fasta) <- header  # Ajouter l'entête
   
     vec_verif <- c(vec_verif, verif)
-    list_ORF_gen_ref[[i]] <- list("resultat_fonction_ORF" = ORF_fasta) #ajoute les uns après les autres les nouvelles valeurs
+    list_CDS_gen_ref[[i]] <- list("resultat_fonction_CDS" = CDS_fasta) #ajoute les uns après les autres les nouvelles valeurs
   }
-  
+
 vec_verif
 pos_begin
 pos_end
-ORF_seq
+CDS_seq
 name_species
 header
 identifiant_header
 comment_header
 i
-remove(vec_verif, df, ORF_vec, ORF_seq, pos_begin, pos_end, accession_genome, name_species, header, verif, i, comment_header, identifiant_header)
+remove(vec_verif, df, CDS_vec, CDS_seq, pos_begin, pos_end, accession_genome, name_species, header, verif, i, comment_header, identifiant_header, codon_start, codon_stop, seq_modulo_3, taille_seq, CDS_nom, df_cds_info_ref)
+
+```
+
+```{r finalisation des listes de CDS}
+list_CDS_P901$CDS  %>% length()
+list_CDS_P902$CDS  %>% length()
+list_CDS_P903$CDS  %>% length()
+list_CDS_P904$CDS  %>% length()
+list_CDS_P905$CDS  %>% length()
+list_CDS_P906$CDS  %>% length()
+list_CDS_P907$CDS  %>% length()
+list_CDS_P908$CDS  %>% length()
+list_CDS_P909$CDS  %>% length()
+list_CDS_P9010$CDS  %>% length()
+list_CDS_gen_ref %>% length()
+
+list_CDS_P901 <- list_CDS_P901$CDS  
+list_CDS_P902 <- list_CDS_P902$CDS  
+list_CDS_P903 <- list_CDS_P903$CDS  
+list_CDS_P904 <- list_CDS_P904$CDS  
+list_CDS_P905 <- list_CDS_P905$CDS  
+list_CDS_P906 <- list_CDS_P906$CDS  
+list_CDS_P907 <- list_CDS_P907$CDS  
+list_CDS_P908 <- list_CDS_P908$CDS  
+list_CDS_P909 <- list_CDS_P909$CDS  
+list_CDS_P9010 <- list_CDS_P9010$CDS  
+```
+
+Ca c'est mis dan le github : 
+```{r exportation table}
+#write(list_CDS_mu_2, ".\\fichiers_utilises\\list_CDS_mu_2.txt")
+#write.csv(gen_P90_10_IUPAC, ".\\fichiers_utilises\\gen_P90_10_IUPAC.csv", row.names = FALSE)
+#write.csv(gen_P90_1_IUPAC, ".\\fichiers_utilises\\gen_P90_1_IUPAC.csv", row.names = FALSE)
+#write.csv(gen_P90_2_IUPAC, ".\\fichiers_utilises\\gen_P90_2_IUPAC.csv", row.names = FALSE)
+#write.csv(gen_P90_3_IUPAC, ".\\fichiers_utilises\\gen_P90_3_IUPAC.csv", row.names = FALSE)
+#write.csv(gen_P90_4_IUPAC, ".\\fichiers_utilises\\gen_P90_4_IUPAC.csv", row.names = FALSE)
+#write.csv(gen_P90_5_IUPAC, ".\\fichiers_utilises\\gen_P90_5_IUPAC.csv", row.names = FALSE)
+#write.csv(gen_P90_6_IUPAC, ".\\fichiers_utilises\\gen_P90_6_IUPAC.csv", row.names = FALSE)
+#write.csv(gen_P90_7_IUPAC, ".\\fichiers_utilises\\gen_P90_7_IUPAC.csv", row.names = FALSE)
+#write.csv(gen_P90_8_IUPAC, ".\\fichiers_utilises\\gen_P90_8_IUPAC.csv", row.names = FALSE)
+#write.csv(gen_P90_9_IUPAC, ".\\fichiers_utilises\\gen_P90_9_IUPAC.csv", row.names = FALSE)
 ```
 
 
 
 ```{r fonction sauvegarde des fichiers fasta dans dossiers}
-list_ORF_P901  %>% length()
-list_ORF_P902  %>% length()
-list_ORF_P903  %>% length()
-list_ORF_P904  %>% length()
-list_ORF_P905  %>% length()
-list_ORF_P906  %>% length()
-list_ORF_P907  %>% length()
-list_ORF_P908  %>% length()
-list_ORF_P909  %>% length()
-list_ORF_P9010  %>% length()
-list_ORF_gen_ref %>% length()
 
 #fonction pour : 
 # Boucle pour sauvegarder chaque ORF sous forme de fichier FASTA
-
+#list_CDS_P9010$ABG42832.1_426_1199$resultat_fonction_CDS
 
 F_save_fasta <- function(list, info_ech) {
-  for (orf_name in names(list)) {
-    ORF_FASTA <- list[[orf_name]]$resultat_fonction_ORF  # Récupérer la séquence FASTA
+  for (CDS_name in names(list)) {
+    CDS_FASTA <- list[[CDS_name]]$resultat_fonction_CDS # Récupérer la séquence FASTA
     
-    nom_dossier <- gsub("CyHV3_ORF", "ORF_", orf_name)
-    nom_fichier <- paste0(orf_name, info_ech,".fasta")
+    nom_dossier <- CDS_name #gsub("CyHV3_ORF", "ORF_", orf_name)
+    nom_fichier <- paste0(CDS_name, info_ech,".fasta")
     
-    Dir_output <- paste0(".\\resultats_fasta_files\\", nom_dossier)
+    Dir_output <- paste0(".\\resultats\\", nom_dossier)
     
     if(file.exists(Dir_output) != TRUE){
-      dir.create(file.path(".\\resultats_fasta_files", nom_dossier, fsep = "\\")) 
+      dir.create(file.path(".\\resultats", nom_dossier, fsep = "\\")) 
     } 
     
     fasta_filename <- file.path(Dir_output, nom_fichier, fsep = "\\")
   
-    writeXStringSet(ORF_FASTA, filepath = fasta_filename)  # Écrire le fichier FASTA
+    writeXStringSet(CDS_FASTA, filepath = fasta_filename,  width = 60)  # Écrire le fichier FASTA
   }
   return(print(paste0("fichiers exportes pour ", nom_dossier)))
 }
-```
+list_CDS_gen_ref$ABG42832.1_426_1199$CDS
 
-
-```{r sauvegarde des fichiers fasta dans dossiers}
-F_save_fasta(list = list_ORF_P901, info_ech = "_P90.1")
-F_save_fasta(list = list_ORF_P902, info_ech = "_P90.2")
-F_save_fasta(list = list_ORF_P903, info_ech = "_P90.3")
-F_save_fasta(list = list_ORF_P904, info_ech = "_P90.4")
-F_save_fasta(list = list_ORF_P905, info_ech = "_P90.5")
-F_save_fasta(list = list_ORF_P906, info_ech = "_P90.6")
-F_save_fasta(list = list_ORF_P907, info_ech = "_P90.7")
-F_save_fasta(list = list_ORF_P908, info_ech = "_P90.8")
-F_save_fasta(list = list_ORF_P909, info_ech = "_P90.9")
-F_save_fasta(list = list_ORF_P9010, info_ech = "_P90.10")
-F_save_fasta(list = list_ORF_gen_ref, info_ech = "_gen_ref")
-
+#F_save_fasta(list = list_CDS_P901, info_ech = "_P90.1")
+#F_save_fasta(list = list_CDS_P902, info_ech = "_P90.2")
+#F_save_fasta(list = list_CDS_P903, info_ech = "_P90.3")
+#F_save_fasta(list = list_CDS_P904, info_ech = "_P90.4")
+#F_save_fasta(list = list_CDS_P905, info_ech = "_P90.5")
+#F_save_fasta(list = list_CDS_P906, info_ech = "_P90.6")
+#F_save_fasta(list = list_CDS_P907, info_ech = "_P90.7")
+#F_save_fasta(list = list_CDS_P908, info_ech = "_P90.8")
+#F_save_fasta(list = list_CDS_P909, info_ech = "_P90.9")
+#F_save_fasta(list = list_CDS_P9010, info_ech = "_P90.10")
+#F_save_fasta(list = list_CDS_gen_ref, info_ech = "_gen_ref")
 ```
 
 
 ```{r}
-df_gen_P901_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
-df_gen_P902_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
-df_gen_P903_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
-df_gen_P904_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "R" "M" "K"
-df_gen_P905_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
-df_gen_P906_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M" "Y"
-df_gen_P907_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
-df_gen_P908_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M" "K"
-df_gen_P909_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "R" "M" "K"
-df_gen_P9010_iupac$new_alt_iupac %>% unique() #"C" "T" "G" "A" "M"
+gen_P90_1_IUPAC$alt_iupac_plus %>% unique() #"C" "T" "G" "A" "M"
+gen_P90_2_IUPAC$alt_iupac_plus %>% unique() #"C" "T" "G" "A" "M"
+gen_P90_3_IUPAC$alt_iupac_plus %>% unique() #"C" "T" "G" "A" "M"
+gen_P90_4_IUPAC$alt_iupac_plus %>% unique() #"C" "T" "G" "A" "R" "M" "K"
+gen_P90_5_IUPAC$alt_iupac_plus %>% unique() #"C" "T" "G" "A" "M"
+gen_P90_6_IUPAC$alt_iupac_plus %>% unique() #"C" "T" "G" "A" "M" "Y"
+gen_P90_7_IUPAC$alt_iupac_plus %>% unique() #"C" "T" "G" "A" "M"
+gen_P90_8_IUPAC$alt_iupac_plus %>% unique() #"C" "T" "G" "A" "M" "K"
+gen_P90_9_IUPAC$alt_iupac_plus %>% unique() #"C" "T" "G" "A" "R" "M" "K"
+gen_P90_10_IUPAC$alt_iupac_plus %>% unique() #"C" "T" "G" "A" "M"
 
 #M, R, K, Y
 
 # il y a des M partout
-which(df_gen_P901_iupac$new_alt_iupac == "M") %>% length()
-which(df_gen_P902_iupac$new_alt_iupac == "M") %>% length()
-which(df_gen_P903_iupac$new_alt_iupac == "M") %>% length()
-which(df_gen_P904_iupac$new_alt_iupac == "M") %>% length()
-which(df_gen_P905_iupac$new_alt_iupac == "M") %>% length()
-which(df_gen_P906_iupac$new_alt_iupac == "M") %>% length()
-which(df_gen_P907_iupac$new_alt_iupac == "M") %>% length()
-which(df_gen_P908_iupac$new_alt_iupac == "M") %>% length()
-which(df_gen_P909_iupac$new_alt_iupac == "M") %>% length()
-which(df_gen_P9010_iupac$new_alt_iupac == "M") %>% length()
+which(gen_P90_1_IUPAC$alt_iupac_plus == "M") %>% length()
+which(gen_P90_2_IUPAC$alt_iupac_plus == "M") %>% length()
+which(gen_P90_3_IUPAC$alt_iupac_plus == "M") %>% length()
+which(gen_P90_4_IUPAC$alt_iupac_plus == "M") %>% length()
+which(gen_P90_5_IUPAC$alt_iupac_plus == "M") %>% length()
+which(gen_P90_6_IUPAC$alt_iupac_plus == "M") %>% length()
+which(gen_P90_7_IUPAC$alt_iupac_plus == "M") %>% length()
+which(gen_P90_8_IUPAC$alt_iupac_plus == "M") %>% length()
+which(gen_P90_9_IUPAC$alt_iupac_plus == "M") %>% length()
+which(gen_P90_10_IUPAC$alt_iupac_plus == "M") %>% length()
 #1 seul M à chaque fois
 
-df_gen_P901_iupac[which(df_gen_P901_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
-df_gen_P902_iupac[which(df_gen_P902_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
-df_gen_P903_iupac[which(df_gen_P903_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
-df_gen_P904_iupac[which(df_gen_P904_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
-df_gen_P905_iupac[which(df_gen_P905_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
-df_gen_P906_iupac[which(df_gen_P906_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
-df_gen_P907_iupac[which(df_gen_P907_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
-df_gen_P908_iupac[which(df_gen_P908_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
-df_gen_P909_iupac[which(df_gen_P909_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
-df_gen_P9010_iupac[which(df_gen_P901_iupac$new_alt_iupac == "M"), "Locus.tag"] %>% as.character()
-#ORF64
+gen_P90_1_IUPAC[which(gen_P90_1_IUPAC$alt_iupac_plus == "M"), "CDS_TRUE_ID"] %>% as.character()
+gen_P90_2_IUPAC[which(gen_P90_2_IUPAC$alt_iupac_plus == "M"), "CDS_TRUE_ID"] %>% as.character()
+gen_P90_3_IUPAC[which(gen_P90_3_IUPAC$alt_iupac_plus == "M"), "CDS_TRUE_ID"] %>% as.character()
+gen_P90_4_IUPAC[which(gen_P90_4_IUPAC$alt_iupac_plus == "M"), "CDS_TRUE_ID"] %>% as.character()
+gen_P90_5_IUPAC[which(gen_P90_5_IUPAC$alt_iupac_plus == "M"), "CDS_TRUE_ID"] %>% as.character()
+gen_P90_6_IUPAC[which(gen_P90_6_IUPAC$alt_iupac_plus == "M"), "CDS_TRUE_ID"] %>% as.character()
+gen_P90_7_IUPAC[which(gen_P90_7_IUPAC$alt_iupac_plus == "M"), "CDS_TRUE_ID"] %>% as.character()
+gen_P90_8_IUPAC[which(gen_P90_8_IUPAC$alt_iupac_plus == "M"), "CDS_TRUE_ID"] %>% as.character()
+gen_P90_9_IUPAC[which(gen_P90_9_IUPAC$alt_iupac_plus == "M"), "CDS_TRUE_ID"] %>% as.character()
+gen_P90_10_IUPAC[which(gen_P90_1_IUPAC$alt_iupac_plus == "M"), "CDS_TRUE_ID"] %>% as.character()
+#ABG42891.1_119864_122032
 
 #R
-which(df_gen_P901_iupac$new_alt_iupac == "R") %>% length() #0
-which(df_gen_P902_iupac$new_alt_iupac == "R") %>% length() #0
-which(df_gen_P903_iupac$new_alt_iupac == "R") %>% length() #0
-which(df_gen_P904_iupac$new_alt_iupac == "R") %>% length() #6
-which(df_gen_P905_iupac$new_alt_iupac == "R") %>% length() #0
-which(df_gen_P906_iupac$new_alt_iupac == "R") %>% length() #0
-which(df_gen_P907_iupac$new_alt_iupac == "R") %>% length() #0
-which(df_gen_P908_iupac$new_alt_iupac == "R") %>% length() #0
-which(df_gen_P909_iupac$new_alt_iupac == "R") %>% length() #27
-which(df_gen_P9010_iupac$new_alt_iupac == "R") %>% length() #0
+which(gen_P90_1_IUPAC$alt_iupac_plus == "R") %>% length() #0
+which(gen_P90_2_IUPAC$alt_iupac_plus == "R") %>% length() #0
+which(gen_P90_3_IUPAC$alt_iupac_plus == "R") %>% length() #0
+which(gen_P90_4_IUPAC$alt_iupac_plus == "R") %>% length() #6
+which(gen_P90_5_IUPAC$alt_iupac_plus == "R") %>% length() #0
+which(gen_P90_6_IUPAC$alt_iupac_plus == "R") %>% length() #0
+which(gen_P90_7_IUPAC$alt_iupac_plus == "R") %>% length() #0
+which(gen_P90_8_IUPAC$alt_iupac_plus == "R") %>% length() #0
+which(gen_P90_9_IUPAC$alt_iupac_plus == "R") %>% length() #27
+which(gen_P90_10_IUPAC$alt_iupac_plus == "R") %>% length() #0
 
-df_gen_P904_iupac[which(df_gen_P904_iupac$new_alt_iupac == "R"), "Locus.tag"] %>% unique() %>% as.vector()
+gen_P90_4_IUPAC[which(gen_P90_4_IUPAC$alt_iupac_plus == "R"), c("CDS_TRUE_ID", "Locus.tag")] %>% unique() %>% as.vector()
+#ORF 33, 41, 40 : AFD97201.1_60044_60598 (celui de l'ORF 40)
+gen_P90_9_IUPAC[which(gen_P90_9_IUPAC$alt_iupac_plus == "R"), c("CDS_TRUE_ID", "Locus.tag")] %>% unique() %>% as.vector()
 #ORF 33, 41, 40
-df_gen_P909_iupac[which(df_gen_P909_iupac$new_alt_iupac == "R"), "Locus.tag"] %>% unique() %>% as.vector()
-#ORF 33, 41, 40
+#AFD97201.1_60044_60598 (ORF 40)
 
 #K
-which(df_gen_P904_iupac$new_alt_iupac == "K") %>% length()#1
-which(df_gen_P908_iupac$new_alt_iupac == "K") %>% length()#1
-which(df_gen_P909_iupac$new_alt_iupac == "K") %>% length()#1
+which(gen_P90_4_IUPAC$alt_iupac_plus == "K") %>% length()#1
+which(gen_P90_8_IUPAC$alt_iupac_plus == "K") %>% length()#1
+which(gen_P90_9_IUPAC$alt_iupac_plus == "K") %>% length()#1
 
 
-df_gen_P904_iupac[which(df_gen_P904_iupac$new_alt_iupac == "K"), "Locus.tag"] %>% as.character() # Pas sur un ORF donc osef
-df_gen_P908_iupac[which(df_gen_P908_iupac$new_alt_iupac == "K"), "Locus.tag"] %>% as.character() #CyHV3_ORF64
-df_gen_P909_iupac[which(df_gen_P909_iupac$new_alt_iupac == "K"), "Locus.tag"] %>% as.character() #CyHV3_ORF64
-
+gen_P90_4_IUPAC[which(gen_P90_4_IUPAC$alt_iupac_plus == "K"), c("CDS_TRUE_ID", "Locus.tag")] %>% as.character() # Pas sur un ORF donc osef
+gen_P90_8_IUPAC[which(gen_P90_8_IUPAC$alt_iupac_plus == "K"), c("CDS_TRUE_ID", "Locus.tag")] %>% as.character() #CyHV3_ORF64
+#ABG42891.1_119864_122032
+gen_P90_9_IUPAC[which(gen_P90_9_IUPAC$alt_iupac_plus == "K"), c("CDS_TRUE_ID", "Locus.tag")] %>% as.character() #CyHV3_ORF64
+#ABG42891.1_119864_122032
 #Y
-which(df_gen_P906_iupac$new_alt_iupac == "Y") %>% length()
-df_gen_P906_iupac[which(df_gen_P906_iupac$new_alt_iupac == "Y"), "Locus.tag"] %>% as.character() #CyHV3_ORF64
+which(gen_P90_6_IUPAC$alt_iupac_plus == "Y") %>% length()
+gen_P90_6_IUPAC[which(gen_P90_6_IUPAC$alt_iupac_plus == "Y"), c("CDS_TRUE_ID", "Locus.tag")] %>% as.character() #CyHV3_ORF64
 
 ```
 
 ```{r ORF64}
+gen_P90_1_IUPAC[which(gen_P90_1_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow() #2204
+gen_P90_2_IUPAC[which(gen_P90_2_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+gen_P90_3_IUPAC[which(gen_P90_3_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+gen_P90_4_IUPAC[which(gen_P90_4_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+gen_P90_5_IUPAC[which(gen_P90_5_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+gen_P90_6_IUPAC[which(gen_P90_6_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+gen_P90_7_IUPAC[which(gen_P90_7_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+gen_P90_8_IUPAC[which(gen_P90_8_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+gen_P90_9_IUPAC[which(gen_P90_9_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
+gen_P90_10_IUPAC[which(gen_P90_1_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
 
+gen_P90_1_IUPAC[which(gen_P90_1_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2194
+gen_P90_2_IUPAC[which(gen_P90_2_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2186
+gen_P90_3_IUPAC[which(gen_P90_3_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2183
+gen_P90_4_IUPAC[which(gen_P90_4_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2190
+gen_P90_5_IUPAC[which(gen_P90_5_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2188
+gen_P90_6_IUPAC[which(gen_P90_6_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2190
+gen_P90_7_IUPAC[which(gen_P90_7_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"]%>% is.na() %>% sum() #2192
+gen_P90_8_IUPAC[which(gen_P90_8_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2187
+gen_P90_9_IUPAC[which(gen_P90_9_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2186
+gen_P90_10_IUPAC[which(gen_P90_1_IUPAC$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2185
 
-df_gen_P901_iupac[which(df_gen_P901_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow() #2204
-df_gen_P902_iupac[which(df_gen_P902_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
-df_gen_P903_iupac[which(df_gen_P903_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
-df_gen_P904_iupac[which(df_gen_P904_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
-df_gen_P905_iupac[which(df_gen_P905_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
-df_gen_P906_iupac[which(df_gen_P906_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
-df_gen_P907_iupac[which(df_gen_P907_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
-df_gen_P908_iupac[which(df_gen_P908_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
-df_gen_P909_iupac[which(df_gen_P909_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
-df_gen_P9010_iupac[which(df_gen_P901_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% nrow()
-
-df_gen_P901_iupac[which(df_gen_P901_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2194
-df_gen_P902_iupac[which(df_gen_P902_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2186
-df_gen_P903_iupac[which(df_gen_P903_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2183
-df_gen_P904_iupac[which(df_gen_P904_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2190
-df_gen_P905_iupac[which(df_gen_P905_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2188
-df_gen_P906_iupac[which(df_gen_P906_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2190
-df_gen_P907_iupac[which(df_gen_P907_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"]%>% is.na() %>% sum() #2192
-df_gen_P908_iupac[which(df_gen_P908_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2187
-df_gen_P909_iupac[which(df_gen_P909_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2186
-df_gen_P9010_iupac[which(df_gen_P901_iupac$Locus.tag == "CyHV3_ORF64"), "ALT_IUPAC"] %>% is.na() %>% sum() #2185
-
-summary(c(10, 18, 21, 14, 16, 14, 12, 17, 18, 19))
 
 ```
 
