@@ -269,15 +269,15 @@ df_dnds_ape[which(is.na(df_dnds_ape$dnds) == TRUE), "variant"] %>% unique()
 
 Si les fichier fasta ont été généré avec le script fasta_file_preparation_dnds qui est dans le github, normalement tout va bien, il n'y a pas besoin de lancer cette fenêtre R (les colonnes CDS_TRUE_ID de df_dnds_ape correspondent avec celle des tableaux importés)
 ```{r}
-#names(df_dnds_ape)[1] <- "ID_CDS"
-#df_dnds_ape <- df_dnds_ape %>% separate(ID_CDS, into = c("CDS", "Begin", "End"), sep = "_", remove = TRUE)
-#df_dnds_ape <- df_dnds_ape %>% mutate(CDS = paste0("cds-", df_dnds_ape$CDS))
-#df_dnds_ape <- df_dnds_ape %>% mutate(start_end = paste(as.factor(df_dnds_ape$Begin), as.factor(df_dnds_ape$End), sep = "."))
-#df_dnds_ape <- df_dnds_ape %>% mutate(CDS_TRUE_ID = paste(CDS, start_end, sep = "_")) %>% relocate(CDS_TRUE_ID, .before = CDS)
-#df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "Begin")]
-#df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "End")]
-#df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "start_end")]
-#df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "CDS")]
+names(df_dnds_ape)[1] <- "ID_CDS"
+df_dnds_ape <- df_dnds_ape %>% separate(ID_CDS, into = c("CDS", "Begin", "End"), sep = "_", remove = TRUE)
+df_dnds_ape <- df_dnds_ape %>% mutate(CDS = paste0("cds-", df_dnds_ape$CDS))
+df_dnds_ape <- df_dnds_ape %>% mutate(start_end = paste(as.factor(df_dnds_ape$Begin), as.factor(df_dnds_ape$End), sep = "."))
+df_dnds_ape <- df_dnds_ape %>% mutate(CDS_TRUE_ID = paste(CDS, start_end, sep = "_")) %>% relocate(CDS_TRUE_ID, .before = CDS)
+df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "Begin")]
+df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "End")]
+df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "start_end")]
+df_dnds_ape <- df_dnds_ape[,-which(names(df_dnds_ape) == "CDS")]
 ```
 
 
@@ -392,7 +392,7 @@ df_dnds_ape <- df_dnds_ape %>% mutate(ech = sub("P90.", "P90", df_dnds_ape$Sampl
 df_dnds_ape_2 <- left_join(df_dnds_ape[,c("CDS_TRUE_ID", "dnds", "ech")], unique(df_CDS_mut[which(df_CDS_mut$CDS_TRUE_ID %in% Liste_CDS_mu_2), ]), by = c("CDS_TRUE_ID", "ech"))
 ```
 
-```{r}
+```{r, include=FALSE}
 #Valeurs aberrantes
 #DnDs infini
 df_dnds_ape_2[which(df_dnds_ape_2$dnds == Inf), c("nb_mutation", "taux_mutation")] %>% summary()
@@ -421,7 +421,7 @@ df_dnds_ape_2[which(df_dnds_ape_2$dnds > 0.9 & df_dnds_ape_2$dnds < 1.1), c("nb_
 df_dnds_ape_2[which(df_dnds_ape_2$dnds > 0 & df_dnds_ape_2$dnds < 0.9), c("nb_mutation", "taux_mutation")] %>% summary()
 ```
 
-```{r}
+```{r, include=FALSE}
 df_dnds_ape_2[which(df_dnds_ape_2$dnds >= 0 & df_dnds_ape_2$dnds != Inf & is.na(df_dnds_ape_2$dnds) == FALSE), "CDS_TRUE_ID"]
 df_dnds_ape_2 <- df_dnds_ape_2 %>% mutate(new_dnds_ape = case_when(df_dnds_ape_2$dnds < 0 ~ NA,
                                                        df_dnds_ape_2$dnds == Inf ~ NA,
@@ -462,6 +462,7 @@ df3 <- df_dnds_ape_2 %>% aggregate(new_dnds_ape ~ CDS_TRUE_ID, FUN = sum) # ça 
 df3[which(df3$new_dnds_ape > 0), "CDS_TRUE_ID"] 
 
 ```
+
 
 ```{r Figure}
 library(ggplot2)

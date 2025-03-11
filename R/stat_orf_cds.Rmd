@@ -1,0 +1,613 @@
+---
+title: "Untitled"
+author: "heloise_calzan"
+date: "2025-03-10"
+output: html_document
+---
+
+```{r librairies, include=FALSE}
+library(tidyverse)
+library(dplyr)
+library(Biostrings)
+library(ape)
+library(stringr)
+```
+
+
+```{r Chemin d'accès, include=FALSE}
+setwd("E:\\github\\BILL_2025\\R")
+```
+
+```{r}
+df_CyHV3_genbank <- read.csv(".\\fichiers_utilises\\annotation_genes_CyHV3_genbank.csv" , header = TRUE, sep = "\t",  na ="NA", stringsAsFactors = FALSE)
+
+
+df_CDS_genbank_2 <- read.csv(".\\fichiers_utilises\\CDS_genbank_2.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+
+
+#df_snp <- read.csv(".\\fichiers_utilises\\snp.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+#df_sv <- read.csv(".\\fichiers_utilises\\sv.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+df_sv_with_ORF <- read.csv(".\\fichiers_utilises\\sv_with_ORF.csv" , header = TRUE, sep = ";",  na ="NA", stringsAsFactors = FALSE)
+df_snp_with_ORF <- read.csv(".\\fichiers_utilises\\sp_with_ORF.csv" , header = TRUE, sep = ",",  na ="NA", stringsAsFactors = FALSE)
+
+
+CyHV3_ref<-read.dna(".\\fichiers_utilises\\sequence_reference.fasta", format="fasta", as.character=TRUE)
+```
+
+#CyHV3
+```{r, include=FALSE}
+
+for (i in 1:ncol(CyHV3_ref)) {
+ CyHV3_ref[,i] <- str_to_upper(CyHV3_ref[,i]) # comme les nucléotides sont ecris en minuscules, je les met en majuscule
+}
+
+CyHV3_ref[,c(1:50)] #montrer les 50 premières colonnes de la matrice
+CyHV3_ref[,c(1:50)] #pareil mais pour le dataframe
+
+
+CyHV3_ref <- as.data.frame(CyHV3_ref, header = TRUE) # transformation de la matrice en df
+colnames(CyHV3_ref) <- gsub("^V", "", colnames(CyHV3_ref)) # modification du nom des colonnes
+
+CyHV3_ref %>% ncol() #normalement il doit y avoir autant de colonnes que de paires de bases dans le génomes
+CyHV3_ref <- CyHV3_ref %>% pivot_longer(cols = c(1:295146)) #la ligne devient colonne et les colonnes deviennent les lignes
+
+CyHV3_ref$value %>% unique() #il y a bien que A, C, G, T comme valeur
+
+#modification du nom des colonnes
+names(CyHV3_ref)[1] <- "POS"
+names(CyHV3_ref)[2] <- "REF_plus"
+CyHV3_ref <- CyHV3_ref %>% dplyr::mutate(REF_moins = case_when(CyHV3_ref$REF_plus == "A" ~ "T" ,
+                                                            CyHV3_ref$REF_plus == "T" ~ "A",
+                                                            CyHV3_ref$REF_plus == "G" ~ "C",
+                                                            CyHV3_ref$REF_plus == "C" ~ "G"))
+
+ 
+```
+
+```{r}
+df_CDS_genbank_2 %>% nrow()
+sapply(df_CDS_genbank_2, FUN = function(x) length(unique(x))) 
+
+
+df_CDS_genbank_2$gbkey %>% unique()
+df_CDS_genbank_2$Region %>% unique()
+df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == "repeat_region"), ] %>% nrow() #6
+df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == "repeat_region"), c("Begin", "End")] 
+df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == "polyA_signal"), ] %>% nrow() #104
+df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == "polyA_signal"), c("Begin", "End")]
+df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == "Gene"), ] %>% nrow() #163
+df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == "Gene"), c("Begin", "End")] 
+df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == "CDS"), ] %>% nrow() #176
+df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == "CDS"), c("Begin", "End")] 
+# Les régions répétées se chevauchent
+
+F_pos_gbkey <- function(col, nom_1, nom_2, table, gbkey){
+  df <- df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == gbkey), ]
+  table<- data.frame()
+  for(i in df$TRUE_ID){ # i prend chaque nom d'ORF
+    begin <- df[which(df$TRUE_ID == i),"Begin"] #Begin prend la valeur de position de début de l'ORF 
+    end <- df[which(df$TRUE_ID == i),"End"] #End, la valeur de fin
+    pb <- c(begin:end) #création d'un vecteur pb qui va du début à la fin de l'ORF (ses paires de bases)
+    df1 <- data.frame(i, pb) # on en fait un df qui associe une paire de base à l'ORF
+    names(df1)[1] <- nom_1 #modif du nom de la colonne
+    names(df1)[2] <- nom_2
+    table <- rbind(table, df1) # on empile les df au fur et à mesure que ça boucle
+  }
+  return(table)
+}
+
+# Je vais prendre en compte les queues polyA, les Genes et les CDS
+table_polyA <- F_pos_gbkey(table = table_polyA, nom_1 = "polyA_signal", nom_2 = "POS", gbkey = "polyA_signal" )
+table_ORF <- F_pos_gbkey(table = table_ORF, nom_1 = "ORF", nom_2 = "POS", gbkey = "Gene" )
+#Certains ORF se chevauchent aussi
+table_CDS <- F_pos_gbkey(table = table_CDS,  nom_1 = "CDS", nom_2 = "POS", gbkey = "CDS" )
+
+CyHV3_ref$POS_factor <- as.factor(CyHV3_ref$POS)
+table_polyA$POS_factor <- as.factor(table_polyA$POS)
+table_ORF$POS_factor <- as.factor(table_ORF$POS)
+table_CDS$POS_factor <- as.factor(table_CDS$POS)
+
+CyHV3_ref$POS <- as.numeric(CyHV3_ref$POS)
+
+CyHV3_ref <- CyHV3_ref %>% relocate(POS_factor, .after = POS)
+
+CyHV3_ref_2 <- left_join(CyHV3_ref, table_polyA)
+CyHV3_ref_2 <- left_join(CyHV3_ref_2, table_ORF)
+CyHV3_ref_2 <- left_join(CyHV3_ref_2, table_CDS)
+
+CyHV3_ref_2[which(is.na(CyHV3_ref_2$ORF) == FALSE),]
+remove(table_CDS, table_ORF, table_polyA)
+```
+
+Combien de mutations dans le génome, nb de mutations moyennes par ORF et par CDS
+```{r}
+df_snp_with_ORF$POS_factor <- as.factor(df_snp_with_ORF$POSITION)
+df_sv_with_ORF$POS_factor <- as.factor(df_sv_with_ORF$POSITION)
+names(df_snp_with_ORF)[1] <- "Locus.tag"
+names(df_sv_with_ORF)[1] <- "Locus.tag"
+
+CyHV3_ref_2 <- left_join(CyHV3_ref_2, df_snp_with_ORF[,c("POS_factor", "TYPE", "GEN", "ECH")])
+CyHV3_ref_2 <- CyHV3_ref_2 %>% mutate(TRAITEMENT = case_when(CyHV3_ref_2$ECH <= 5 ~ "Froid", CyHV3_ref_2$ECH > 5 ~ "Chaud"))
+#compter le nombre de SNP par ORF
+
+nb_mean_snp_ORF <- CyHV3_ref_2 %>% aggregate(TYPE ~ ORF + GEN + TRAITEMENT  , FUN = length)
+names(nb_mean_snp_ORF)[1] <- "TRUE_ID"
+names(nb_mean_snp_ORF)[4] <- "nb_SNP"
+
+nb_mean_snp_ORF <- left_join(nb_mean_snp_ORF, df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == "Gene"),c("Name", "locus_tag", "TRUE_ID")], by = "TRUE_ID")
+names(nb_mean_snp_ORF)[1] <- "ORF"
+names(nb_mean_snp_ORF)[5] <- "ORF_NAME"
+```
+
+
+```{r}
+#nb de SNP moyen par ORF
+nb_mean_snp_ORF$nb_SNP %>% summary()
+nb_mean_snp_ORF <- nb_mean_snp_ORF[order(nb_mean_snp_ORF$nb_SNP, decreasing = TRUE), ]
+```
+
+```{r fig.height= 13, fig.width=8}
+#nb_mean_snp_ORF[which(nb_mean_snp_ORF$nb_SNP > 9), ] %>%
+#  ggplot(aes(x = fct_reorder(ORF_NAME, nb_SNP, .desc = TRUE), y = nb_SNP)) +
+#  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1)) +
+#  facet_wrap(~ GEN, ncol = 1, scales = "free") +
+#  theme_bw() +
+#  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), axis.text.x = element_text(angle = 45, hjust = 1, size = 6))
+
+
+
+nb_mean_snp_ORF %>%
+  ggplot(aes(x = fct_reorder(ORF_NAME, nb_SNP, .desc = TRUE), y = nb_SNP)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7, alpha = 0.9) +
+  geom_text(aes(label = nb_SNP, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  facet_wrap(~ GEN, ncol = 1, scale = "free") +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_ORF$nb_SNP, decreasing = TRUE)], 50)) +  # Sélection des 15 ORF les plus fréquents
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1)))
+```
+
+```{r}
+nb_mean_snp_ORF[which(nb_mean_snp_ORF$GEN == "P15"),] %>%
+  ggplot(aes(x = fct_reorder(ORF_NAME, nb_SNP, .desc = TRUE), y = nb_SNP)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7) +
+  geom_text(aes(label = nb_SNP, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_ORF$nb_SNP, decreasing = TRUE)], 50)) +  
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "Nombre de SNP par ORF - P15", y = "Effectif", x = "ORF")
+#ggsave(".\\images_scripts\\nb_mean_snp_ORF_P15.png", width = 10, height = 5)
+
+
+nb_mean_snp_ORF[which(nb_mean_snp_ORF$GEN == "P30"),] %>%
+  ggplot(aes(x = fct_reorder(ORF_NAME, nb_SNP, .desc = TRUE), y = nb_SNP)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7) +
+  geom_text(aes(label = nb_SNP, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_ORF$nb_SNP, decreasing = TRUE)], 50)) +  # Sélection des 15 ORF les plus fréquents
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "Nombre de SNP par ORF - P30", y = "Effectif", x = "ORF")
+#ggsave(".\\images_scripts\\nb_mean_snp_ORF_P30.png", width = 10, height = 5)
+
+nb_mean_snp_ORF[which(nb_mean_snp_ORF$GEN == "P50"),] %>%
+  ggplot(aes(x = fct_reorder(ORF_NAME, nb_SNP, .desc = TRUE), y = nb_SNP)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7) +
+  geom_text(aes(label = nb_SNP, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_ORF$nb_SNP, decreasing = TRUE)], 50)) +  # Sélection des 15 ORF les plus fréquents
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "Nombre de SNP par ORF - P50", y = "Effectif", x = "ORF")
+#ggsave(".\\images_scripts\\nb_mean_snp_ORF_P50.png", width = 10, height = 5)
+
+nb_mean_snp_ORF[which(nb_mean_snp_ORF$GEN == "P65"),] %>%
+  ggplot(aes(x = fct_reorder(ORF_NAME, nb_SNP, .desc = TRUE), y = nb_SNP)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7) +
+  geom_text(aes(label = nb_SNP, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_ORF$nb_SNP, decreasing = TRUE)], 50)) +  # Sélection des 15 ORF les plus fréquents
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "Nombre de SNP par ORF - P65", y = "Effectif", x = "ORF")
+#ggsave(".\\images_scripts\\nb_mean_snp_ORF_P65.png", width = 10, height = 5)
+
+nb_mean_snp_ORF[which(nb_mean_snp_ORF$GEN == "P90"),] %>%
+  ggplot(aes(x = fct_reorder(ORF_NAME, nb_SNP, .desc = TRUE), y = nb_SNP)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7) +
+  geom_text(aes(label = nb_SNP, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_ORF$nb_SNP, decreasing = TRUE)], 53)) +  # Sélection des 15 ORF les plus fréquents
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "Nombre de SNP par ORF - P90", y = "Effectif", x = "ORF")
+
+#ggsave(".\\images_scripts\\nb_mean_snp_ORF_P90.png", width = 10, height = 5)
+```
+
+
+```{r fig.width= 10, fig.height=25}
+nb_mean_snp_ORF %>%
+  ggplot(aes(x = GEN, y = nb_SNP)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1)) +
+  geom_text(aes(label = nb_SNP, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+
+  scale_y_continuous(expand = expansion(mult = c(0, 0.3))) +
+  facet_wrap(~ ORF_NAME, ncol = 6, scales = "free_y") +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6), 
+        strip.text.x = element_text(size = 7)) +
+  labs(title = "Nombre de SNP par génération pour chaque ORF", y = "Effectif", x = "Génération") 
+
+#ggsave(".\\images_scripts\\nb_mean_snp_GEN_ORF.png", width = 10, height = 25)
+```
+CDS
+
+```{r}
+nb_mean_snp_CDS <- CyHV3_ref_2 %>% aggregate(TYPE ~ GEN + TRAITEMENT + CDS , FUN = length)
+names(nb_mean_snp_CDS)[3] <- "TRUE_ID"
+names(nb_mean_snp_CDS)[4] <- "nb_SNP_CDS"
+nb_mean_snp_CDS <- left_join(nb_mean_snp_CDS, df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == "CDS"),c("Name", "locus_tag", "TRUE_ID")], by = "TRUE_ID")
+names(nb_mean_snp_CDS)[5] <- "CDS_Name"
+nb_mean_snp_CDS <- left_join(nb_mean_snp_CDS, df_CDS_genbank_2[which(df_CDS_genbank_2$gbkey == "CDS"),c("product", "TRUE_ID")], by = "TRUE_ID")
+
+names(nb_mean_snp_CDS)[3] <- "CDS"
+
+nb_mean_snp_CDS <- nb_mean_snp_CDS %>% mutate(ORF = sub(x = nb_mean_snp_CDS$locus_tag, pattern = "CyHV3_", replacement = ""))
+nb_mean_snp_CDS <- nb_mean_snp_CDS %>% mutate(ID_CDS = paste(CDS_Name ,ORF, sep = " "))
+nb_mean_snp_CDS <- nb_mean_snp_CDS %>% mutate(ID_CDS_product = paste0(ID_CDS, "\n(", product, ")"))
+
+
+nb_mean_snp_CDS$CDS %>% unique() %>% length()#150
+nb_mean_snp_CDS$CDS_Name %>% unique() %>% length()#141
+nb_mean_snp_CDS$ID_CDS %>% unique() %>% length()#150
+nb_mean_snp_CDS$ID_CDS_product %>% unique() %>% length() #150
+
+
+nb_mean_snp_CDS$nb_SNP %>% summary()
+sapply(nb_mean_snp_CDS, FUN = function(x) length(unique(x)))
+nb_mean_snp_CDS <- nb_mean_snp_CDS[order(nb_mean_snp_CDS$nb_SNP, decreasing = TRUE), ]
+```
+
+
+```{r fig.height=13, fig.width=8}
+#nb_mean_snp_CDS[which(nb_mean_snp_CDS$nb_SNP_CDS > 16), ] %>%
+#  ggplot(aes(x = CDS, y = nb_SNP_CDS)) +
+#  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1)) +
+#  facet_wrap(~ GEN, ncol = 1) +
+#  theme_bw() +
+#  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), axis.text.x = element_text(angle = 45, hjust = 1, size = 6))
+
+
+nb_mean_snp_CDS %>%
+  ggplot(aes(x = fct_reorder(CDS, nb_SNP_CDS, .desc = TRUE), y = nb_SNP_CDS)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7, alpha = 0.9) +
+  geom_text(aes(label = nb_SNP_CDS, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  facet_wrap(~ GEN, ncol = 1, scale = "free") +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_CDS$nb_SNP_CDS, decreasing = TRUE)], 50),
+                   labels = setNames(nb_mean_snp_CDS$ID_CDS, nb_mean_snp_CDS$CDS)) + 
+  scale_y_continuous(expand = expansion(mult = c(0, 0.2)))
+```
+```{r}
+nb_mean_snp_CDS[which(nb_mean_snp_CDS$GEN == "P15"),] %>%
+  ggplot(aes(x = fct_reorder(CDS, nb_SNP_CDS, .desc = TRUE), y = nb_SNP_CDS)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7) +
+  geom_text(aes(label = nb_SNP_CDS, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_CDS$nb_SNP_CDS, decreasing = TRUE)], 53),
+                   labels = setNames(nb_mean_snp_CDS$ID_CDS, nb_mean_snp_CDS$CDS)) +  
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "Nombre de SNP par CDS - P15", y = "Effectif", x = "CDS")
+#ggsave(".\\images_scripts\\nb_mean_snp_CDS_P15.png", width = 10, height = 5)
+
+nb_mean_snp_CDS[which(nb_mean_snp_CDS$GEN == "P30"),] %>%
+  ggplot(aes(x = fct_reorder(CDS, nb_SNP_CDS, .desc = TRUE), y = nb_SNP_CDS)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7) +
+  geom_text(aes(label = nb_SNP_CDS, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_CDS$nb_SNP_CDS, decreasing = TRUE)], 53), 
+                   labels = setNames(nb_mean_snp_CDS$ID_CDS, nb_mean_snp_CDS$CDS)) +  
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "Nombre de SNP par CDS - P30", y = "Effectif", x = "CDS")
+#ggsave(".\\images_scripts\\nb_mean_snp_CDS_P30.png", width = 10, height = 5)
+
+nb_mean_snp_CDS[which(nb_mean_snp_CDS$GEN == "P50"),] %>%
+  ggplot(aes(x = fct_reorder(CDS, nb_SNP_CDS, .desc = TRUE), y = nb_SNP_CDS)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7) +
+  geom_text(aes(label = nb_SNP_CDS, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_CDS$nb_SNP_CDS, decreasing = TRUE)], 53),
+                   labels = setNames(nb_mean_snp_CDS$ID_CDS, nb_mean_snp_CDS$CDS)) +  
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "Nombre de SNP par CDS - P50", y = "Effectif", x = "CDS")
+#ggsave(".\\images_scripts\\nb_mean_snp_CDS_P50.png", width = 10, height = 5)
+
+
+nb_mean_snp_CDS[which(nb_mean_snp_CDS$GEN == "P65"),] %>%
+  ggplot(aes(x = fct_reorder(CDS, nb_SNP_CDS, .desc = TRUE), y = nb_SNP_CDS)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7) +
+  geom_text(aes(label = nb_SNP_CDS, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_CDS$nb_SNP_CDS, decreasing = TRUE)], 53),
+                   labels = setNames(nb_mean_snp_CDS$ID_CDS, nb_mean_snp_CDS$CDS)) +  
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "Nombre de SNP par CDS - P65", y = "Effectif", x = "CDS")
+#ggsave(".\\images_scripts\\nb_mean_snp_CDS_P65.png", width = 10, height = 5)
+
+nb_mean_snp_CDS[which(nb_mean_snp_CDS$GEN == "P90"),] %>%
+  ggplot(aes(x = fct_reorder(CDS, nb_SNP_CDS, .desc = TRUE), y = nb_SNP_CDS)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1), width = 0.7) +
+  geom_text(aes(label = nb_SNP_CDS, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+ 
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6)) +
+  scale_x_discrete(limits = function(x) head(x[order(nb_mean_snp_CDS$nb_SNP_CDS, decreasing = TRUE)], 53),
+                   labels = setNames(nb_mean_snp_CDS$ID_CDS, nb_mean_snp_CDS$CDS)) +  
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  labs(title = "Nombre de SNP par CDS - P90", y = "Effectif", x = "CDS")
+#ggsave(".\\images_scripts\\nb_mean_snp_CDS_P90.png", width = 10, height = 5)
+```
+
+
+
+```{r fig.height= 25, fig.width= 12}
+nb_mean_snp_CDS %>%
+  ggplot(aes(x = GEN, y = nb_SNP_CDS)) +
+  geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1)) +
+  geom_text(aes(label = nb_SNP_CDS, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+
+  scale_y_continuous(expand = expansion(mult = c(0, 0.3))) +
+  facet_wrap(~ CDS, 
+             ncol = 6,
+             scales = "free_y",
+             labeller = as_labeller(setNames(nb_mean_snp_CDS$ID_CDS_product, nb_mean_snp_CDS$CDS))) +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        axis.text.x = element_text(angle = 45, hjust = 1, size = 6), 
+        strip.text.x = element_text(size = 7)) +
+  labs(title = "Nombre de SNP par génération pour chaque CDS", y = "Effectif", x = "Génération") 
+
+#ggsave(".\\images_scripts\\nb_mean_snp_GEN_CDS.png", width = 10, height = 25)
+```
+
+
+
+
+```{r}
+ggplot(nb_mean_snp_CDS, aes(x = GEN, y = nb_SNP_CDS, color = TRAITEMENT)) +
+  geom_boxplot(position = position_dodge(1)) +
+  #geom_bar(aes(fill = TRAITEMENT), stat = "identity", position = position_dodge(1)) +
+  #facet_wrap(~ CDS) +
+  theme_bw() 
+```
+
+
+
+
+C'est un peut compliqué de savoir quels CDS sont impactés par les SV
+(combien de SV par CDS)
+```{r}
+df_sv_with_ORF <- df_sv_with_ORF %>% 
+  mutate(End = case_when(df_sv_with_ORF$LONGUEUR <0 ~ (df_sv_with_ORF$POSITION + df_sv_with_ORF$LONGUEUR + 1),
+                         df_sv_with_ORF$LONGUEUR > 0 ~ (df_sv_with_ORF$POSITION + df_sv_with_ORF$LONGUEUR - 1)
+                         ))
+df_sv_with_ORF$Begin <- df_sv_with_ORF$POSITION
+names(df_sv_with_ORF)[1] <- "locus.tag_sv"
+
+names(df_sv_with_ORF)
+#test <- full_join(df_CDS_genbank_2[,c("Begin", "End", "ID", "TRUE_ID", "Name", "gbkey", "locus_tag")], df_sv_with_ORF[,c("locus.tag_sv", "Begin", "End", "TYPE.DE.MUTATION", "TYPE.DE.FICHIER", "GENERATION", "ECHANTILLON", "POS_factor")], by = c("Begin", "End"))
+
+#test<- test[order(test$Begin,test$End ),]
+
+#combien de mutation moyenne par ORF par génération
+#test <- df_sv_with_ORF %>% gsub(x = df_sv_with_ORF$locus.tag_sv, pattern = "/", replacement = " ")
+df_sv_with_ORF <- df_sv_with_ORF %>% separate(locus.tag_sv, into = paste0("V", 1:6), remove = FALSE, sep = "/", fill = "right")
+
+df_sv_with_ORF <- df_sv_with_ORF %>% pivot_longer(cols = c("V1","V2", "V3", "V4", "V5", "V6"), names_to = "V", values_to = "ORF")
+df_sv_with_ORF <- df_sv_with_ORF[-which(is.na(df_sv_with_ORF$ORF) == TRUE),]
+df_sv_with_ORF$ORF %>% unique()
+
+df_sv_with_ORF <- df_sv_with_ORF %>% mutate(ORF = case_when(df_sv_with_ORF$ORF == "" ~ "pas_sur_ORF",
+                                        df_sv_with_ORF$ORF != "" ~ df_sv_with_ORF$ORF))
+
+df_sv_with_ORF <- df_sv_with_ORF %>% mutate(TRAITEMENT = case_when(df_sv_with_ORF$ECHANTILLON <= 5 ~ "Froid", 
+                                                         df_sv_with_ORF$ECHANTILLON > 5 ~ "Chaud"))
+
+
+df_sv_with_ORF <- df_sv_with_ORF %>% mutate(ORF_2 = case_when(df_sv_with_ORF$ORF == "pas_sur_ORF" ~ "autre région\ngénomique",
+                                        df_sv_with_ORF$ORF != "" ~ "ORF"))
+
+library(ggplot2)
+```
+
+
+```{r}
+df_sv_with_ORF %>%
+  ggplot(aes(x = GENERATION , fill = TRAITEMENT, group = TRAITEMENT)) +
+  geom_bar(position = position_dodge(1)) +
+  geom_text(aes(label = after_stat(count), group = TRAITEMENT) ,stat = "count",  position = position_dodge(1), size = 2, color = "black", vjust = - 0.5) + 
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+
+  facet_wrap(~ ORF_2) +
+  labs(title = "nombre de variants structuraux par région génomique en fonction des générations", x = "Génération", y = "Effectif")+
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+#ggsave(".\\images_scripts\\nb_sv_GEN_region.png", width = 7, height = 6)
+
+df_sv_with_ORF[which(df_sv_with_ORF$TYPE.DE.MUTATION == "INS"), ] %>%
+  ggplot(aes(x = GENERATION , fill = TRAITEMENT, group = TRAITEMENT)) +
+  geom_bar(position = position_dodge(1)) +
+  geom_text(aes(label = after_stat(count), group = TRAITEMENT) ,stat = "count",  position = position_dodge(1), size = 2, color = "black", vjust = - 0.5) + 
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+
+  facet_wrap(~ ORF_2) +
+  labs(title = "nombre d'insertions par région génomique en fonction des générations", x = "Génération", y = "Effectif")+
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+#ggsave(".\\images_scripts\\nb_sv_ins_GEN_region.png", width = 7, height = 6)
+
+
+df_sv_with_ORF[which(df_sv_with_ORF$TYPE.DE.MUTATION == "DEL"), ] %>%
+  ggplot(aes(x = GENERATION , fill = TRAITEMENT, group = TRAITEMENT)) +
+  geom_bar(position = position_dodge(1)) +
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+
+  geom_text(aes(label = after_stat(count), group = TRAITEMENT) ,stat = "count",  position = position_dodge(1), size = 2, color = "black", vjust = - 0.5) + 
+  facet_wrap(~ ORF_2) +
+  labs(title = "nombre de délétions par région génomique en fonction des générations", x = "Génération", y = "Effectif")+
+  theme_bw() + 
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5))
+
+#ggsave(".\\images_scripts\\nb_sv_del_GEN_region.png", width = 7, height = 6)
+```
+
+
+```{r}
+#nombre de SV par ORF
+df_sv_with_ORF %>% names()
+nb_sv_ORF <- df_sv_with_ORF %>% aggregate(POS_factor ~ ORF + GENERATION + ECHANTILLON + TYPE.DE.FICHIER + TYPE.DE.MUTATION, FUN = length)
+names(nb_sv_ORF)[6] <- "nb_del_ins"
+df <- df_sv_with_ORF %>% aggregate(POS_factor ~ ORF + GENERATION + ECHANTILLON + TYPE.DE.FICHIER , FUN = length)
+names(df)[5] <- "nb_mut_sv"
+nb_sv_ORF <- left_join(nb_sv_ORF, df, by = c("ORF", "GENERATION", "ECHANTILLON","TYPE.DE.FICHIER"))
+remove(df)
+
+nb_sv_ORF <- nb_sv_ORF %>% mutate(TRAITEMENT = case_when(nb_sv_ORF$ECHANTILLON <= 5 ~ "Froid", 
+                                                         nb_sv_ORF$ECHANTILLON > 5 ~ "Chaud"))
+
+#nombre moyen de mutation par ORF par génération
+df <- nb_sv_ORF %>% aggregate(nb_mut_sv ~ ORF + GENERATION + TYPE.DE.FICHIER, FUN = mean)
+df_t <- nb_sv_ORF %>% aggregate(nb_mut_sv ~ ORF + GENERATION + TYPE.DE.FICHIER + TRAITEMENT, FUN = mean)
+
+df$nb_mut_sv %>% summary
+df_t$nb_mut_sv %>% summary
+```
+
+
+```{r}
+df[which(df$nb_mut_sv > 1), ] %>%
+  ggplot(aes(x = GENERATION, y = nb_mut_sv, fill = GENERATION)) +
+  geom_bar(stat = "identity") +
+  scale_fill_brewer(palette = "Accent") +
+  facet_wrap(~ ORF) +
+  theme_bw()
+
+df[which(df$nb_mut_sv > 1 & df$GENERATION == "P15"), ] %>%
+  ggplot(aes(x = ORF, y = nb_mut_sv)) +
+  geom_bar(stat = "identity") +
+  #scale_fill_brewer(palette = "Accent") +
+  facet_wrap(~ GENERATION, ncol = 1) +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), axis.text.x = element_text(angle = 45, hjust = 1, size = 6))
+
+
+df[which(df$nb_mut_sv > 1 & df$GENERATION == "P30"), ] %>%
+  ggplot(aes(x = ORF, y = nb_mut_sv)) +
+  geom_bar(stat = "identity") +
+  #scale_fill_brewer(palette = "Accent") +
+  facet_wrap(~ GENERATION, ncol = 1) +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), axis.text.x = element_text(angle = 45, hjust = 1, size = 6))
+
+df[which(df$nb_mut_sv > 1 & df$GENERATION == "P50"), ] %>%
+  ggplot(aes(x = ORF, y = nb_mut_sv)) +
+  geom_bar(stat = "identity") +
+  #scale_fill_brewer(palette = "Accent") +
+  facet_wrap(~ GENERATION, ncol = 1) +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), axis.text.x = element_text(angle = 45, hjust = 1, size = 6))
+
+
+df[which(df$nb_mut_sv > 1 & df$GENERATION == "P65"), ] %>%
+  ggplot(aes(x = ORF, y = nb_mut_sv)) +
+  geom_bar(stat = "identity") +
+  #scale_fill_brewer(palette = "Accent") +
+  facet_wrap(~ GENERATION, ncol = 1) +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), axis.text.x = element_text(angle = 45, hjust = 1, size = 6))
+
+df[which(df$nb_mut_sv > 1 & df$GENERATION == "P90"), ] %>%
+  ggplot(aes(x = ORF, y = nb_mut_sv)) +
+  geom_bar(stat = "identity") +
+  #scale_fill_brewer(palette = "Accent") +
+  facet_wrap(~ GENERATION, ncol = 1) +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), axis.text.x = element_text(angle = 45, hjust = 1, size = 6))
+```
+
+```{r}
+df_t[which(df_t$nb_mut_sv > 1), ] %>%
+  ggplot(aes(x = GENERATION, y = nb_mut_sv)) +
+  geom_bar(aes(fill = TRAITEMENT),stat = "identity", position = position_dodge(1)) +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_wrap(~ ORF) +
+  theme_bw()
+
+df_t[which(df_t$nb_mut_sv > 1), ] %>%
+  ggplot(aes(x = ORF, y = nb_mut_sv)) +
+  geom_bar(aes(fill = TRAITEMENT),stat = "identity", position = position_dodge(1)) +
+  scale_fill_brewer(palette = "Dark2") +
+  facet_wrap(~ GENERATION, ncol = 1) +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), axis.text.x = element_text(angle = 45, hjust = 1, size = 6))
+
+
+df_t[which(df_t$nb_mut_sv > 1 & df_t$GENERATION == "P15"), ] %>%
+  ggplot(aes(x = ORF, y = nb_mut_sv)) +
+  geom_bar(stat = "identity") +
+  #scale_fill_brewer(palette = "Accent") +
+  facet_wrap(~ GENERATION, ncol = 1) +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), axis.text.x = element_text(angle = 45, hjust = 1, size = 6))
+
+```
+
+```{r fig.height=15, fig.width=12}
+df_t$nb_mut_sv <- round(df_t$nb_mut_sv, 2)
+df_t %>%
+  ggplot(aes(x = GENERATION, y = nb_mut_sv)) +
+  geom_bar(aes(fill = TRAITEMENT),stat = "identity", position = position_dodge(1)) +
+  geom_text(aes(label = nb_mut_sv, group = TRAITEMENT) ,stat = "identity",  position = position_dodge(1), size = 2, color = "black", vjust = -0.5) + 
+  scale_fill_manual(values = c("#FF6666", "#0099CC"))+
+  scale_y_continuous(expand = expansion(mult = c(0, 0.3))) +
+  facet_wrap(~ ORF, ncol = 6, scales = "free_y") +
+  theme_bw() +
+  labs(title = "Nombre de variants structuraux par génération pour chaque ORF", y = "Effectif", x = "Génération") +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), 
+        #axis.text.x = element_text(angle = 45, hjust = 1, size = 6), 
+        strip.text.x = element_text(size = 7)) 
+
+#ggsave(".\\images_scripts\\nb_sv_GEN_ORF.png", width = 10, height = 16)
+```
+
