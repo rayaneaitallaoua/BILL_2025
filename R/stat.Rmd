@@ -740,12 +740,12 @@ count_snp_sv_type  %>%
   geom_bar(aes(color = TRAITEMENT), stat = "identity", position = "fill", width= 0.8, size = 1) +
   geom_text(aes(label = freq_type), stat = "identity",  position = position_fill(.5), size = 2, color = "black") + 
   scale_fill_brewer(palette = "Set2") +
-  facet_wrap(~GENERATION, ncol = 1) +
+  facet_wrap(~GENERATION, ncol = 5) +
   scale_color_manual(values = c("#339966", "#990000", "#0066CC"))+ 
   labs(title = "Fréquence relative des types de mutations (snp, insertion, délétion)\ndans chaque échantillon par génération") +
   theme_bw()
 
-#ggsave(".\\images_scripts\\freq_snp_ins_del_ech_gen.png", height = 13, width = 6)
+ggsave(".\\images_scripts\\freq_snp_ins_del_ech_gen.png", height = 5, width = 17)
 
 
 ```
@@ -855,6 +855,30 @@ count_ins_del_sv %>%
   
 
 ```
+
+
+```{r fig.height=6, fig.width=15}
+count_ins_del_sv  %>%
+  ggplot(aes(x = as.factor(ECHANTILLON), y = freq_indel, fill = TYPE, color = TRAITEMENT)) +
+  geom_bar(aes(color = TRAITEMENT), stat = "identity", position = "fill", width= 0.8, size = 1) +
+  geom_text(aes(label = freq_indel), stat = "identity",  position = position_fill(.5), size = 2, color = "black") + 
+  scale_fill_brewer(palette = "Set2") +
+  facet_wrap(~GENERATION, ncol = 5) +
+  #scale_fill_discrete(name = "Type de SV", labels = c("Insertion", "Délétion")) +
+  #scale_color_discrete(name = "Traitement" , labels("Aucun", "Chaud", "Froid")) +
+  scale_color_manual(values = c("#339966", "#990000", "#0066CC"), name = "Traitement", labels("Aucun", "Chaud", "Froid"))+ 
+  scale_fill_brewer(palette = "Set2", name = "Type de SV") +
+  labs(title = "Fréquence relative des délétions et des subsitution dans chaque échantillon par génération") +
+  labs(y = "Fréquence", x = "Echantillon") +
+  theme_bw() +
+  theme(axis.title.y = element_text(angle = 0, vjust = 0.5), legend.position = "bottom")
+
+ggsave(".\\images_scripts\\freq_ins_del_ech_gen.png", height = 5, width = 17)
+
+```
+
+
+
 ```{r, fig.height = 7, fig.width = 13 }
 count_ins_del_sv %>%
   ggplot(aes(x = as.factor(ECHANTILLON), y = freq_indel, fill = TYPE, color = TRAITEMENT)) +
